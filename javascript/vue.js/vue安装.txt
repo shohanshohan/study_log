@@ -1,0 +1,24 @@
+直接引入和CDN方法都很简单，这里主要讲 npm 安装 （此安装要先安装node.js）
+查看npm版本：npm -v
+（如果没有安装npm则参照node.js安装）
+安装cnpm, npm install -g cnpm –registry=https://registry.npm.taobao.org （用淘宝镜像）
+如果出现以下报错：
+npm err! Error: connect ECONNREFUSED 127.0.0.1:8087 
+解决办法为：npm config set proxy null
+查看cnpm , cnpm -v 
+在用 Vue.js 构建大型应用时推荐使用 NPM 安装
+# 最新稳定版
+$ cnpm install vue
+# 全局安装 vue-cli
+$ cnpm install --global vue-cli
+# 创建一个基于 webpack 模板的新项目
+$ vue init webpack my-project （my-project可自定义，也可不写，默认当前）
+# 这里需要进行一些配置，默认回车即可
+稍等一些时间：project initialization finished! 说明安装完成
+进入项目，安装并运行：
+$ cd mypro（比如我的安装目录是mypro）
+$ cnpm install
+$ cnpm run dev
+安装完后出现提示：your application is running here http://localhost:8080
+访问：http://localhost:8080
+出来vue的欢迎页面：Welcome to Your Vue.js App
