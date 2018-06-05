@@ -1,0 +1,163 @@
+<?php
+/**
+* 数据备份管理
+*/
+class DbManage
+{
+	private $host;
+	private $username;
+	private $password;
+	private $database;
+	private $charset;
+	private $db=null;
+
+	/*
+	*初始化
+	*@ string $host  数据库服务器连接地址
+	*@ string $username 用户名
+	*@ $password 密码
+	*@ $database 数据库名
+	*@ $charset  编码方式 
+	 */
+	function __construct($host='localhost',$username='root',$password='root',$database='aaa',$charset='utf8')
+	{
+		$this->host = $host;
+		$this->username = $username;
+		$this->password = $password;
+		$this->database = $database;
+		$this->charset = $charset;
+		set_time_limit(0); //无时间限制
+		@ob_end_flush();
+		if ($this->db == null) {
+			//连接数据库
+			$this->db = mysqli_connect($this->host,$this->username,$this->password) or die('数据库连接失败！');
+			//选择数据库
+			mysqli_select_db($this->db,$this->database) or die('数据库没找到！');
+			//数据库编码方式
+			mysqli_query($this->db,'set names '.$this->charset);
+		}	
+	}
+
+
+	/*----------------------------------数据库备份start------------------------------------------*/
+	/*
+	*数据表备份
+	*@param string $tablename 备份哪个表
+	*@param string $dir 备份目录 
+	 */
+	//备份某个表数据
+	public function backupTable($tablename=''){
+		date_default_timezone_set('Asia/shanghai');
+		$time = date('Y-m-d').'_'.rand(1000,9999);
+		$sql = 'select * from '.$tablename.' into outfile "/data/tables/'.$time.'-'.$tablename.'.sql"';
+		$res = mysqli_query($this->db,$sql);
+		mysqli_close($this->db);
+		if ($res) {
+			$this->showMsg('备份成功！');
+		}else{
+			$this->showMsg('备份失败！');
+		}
+	}
+
+	//导入某个表数据（原表数据必须先删除才行，否则id有冲突导入失败）
+	public function loadTable($filename='',$tablename=''){
+		$filename = '/data/tables/'.$filename;
+		if (!file_exists($filename)) {
+        	$this->showMsg('数据文件找不到！');
+        	return false;
+        }
+		$sql2 = 'delete from '.$tablename;
+		$res2 = mysqli_query($this->db,$sql2);
+		$sql = 'load data infile "'.$filename.'" into table '.$tablename;
+		$res = mysqli_query($this->db,$sql);
+		mysqli_close($this->db);
+		if ($res) {
+			$this->showMsg('数据导入成功');
+		}else{
+			$this->showMsg('数据导入失败！');
+		}
+	}
+
+	//自动备份数据库
+	 public function backupDatabase() {
+        $dbName = $this->database;   //读取配置文件中的数据库用户名、密码、数据库名
+        $dbUser = $this->username;
+        $dbPwd  = $this->password;
+        $host   = $this->host;
+        $rand = rand(1000,9999);
+        $fileName = date("Y-m-d")."_".$rand.$dbName.".sql";
+        $dumpFileName = 'D:/data/databases/'.$fileName;
+        echo `mysqldump -h $host -u$dbUser -p$dbPwd $dbName > $dumpFileName`;
+        if (is_file($dumpFileName)) {
+        	$this->showMsg('数据库备份成功！');
+        }else{
+        	$this->showMsg('数据库备份失败！');
+        }
+    }
+
+    //导入数据库
+    public function loadDatabase($filename){
+        $filename = 'D:/data/databases/'.$filename;
+        if (!file_exists($filename)) {
+        	$this->showMsg('数据文件找不到！');
+        	return false;
+        }
+        $file = file_get_contents($filename); //把SQL语句以字符串读入$sql 
+		$arr = explode(";",$file); //用explode()函数把?$sql字符串以“;”分割为数组 
+		
+		foreach($arr as $v){ //遍历数组 
+			$value=$v.";"; //分割后是没有“;”的，因为SQL语句以“;”结束，所以在执行SQL前把它加上 
+			$res = mysqli_query($this->db,$value); //执行SQL语句
+		}
+		if ($res) {
+			mysqli_close($this->db);
+			$this->showMsg('数据库导入成功！');
+		}else{
+			mysqli_close($this->db);
+			$this->showMsg('数据库导入失败！');
+		}	
+    }
+
+	/*
+	*提示信息
+	 */
+	private function showMsg($msg,$err=false){
+		$err ? "<span>error:</span>" : '';
+		echo "<p>".$err.$msg.'</p>';
+		flush();
+	}
+
+	
+}
+
+
+$a = new DbManage();
+//$a->loadTable('2017-08-15_7225-news.sql','news');
+//$a->backupTable('news');
+//$a->backupDatabase();
+//$a->loadDatabase('2017-08-15_8177aaa.sql');
+
+
+/*注:mysql 导出数据，数据备份,先要检查配置文件my.ini (D:\phpStudy\MySQL\my.ini)是否有配置参数secure_file_priv若没有该项配置则添加secure_file_priv=/tmp/，重启服务器。不写路径则没有限制导出路径
+等号后面的路径表示导出的目标路径设定。cmd可输入show global variables like 'secure_file_priv'命令查看该配置，值为null则没有配置该项。
+导出数据：select * from product into outfile '/tmp/pro.sql';
+导入数据：load data infile '/tmp/pro.sql' into table product;*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+1£©$post = Post::find()->select(['title', 'id'])->indexBy('id')->column();
+
+
+
+2£©$post = Post::find()->all();
+   $post = \yii\helpers\ArrayHelper::map($post,'id','title');
+
+
+3£©$player = \app\models\Player::find()->asArray()->all();
+   $player = array_column($player,'username','id');

@@ -1,0 +1,17 @@
+登录命令：　　
+redis-cli.exe -h 127.0.0.1 -p 6379 //无需添加密码参数
+
+设置密码,命令修改
+config get requirepass //获取当前密码
+config set requirepass "yourpassword"//设置当前密码,服务重新启动后又会置为默认，即无密码；不建议此种方式
+配置文件修改<推荐>
+打开redis.conf<如果没有此文件，需自己下载，放置到redis目录下>,找到requirepass值修改密码，如下
+# requirepass foobared
+requirepass yourpassword  //此处注意，行前不能有空格
+
+
+重新设置密码后，重新登录才能获取操作权限
+redis-cli.exe -h 127.0.0.1 -p 6379 -a 123456 //需添加密码参数
+    
+    
+    

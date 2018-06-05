@@ -1,0 +1,34 @@
+Trait 为了减少单继承语言的限制，使开发人员能够自由地在不同层次结构内独立的类中复用方法集。php版本 >= php5.4
+使用方法如下：
+trait A
+{
+	public function geta()
+	{
+		echo 'a<br />';
+	}
+}
+
+trait B
+{
+	public function getb()
+	{
+		echo 'b<br />';
+	}
+}
+
+class Test
+{
+	use A;
+	use B;
+	public function valueA()
+	{
+		return $this->geta();
+	}
+	
+}
+$obj = new Test();
+$obj->valueA();
+$obj->getb();
+结果：
+a
+b

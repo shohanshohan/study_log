@@ -1,0 +1,17 @@
+进入git安装目录下的bin目录，比如我安装在电脑的D盘：D:\git\Git\mingw64\bin
+新建一个文件，比如命名为subl （注：无后缀，这个名字自定义），输入如下内容：
+#!/bin/sh
+"D:\Sublime Text3\sublime_text.exe" $1 &
+保存，这样就ok了，打开git bash，输入subl就能打开sumlim编辑器了！
+如果要打开具体文件则，subl 具体文件路径。
+比如现在是在git安装目录下打开git bash，我想用sublim查看config内容，输入 subl .git/config
+
+注：
+第一行是说这是个 shell 脚本
+第二行的字符串是sublime 的安装目录注意这里要输入你自己的目录
+第二行的$1 是取的命令之后输入的参数
+第二行的&是此命令在后台打开，这样sublime打开之后，就不会阻塞你的git bash
+
+
+
+

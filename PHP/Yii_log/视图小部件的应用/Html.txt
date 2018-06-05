@@ -1,0 +1,122 @@
+注意：如果您的标记几乎是静态的，最好直接使用HTML。不需要在Html帮助器调用中完全包装所有东西。
+use yii\helpers\Html;
+
+1）生成标签
+<?= Html::tag('p', Html::encode($user->name), ['class' => 'username']) ?>
+为了使内容在HTML中正确和安全地显示，内容中的特殊字符应该被编码 Html::encode($user->name)
+
+
+2）形成CSS类和样式
+$options = ['class' => 'btn btn-default']; 也可以使用数组样式指定多个CSS类 $options = ['class' => ['btn', 'btn-default']];
+if ($type === 'success') {
+    Html::removeCssClass($options, 'btn-default');
+    Html::addCssClass($options, 'btn-success'); 多个样式，Html::addCssClass($options, ['btn-success', 'btn-lg']);
+}
+echo Html::tag('div', 'Pwede na', $options);
+
+
+3）CSS样式可以使用style属性以类似的方式设置：
+$options = ['style' => ['width' => '100px', 'height' => '100px']];
+Html::addCssStyle($options, 'height: 200px; position: absolute;');
+Html::removeCssStyle($options, ['width', 'height']);
+直接生成样式<?= Html::style('.danger { color: #f00; }') ?>
+
+
+4）按钮
+<?=Html::button('普通按钮',['class'=>'btn btn-primary']);?> （注：样式可参照bootstrap）
+<?=Html::submitButton('提交按钮',['class'=>'btn btn-primary']);?>
+<?=Html::resetButton('重置按钮',['class'=>'btn btn-primary']);?>
+
+
+5）input框
+（type, input name, input value, options）
+<?= Html::input('text', 'username', $user->name, ['class' => $username]) ?>
+<?= Html::input('hidden','hidden','',['class'=>'form-control']) ?>
+<?= Html::passwordInput('pwd','',['class'=>'form-control']) ?>
+
+
+6）文本域
+<?= Html::textarea('area','',['class'=>'form-control','rows'=>5]) ?>
+
+
+7）单选框
+单选按钮：Html::radio(name值，是否选中，属性数组)
+<?= Html::radio('sex',true,['class'=>'form-control']) ?>
+单选按钮列表：Html:;radioList(name值，选中的值，键值对列表，属性数组);
+<?=Html::radioList('sex','1',['1'=>'男','0'=>'女'],['class'=>'form-control']);?>
+
+
+8）复选框：
+(name值，是否选中，属性数组);
+<?=Html::checkbox('haha',true,['calss'=>'form-control']);?>
+单选按钮列表：Html:;checkboxList(name值，选中的值，键值对列表，属性数组);
+<?=Html::checkboxList('xixi','1',['1'=>'160','2'=>'170','3'=>'180'],['class'=>'form-control']);?>
+
+
+9）下拉列表
+dropDownList(name值，选中的值，键值对列表，属性数组);
+<?=Html::dropDownList('list','2',['1'=>'160','2'=>'170','3'=>'180'],['class'=>'form-control']);?>
+
+
+10）label标签
+label(显示内容，for值，属性数组); ?>
+<?=Html::label('显示的','test',['style'=>'color:#ff0000']);?>生成:<label style="color:#ff0000" for="list">显示的</label>
+
+
+11）上传控件：
+fileInput(name值，默认值，属性数组)
+<?=Html::fileInput('img',null,['class'=>'btn btn-default']);?>
+
+
+
+12）js脚本
+<?= Html::script('alert("hello");',['defer'=>true]) ?> 生成：<script defer>alert("Hello!");</script>
+
+
+
+13）超链接
+<?= Html::a('profile',['user/view','id'=>$id],['class'=>'profile-link']) ?>
+
+
+
+14）图片
+<?= Html::img('@web/images/logo.png', ['alt' => 'My logo']) ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

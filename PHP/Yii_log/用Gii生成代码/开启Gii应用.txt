@@ -1,0 +1,18 @@
+通常来讲在 config/web.php 文件中会有以下配置代码：
+
+$config = [ ... ];
+
+if (YII_ENV_DEV) {
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+    ];
+}
+这段配置表明，如果当前是开发环境， 应用会包含 gii 模块，模块类是 yii\gii\Module。
+在入口文件中有defined('YII_ENV') or define('YII_ENV', 'dev');应用处于开发模式下，按照上面的配置会打开 Gii 模块。
+访问Gii：localhost/basic/web/index.php?r=gii
+如果是远程访问，请求会被出于安全原因拒绝。 你可以在配置文件中配置 Gii 为其添加允许访问的 IP 地址：
+'gii' => [
+    'class' => 'yii\gii\Module',
+    'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20'] // 按需调整这里
+],

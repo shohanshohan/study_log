@@ -1,0 +1,10 @@
+div的局部刷新
+
+$(".dl").load(location.href+" .dl"); 
+
+全页面的刷新方法
+
+window.location.reload()刷新当前页面. 
+parent.location.reload()刷新父亲对象（用于框架） 
+opener.location.reload()刷新父窗口对象（用于单开窗口） 
+top.location.reload()刷新最顶端对象（用于多开窗口）

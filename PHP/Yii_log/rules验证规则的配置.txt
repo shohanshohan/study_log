@@ -1,0 +1,67 @@
+一般在活动记录类或者模型类里面会有对表数据字段的验证规则
+如：
+class CreateForm extends Model
+{
+	public $username;
+	public $email;
+	public $password;
+	public $phone;
+	public $create_time;
+	public $update_time;
+	public $isNewRecord = true; //是否新增，否为更新
+	public $rememberMe = true;
+
+	/**
+     * @inheritdoc
+     * 对数据的校验规则
+     */
+    public function rules()
+    {
+    	return [
+    		[['username','password', 'email', 'phone'], 'required'], //这四个字段是必须填写的
+
+    		[['username','password', 'email', 'phone'], 'filter','filter'=>'trim'], //去输入两边的空格
+
+    		['username','string','min'=>2,'max'=>255], //用户名为2-255个字符
+
+    		['username','unique','targetClass'=>'\backend\models\SysUser','message'=>'用户名已存在'],
+
+    		['email','email'], //调用邮箱验证
+
+    		['email','unique','targetClass'=>'\backend\models\SysUser','message'=>'该email已被用过了'],
+
+    		['password','string','min'=>6,'tooShort'=>'密码至少6个字符'],
+
+    		['phone','match', 'pattern' => '/^1[345678][\d]{9}$/'], //电话号码正则验证
+
+    		['phone','unique', 'targetClass' => '\backend\models\SysUser', 'message' => '手机号已被使用'],
+
+    		[['create_time','update_time'],'default','value'=>date('Y-m-d H:i:s')], //创建日期和更新日期默认时间为当前时间
+    	];
+    }
+
+   /*
+    *create user info
+    *@return true|false 添加成功或者失败
+     */
+    public function createUser()
+    {
+    	 // 调用validate方法对表单数据进行验证，验证规则参考上面的rules方法，如果不调用validate方法，那上面写的rules就完全是废的啦
+    	if (!$this->validate()) {
+    		return null;
+    	}
+    	$user = new SysUser();
+    	$user->username = $this->username;
+    	$user->email = $this->email;
+    	$user->phone = $this->phone;
+    	$user->create_time = $this->create_time;
+    	$user->update_time = $this->update_time;
+    	$user->setPassword($this->password);
+    	$user->generateAuthkey(); //生成“remember Me”认证key
+    	return $user->save(false);
+    	// save(false)的意思是：不调用SysUser的rules再做校验并实现数据入库操作
+        // 这里这个false如果不加，save底层会调用SysUser的rules方法再对数据进行一次校验，这是没有必要的。
+    	// 因为我们上面已经调用Signup的rules校验过了，这里就没必要再用SysUser的rules校验了
+    }
+	
+}

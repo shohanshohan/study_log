@@ -1,0 +1,9 @@
+在入口文件index.php中加入
+header('Access-Control-Allow-Origin:*'); 注：*号代表所有，可指定特定的服务器ip
+在要访问的控制器中加入
+public $enableCsrfValidation = false;
+
+
+在php.ini中打开配置
+always_populate_raw_post_data = -1
+

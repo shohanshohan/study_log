@@ -1,0 +1,65 @@
+使用虚拟机安装Ubuntu14.04后使用apt-get 装软件提示unable locate package,网上
+有的说apt-get update一下就好了，但是尝试后没用，需编辑/etc/apt/source_list将源修改。
+首先cp /etc/apt/source_list /etc/apt/source_list.bak进行备份，然后将原来文件内容替换为
+以下国内的源，速度也很不错。
+官方源：
+deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
+
+163源：
+deb http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse
+
+阿里源：
+deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+
+centos源（放心使用）：
+deb http://centos.bitcomm.cn/ubuntu trusty main restricted universe multiverse
+deb http://centos.bitcomm.cn/ubuntu trusty-security main restricted universe multiverse
+deb http://centos.bitcomm.cn/ubuntu trusty-updates main restricted universe multiverse
+deb http://centos.bitcomm.cn/ubuntu trusty-backports main restricted universe multiverse
+deb http://centos.bitcomm.cn/ubuntu trusty-proposed main restricted universe multiverse
+deb-src http://centos.bitcomm.cn/ubuntu trusty main restricted universe multiverse
+deb-src http://centos.bitcomm.cn/ubuntu trusty-security main restricted universe multiverse
+deb-src http://centos.bitcomm.cn/ubuntu trusty-updates main restricted universe multiverse
+deb-src http://centos.bitcomm.cn/ubuntu trusty-backports main restricted universe multiverse
+deb-src http://centos.bitcomm.cn/ubuntu trusty-proposed main restricted universe multiverse
+
+搜狐源：
+deb http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse
+
+然后执行apt-get update更新，然后apt-get upgrade 就OK了

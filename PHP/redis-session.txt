@@ -1,0 +1,41 @@
+Redis保存PHP Session方法
+假设已经安装好了redis服务及php的redis扩展
+
+修改php配置，总共有3种方法，如下选择其中一种即可：
+
+2.1 修改php.ini
+打开 php.ini 文件，设置下面两个值：
+
+session.save_handler = redis
+session.save_path = "tcp://127.0.0.1:6379"
+如果Redis有密码，用下面的配置：
+
+session.save_path = "tcp://127.0.0.1:6379?auth=password"
+配置完成后，重启PHP-FPM。
+
+2.2 修改php-fpm.conf
+PHP-FPM的配置文件/etc/php-fpm.conf或者/etc/php-fpm.d/*.conf中，也有session的配置。
+
+它们的session配置优先级比php.ini高，会覆盖php.ini中的配置。
+
+所以，也直接在这里面改：
+
+php_value[session.save_handler] = redis
+php_value[session.save_path] = "tcp://127.0.0.1:6379"
+如果用php.ini的配置，则需要把这两行用;注释掉。
+
+然后重启服务。
+
+2.3 PHP代码
+也可以在运行的PHP代码中配置session，如下。
+
+ini_set('session.save_handler', 'redis');
+ini_set('session.save_path', 'tcp://127.0.0.1:6379');
+
+session_start();
+$count = isset($_SESSION['count']) ? $_SESSION['count'] : 1;
+
+echo $count;
+
+$_SESSION['count'] = ++$count;
+

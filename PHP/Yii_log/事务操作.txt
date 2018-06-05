@@ -1,0 +1,13 @@
+$db = Yii::$app->db;
+$transaction = $db->begintransaction();
+
+$res1 = $db->createCommand()->insert('test',['name'=>'testname','age'=>20])->execute();
+$res2 = $db->createCommand()->update('user',['username'=>'piter'],['id'=>5])->execute();
+
+if($res1 && $res2){
+  $transaction->commit();
+  return true;
+}else{
+  $transaction->rollBack();
+  return false;
+}

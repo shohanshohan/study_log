@@ -1,0 +1,6 @@
+$commandQuery = clone $query;  
+echo $commandQuery->createCommand()->getRawSql();  
+exit;
+
+
+

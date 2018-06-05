@@ -1,0 +1,125 @@
+crond 是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程，与windows下的计划任务类似，当安装完成操作系统后，默认会安装此服务 工具。
+并且会自动启动crond进程，crond进程每分钟会定期检查是否有要执行的任务，如果有要执行的任务，则自动执行该任务。
+/sbin/service crond start //启动服务
+/sbin/service crond stop //关闭服务
+/sbin/service crond restart //重启服务
+/sbin/service crond reload //重新载入配置
+/sbin/service crond status //启动服务
+
+Linux下的任务调度分为两类，系统任务调度和用户任务调度。
+1）系统任务调度：系统周期性所要执行的工作，比如写缓存数据到硬盘、日志清理等。
+crontab文件一般位于/etc/下，这里面存放系统运行的的调度程序。
+/etc/crontab文件包括下面几行：
+cat /etc/crontab
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=HOME=/
+# run-parts
+51 * * * * root run-parts /etc/cron.hourly
+24 7 * * * root run-parts /etc/cron.daily
+22 4 * * 0 root run-parts /etc/cron.weekly
+42 4 1 * * root run-parts /etc/cron.monthly
+前 四行是用来配置crond任务运行的环境变量，
+第一行SHELL变量指定了系统要使用哪个shell，这里是bash，
+第二行PATH变量指定了系统执行 命令的路径，
+第三行MAILTO变量指定了crond的任务执行信息将通过电子邮件发送给root用户，如果MAILTO变量的值为空，则表示不发送任务 执行信息给用户，
+第四行的HOME变量指定了在执行命令或者脚本时使用的主目录。
+
+2）每个用户都会生成一个自动生成一个自己的crontab文件，一般位于/var/spool/cron目录下,其文件名与用户名一致。
+用户任务调度：用户定期要执行的工作，比如用户数据备份、定时邮件提醒等。用户可以使用 crontab 工具来定制自己的计划任务。
+所以也可以通过修改该文件夹下的具体文件来修改任务，不推荐，一般使用 crontab -e 来更改保存
+
+
+3）cron.deny 与 cron.allow文件
+/etc/cron.deny 表示不能使用crontab 命令的用户
+/etc/cron.allow 表示能使用crontab的用户。
+默认情况下，cron.allow文件不存在。如果两个文件同时存在，那么/etc/cron.allow 优先。如果两个文件都不存在，那么只有超级用户可以安排作业。
+
+4）crontab文件的含义：
+用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，
+格式如下：
+minute hour day month week command
+其中：
+minute： 表示分钟，可以是从0到59之间的任何整数。
+hour：表示小时，可以是从0到23之间的任何整数。
+day：表示日期，可以是从1到31之间的任何整数。
+month：表示月份，可以是从1到12之间的任何整数。
+week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。
+command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件。
+在以上各个字段中，还可以使用以下特殊字符：
+星号（*）：代表所有可能的值，例如month字段如果是星号，则表示在满足其它字段的制约条件后每月都执行该命令操作。
+逗号（,）：可以用逗号隔开的值指定一个列表范围，例如，“1,2,5,7,8,9”
+中杠（-）：可以用整数之间的中杠表示一个整数范围，例如“2-6”表示“2,3,4,5,6”
+正斜线（/）：可以用正斜线指定时间的间隔频率，例如“0-23/2”表示每两小时执行一次。同时正斜线可以和星号一起使用，
+例如*/10，如果用在minute字段，表示每十分钟执行一次。
+
+
+5）crontab命令详解
+命令格式：
+crontab [-u user] file
+crontab [-u user] [ -e | -l | -r ]
+命令参数：
+-u user：用来设定某个用户的crontab服务，例如，“-u ixdba”表示设定ixdba用户的crontab服务，此参数一般有root用户来运行。
+
+file：file是命令文件的名字,表示将file做为crontab的任务列表文件并载入crontab。如果在命令行中没有指定这个文件，
+crontab命令将接受标准输入（键盘）上键入的命令，并将它们载入crontab。
+
+-e：编辑某个用户的crontab文件内容。如果不指定用户，则表示编辑当前用户的crontab文件。
+    crontab -e配置完成后，如何把保存并退出？
+    1.Ctrl+O  写入
+    2.出现“FIile name to Write...”，输入Enter
+    3.Ctrl+x 保存输出
+    提示“crontab:installing new crontab”表示成功。
+
+    -l：显示某个用户的crontab文件内容，如果不指定用户，则表示显示当前用户的crontab文件内容。
+
+    -r：从/var/spool/cron目录中删除某个用户的crontab文件，如果不指定用户，则默认删除当前用户的crontab文件。
+
+    -i：在删除用户的crontab文件时给确认提示。
+    
+ PHP脚本定时任务：前面是计时格式，‘/usr/bin/php5.6’这一段为php当前版本所在的启动位置，后边就是脚本运行的路径，
+ ‘>/var/log.txt & ’为脚本内容的输出地址文件，如果是‘>/dev/null & ’则不输出信息
+*/5 * * * * /usr/bin/php5.6 /var/www/project/btadmin/src/console/yii stat/online >/var/log.txt & 
+1 0 * * * /usr/bin/php5.6 /var/www/project/btadmin/src/console/yii stat/coin >/dev/null & 
+ 
+
+
+
+6）创建一个新的crontab文件
+在 考虑向cron进程提交一个crontab文件之前，首先要做的一件事情就是设置环境变量EDITOR。cron进程根据它来确定使用哪个编辑器编辑 crontab文件。
+9 9 %的UNIX和LINUX用户都使用vi，如果你也是这样，那么你就编辑$ HOME目录下的. profile文件，在其 中加入这样一行：
+EDITOR=vi; export EDITOR 然后保存并退出
+
+
+7）使用实例
+实例1：每1分钟执行一次command,命令：* * * * * command
+
+实例2：每小时的第3和第15分钟执行,命令：3,15 * * * * command
+
+实例3：在上午8点到11点的第3和第15分钟执行,命令：3,15 8-11 * * * command
+
+实例4：每隔两天的上午8点到11点的第3和第15分钟执行,命令：3,15 8-11 */2 * * command
+
+实例5：每个星期一的上午8点到11点的第3和第15分钟执行,命令：3,15 8-11 * * 1 command
+
+实例6：每晚的21:30重启smb ,命令：30 21 * * * /etc/init.d/smb restart
+
+实例7：每月1、10、22日的4 : 45重启smb ,命令：45 4 1,10,22 * * /etc/init.d/smb restart
+
+实例8：每周六、周日的1 : 10重启smb,命令：10 1 * * 6,0 /etc/init.d/smb restart
+
+实例9：每天18 : 00至23 : 00之间每隔30分钟重启smb ,命令：0,30 18-23 * * * /etc/init.d/smb restart
+
+实例10：每星期六的晚上11 : 00 pm重启smb ,命令：0 23 * * 6 /etc/init.d/smb restart
+
+实例11：每一小时重启smb ,命令：* */1 * * * /etc/init.d/smb restart
+
+实例12：晚上11点到早上7点之间，每隔一小时重启smb ,命令：* 23-7/1 * * * /etc/init.d/smb restart
+
+实例13：每月的4号与每周一到周三的11点重启smb ,命令：0 11 4 * mon-wed /etc/init.d/smb restart
+
+实例14：一月一号的4点重启smb ,命令：0 4 1 jan * /etc/init.d/smb restart
+
+实例15：每小时执行/etc/cron.hourly目录内的脚本,命令：01 * * * * root run-parts /etc/cron.hourly
+
+

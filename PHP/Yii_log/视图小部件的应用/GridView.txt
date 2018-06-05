@@ -1,0 +1,353 @@
+控制器中渲染模板，定义好dataProvider,每页显示条数
+public function actionIndex()
+{
+	$query = player::find();
+	$dataProvider = new \yii\data\ActiveDataProvider([
+           'query'=>$query,
+           'pagination'=>[
+           	'pagesize'=>3
+            ]
+        ]);
+	return $this->render('index',['dataProvider'=>$dataProvider]);
+}
+
+
+
+
+
+视图中示例：
+
+<?= GridView::widget([
+	'dataProvider' => $dataProvider,
+	'columns' => [
+		['class'=>'yii\grid\CheckboxColumn'], //显示复选框
+		//['class'=>'yii\grid\RadioButtonColumn'], //显示单选框
+		//['class'=>'yii\grid\SerialColumn'], //显示行号
+	    'id',
+	    'username',
+	    [
+	    	'attribute'=>'gender',
+	    	'value'=>function($data){
+                    return $data->gender == 1 ? '男' : '女';
+                }
+        ],
+	    'email',
+	    [
+	    	'attribute'=>'status',
+	    	'value' => function($data){
+                    return $data->status == 1 ? '可用' : '禁用';
+                }
+	    ],
+	    [
+	    	'attribute'=>'register_time',
+	    	'format' => ['date', 'php:Y-m-d'] //时间格式转换成：年-月-日
+	    ], 
+		[
+			'class'=>'yii\grid\ActionColumn',//显示操作图标（默认项：查看，更新，删除）
+			'header' => '操作', //操作列标题文字
+			'template' => '{view} {update} {delete} {onshelf} {offshelf} {robot}', //模板排序设置
+			'buttons' => [ //自定义操作按钮
+
+		'delete' => function($url, $model, $key){
+                        return Html::a('删除',
+                            ['user/delete', 'id' => $key], //跳转地址，要传递的数据id,在地址栏显示
+                            ['title' => '删除','data' => ['method' => 'post','confirm' => Yii::t('yii', '确定删除吗?'), 'id' => $key, 'type' => 'on'],]);
+                    }, //'confirm'添加提示框操作
+
+                'onshelf' => function ($url, $model, $key){ 
+                //(注：$url是加密过的跳转链接地址，$model是要显示的单条一维数组，$key是该条数据主键)
+                    return  $model['status'] ? Html::a('<span class="glyphicon glyphicon-ok"></span>', 
+                    									//<span>定义图标样式，用bootstrap组件
+                        ['item/shelf', 'id' => $key], //跳转地址，要传递的数据id,在地址栏显示
+                        ['title' => '上架商品', 'data' => ['method' => 'post', 'id' => $key, 'type' => 'on'],
+                        //添加标签属性并赋值，title,data-method,data-id,data-type
+                        'class'=> 'shelf']) : ''; //添加类名称shelf
+                },
+                'offshelf' => function ($url, $model, $key){
+                    return  $model['status'] ? Html::a('<span class="glyphicon glyphicon-remove"></span>',
+                        ['item/shelf', 'id' => $url],
+                        ['title' => '下架商品', 'data' => ['method' => 'post', 'id' => $key, 'type' => 'off'], 
+                        'class'=> 'shelf']) : '';
+                },
+                
+                'robot' => function ($url, $model, $key){
+                    return  Html::a('<span class="glyphicon glyphicon-knight"></span>',
+                        ['robot/like', 'id' => $model['id']],
+                        ['title' => '自动点赞', 'class' => 'post-autolike', 'data' => ['method' => 'post', 'id' => $key, 'type' => 'off']]) ;
+                },
+            ]
+		], 
+	],
+	'emptyText'=>'没有符合条件的数据', //如果查询没有数据，则显示该内容文字
+    'emptyTextOptions'=>['style'=>'color:red;font-weight:bold'], //emptyText内容的样式设置
+    'layout' => "{items}\n{summary}\n{pager}", 
+    //GridView自上而下是简介，表格，分页（{summary},{items},{pager}）。这里布局调整
+    'summary' => '<div class="summary">显示 <b>1-3</b> 总共 <b>6</b> 条数据.</div>',
+    'showOnEmpty'=>false //设置查询无数据时不显示表格框
+]); ?>
+
+
+
+yii2 GridView常见操作
+
+1）是否显示某列，案例
+条件：有一个get形参数type
+需求：仅且type的值等于1的时候，列name才显示，否则该列不显示
+代码实现如下：
+
+[
+    "attribute" => "name",
+    "value" => $model->name,
+    "visible" => intval(Yii::$app->request->get("type")) == 1,
+],
+
+
+2）链接可点击跳转案例
+[
+    "attribute" => "order_id",
+    "value" => function ($model) { //$model为当前数据数组，可自定义，如$data
+        return Html::a($model->order_id, "/goods/order?id={$model->order_id}", ["target" => "_blank"]); //注：$model->order_id为展示的内容，后面是链接地址，然后是跳转新页面设置
+    },
+    "format" => "raw",//输出html内容，不写这个则会默认输出带标签的html代码字符
+],
+
+
+3）显示图片案例
+[
+    "label" => "头像",
+    "format" => [
+        "image",  //输出图像，并设置宽高
+        [
+            "width"=>"84",
+            "height"=>"84"
+        ]
+    ],
+    "value" => function ($model) { 
+        return $model->image; //value即为imd标签的src链接
+    }
+],
+
+
+4）html渲染案例
+[
+    "attribute" => "title",
+    "value" => function ($model) { 
+        return Html::encode($model->title); //对html标签进行转义，<div>会被转义成&lt;div&gt;
+    },
+    "format" => "raw", //去转义或去标签显示内容
+],
+
+
+5）自定义按钮案例
+往往列表页我们不想要删除按钮，想在增加一个比如获取xxx按钮，怎么搞呢？这里需要设置ActionColumn类，修改配置项template并在buttons项增加template里增加的get-xxx即可
+[
+    "class" => "yii\grid\ActionColumn",
+    "template" => "{get-xxx} {view} {update}",
+    "header" => "操作",
+    "buttons" => [
+        "get-xxx" => function ($url, $model, $key) { //(注：$url是加密过的跳转链接地址，$model是要显示的单条一维数组，$key是该条数据主键)
+            return Html::a("获取xxx", $url, ["title" => "获取xxx"] ); 
+        },
+    ],
+],
+
+
+6）设定宽度案例
+举个简单的例子，我们的title列，太长了，能不能给我先定下这一列的宽度？
+只需要指定配置项headerOptions即可。
+[
+    "attribute" => "title",
+    "value" => "title",
+    "headerOptions" => ["width" => "100px"],
+],
+
+
+7）自定义字段案例
+在表格里增加一列且数据库中不存在对应的列。假如我们新增一列 订单消费金额money且该表不存在该字段
+[
+    "attribute" => "消费金额",
+    "value" => function ($model) {
+        // 这里可以根据该表的其他字段进行关联获取
+    }
+],
+
+
+8）自定义行样式
+<?= GridView::widget([
+    // ......
+    "dataProvider" => $dataProvider,
+    "rowOptions" => function($model, $key, $index, $grid) {
+        return ["class" => $index % 2 ==0 ? "label-red" : "label-green"]; //自定义的label-red和label-green需要有对应的样式实现,可用bootstrap表格样式
+    },
+    // ......
+]); ?>
+
+
+9）增加按钮调用js操作案例
+[
+      "class" => "yii\grid\ActionColumn",
+      "template" => "{update-status}",
+      'header' => '状态',
+      "buttons" => [
+          "update-status" => function ($url, $model, $key) {
+              $code = $model->status == 1 ? '可用' : '禁用';
+              return "<span>".$code."</span>".Html::a("  设置", "javascript:;", ["onclick"=>"update_status(this,".$model->id.",".$model->status.");"]); },
+            ],
+      "headerOptions" => ["width" => "100px"],
+],
+js脚本
+<script type="text/javascript">
+    function update_status(e,id,status){
+        /*$.ajax({
+                type:'POST',
+                url:'/player/set-status',
+                data:{id:id,status:status},
+                success: function(data){
+                    alert(data);
+                    $(".grid-view").load(location.href+" .grid-view");
+                }
+            });*/
+        $.post("/player/set-status",{id:id,status:status}, function(data) {
+            alert(data);
+            $(".grid-view").load(location.href+" .grid-view"); //局布刷新数据表单
+        });
+    }
+</script>
+控制器脚本
+public function actionSetStatus()
+	{
+		if (Yii::$app->request->isAjax) {
+			$id = Yii::$app->request->post('id','');
+			$status = Yii::$app->request->post('status','');
+			
+			if ($id=='' || $status=='') {
+				return '参数错误！';
+			}
+			//echo $id.'--'.$status;die;
+			$res = PlayerService::restStatus(intval($id),intval($status)); //数据服务类里面处理数据
+			if ($res) {
+				return '操作成功！';
+			}else{
+				return '操作失败！';
+			}
+		}
+	}
+
+
+
+10）禁止表头的排序，这个需要ActiveDataProvider的设置
+public function actionIndex() //控制器中
+	{
+		$query = player::find();
+		$dataProvider = new \yii\data\ActiveDataProvider([
+            'query'=>$query,
+            'pagination'=>[
+                'pagesize'=>3
+            ]
+        ]);
+        $dataProvider->setSort(false); //设置不需要表头的排序
+	return $this->render('index',['dataProvider'=>$dataProvider]);
+	}
+
+
+11）表格加表头
+echo GridView::widget([
+    //......
+    'caption' => '内容管理',
+    'captionOptions' => ['style' => 'font-size: 16px; font-weight: bold; color: #000; text-align: center;'],
+    'columns' => [
+        //......
+    ],
+]);
+
+
+12）处理时间转换
+[
+ 'label'=>'更新日期',
+ 'format' => ['date', 'php:Y-m-d'],
+ 'value' => 'updated_time'
+],
+//or
+[
+ //'attribute' => 'created_time',
+ 'label'=>'更新时间',
+  'value'=>function($model){
+        return  date('Y-m-d H:i:s',$model->created_at);   
+  },
+ 'headerOptions' => ['width' => '170'],
+],
+
+
+13）分页属性显示设置
+echo GridView::widget([
+    //......
+    'pager'=>[
+        //'options'=>['class'=>'hidden'],//关闭分页
+        'firstPageLabel'=>"第一页",
+        'prevPageLabel'=>'上一页',
+        'nextPageLabel'=>'下一页',
+        'lastPageLabel'=>'最后页',
+    ],
+
+    'columns' => [
+        //......
+    ],
+]);
+
+
+14）鼠标悬停，每一行对鼠标悬停状态作出响应，每一行间隔样式设置
+echo GridView::widget([
+    //......
+    'tableOptions' => ['class'=>'table table-hover table-bordered'], //这里加上table-hover就能有效果了（table-hover：鼠标悬停，table-bordered显示边框）
+
+    "rowOptions" => function($model, $key, $index, $grid) { //这里用匿名函数写入样式
+            return ["class" => $index % 2 ==0 ? "label-red" : "label-green"]; //自定义的label-red和label-green需要有对应的样式实现,可用bootstrap表格样式
+        },
+    'columns' => [
+        //......
+    ],
+]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

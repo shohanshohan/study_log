@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+    <p>hello world !</p>
+    <form action="" method="post" enctype="multipart/form-data">
+	<input type="file" name="file">
+  <!--多文件上传-->
+  <input type="file" name="image[]" /> <br>
+  <input type="file" name="image[]" /> <br>
+  <input type="file" name="image[]" /> <br>
+	<input type="submit" value="提交">
+	</form>
+</body>
+</html>
+
+<!-- php 文件接收验证保存
+    // 文件上传提交
+    public function uploads()
+    {
+        // 获取表单上传文件
+        $file = $this->request->file('file');
+        if(empty($file)){
+            $this->error('请选择上传文件');
+        }
+        //移动到指定目录下 ,validate 方法设置了允许上传的文件后缀
+        /*
+        validate 方法支持的验证规则包括：
+            size 上传文件最大字节大小 integer
+            ext 允许上传的文件后缀 数组或者字符串
+            type 允许上传的文件类型 数组或者字符串
+        */
+        $info = $file->validate(['ext']=>'jpg,png.gif')->move(ROOT_PATH . 'public' . DS . 'uploads');
+        if($info){
+            $this->success('上传成功！');
+        }else{
+            $this->error($file->getError());
+        }
+
+        /* 或单独分开来验证
+        //上传文件验证
+        $result = $this->validate(['file' => $file], ['file'=>'require|image'],['file.require' => '请选择上传, 'file.image' => '非法图像文件']);
+        if(true !== $result){
+            $this->error($result);
+        }
+        // 移动到框架应用根目录/public/uploads/ 目录下
+        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+        */
+    }
+    
+    // 多文件上传
+    public function up(Request $request){
+      // 获取表单上传文件
+      $files = $request->file('image');
+      foreach($files as $file){
+        // 移动到框架应用根目录/public/uploads/ 目录下
+        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+        if(!$info){
+          // 上传失败获取错误信息
+          $this->error($file->getError();
+          }
+       }
+      $this->success('文件上传成功');
+    }
+-->

@@ -1,0 +1,32 @@
+// 数据库PDO操作、
+// 通过phpinfo()查看是否安装了PDO扩展
+// 进入php.ini配置文件，激活PDO扩展，extension=php_pdo_mysql.dll和extension=php_pdo_sqlite.dll去掉前面的‘;’号就可以了，如果没有的话就加上这些扩展，可以在服务器版本扩展
+
+// 目录下查看这些文件，如：D:\phpstudy\php\php-7.0.12-nts\ext
+// PDO连接数据库
+$mysql = 'mysql';//数据库类型
+$host = 'localhost';//数据库地址
+$user = 'root';//数据库用户名
+$pass = '';//密码
+$dbname = 'test';//数据库名称
+$dbh = "$mysql:host=$host;dbname=$dbname";
+try{
+	$db = new PDO($dbh,$user,$pass);
+	//如果需要数据库长连接，需要最后加一个参数：array(PDO::ATTR_PERSISTENT => true) 变成这样：$db = new PDO($dbh,$user,$pass,array(PDO::ATTR_PERSISTENT=>true));
+}catch(PDOException $e){
+	echo 'error:'.$e->getMessage().'<br>';
+}
+
+
+//或者：
+$db = new PDO($dbh,$user,$pass) or die('数据库连接失败！');
+//数据操作
+PDO::exec() //返回受修改或删除 SQL 语句影响的行数。如果没有受影响的行，则 PDO::exec() 返回 0。对于在程序中只需要发出一次的 SELECT 语句，可以使用 PDO::query()。
+$sql = 'select * from test';//查询
+$res = $db->query($sql);
+$result = $res->fetchAll(PDO::FETCH_ASSOC);
+var_dump($result);
+
+$sql2 = "insert into test (name,age) values ('piter',18)";//添加
+$res2 = $db->exec($sql2);
+var_dump($res2);

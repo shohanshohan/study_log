@@ -1,0 +1,18 @@
+/*设置数据库访问权限和密码
+#1：分配权限
+mysql> grant 权限1、权限2... on 数据库名称.表名称 to 用户名@服务地址 identified by '密码';
+grant all privileges on aa.* to user@127.0.0.1 identified by '123';给本机用户user分配可对数据库aa所有表进行所有操作的权限，并设置口令为123.
+
+#2：创建用户
+insert into mysql.user(Host,User,Password) values ('localhost','aaa',password('123'));
+//刷新系统权限 mysql> flush privileges;
+
+#3:忘记密码无法登入
+找到mysql文件夹下my.ini 文件，路径比如，D:\wamp\bin\mysql\mysql5.6.17
+在文件写入skip-grant-tables,重启服务器mysql服务，打开命令行工具，输入mysql/bin路径或已做好环境变量的话输入mysql回车直接进入数据库，这时不用密码可用数据库，进入后修改用户密码就可以了，update mysql.user set password=password('newpassword') where user='root';修改好后#号注释一下skip-grant-tables,重启服务器重新登入
+如果密码修改成功后遇到报这样的错误的mysql your password has expired或一直accés refusé pour l'utilisateur: 'root'@'@localhost' (mot de passe: OUI)；
+这个时候要查看一下user表的字段属性设置了，打开skip-grant-tables,进入数据库查看user表select host,user,password,password_expired from user;
+如果发现password_expired='Y';说明密码过期导致一直无法登入，这时就要把这个字段值改成N
+update user set password_expired='Y' where user='root';修改成功后flush privileges;
+然后注释skip-grant-tables重启服务，重新登入。
+*/

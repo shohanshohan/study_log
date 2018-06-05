@@ -1,0 +1,20 @@
+uksort((array,myfunction);通过用户自定义的比较函数对数组按键名进行排序
+用来做按键名重新对数组进行排序非常好用
+例：对数组按键名升序
+function my_sort($a,$b)
+{
+    if ($a==$b) return 0;
+    return ($a<$b)?-1:1;
+}
+$arr = ['0'=>'a','8'=>'BB','5'=>'ee','9'=>'GG','3'=>'JJ','6'=>'bb'];
+uksort($arr,'my_sort');
+print_r($arr);结果：Array ( [0] => a [3] => JJ [5] => ee [6] => bb [8] => BB [9] => GG );
+对数组按键名降序，只要将比较的条件'<'号换成'>'号
+function my_sort($a,$b)
+{
+    if ($a==$b) return 0;
+    return ($a>$b)?-1:1;
+}
+$arr = ['0'=>'a','8'=>'BB','5'=>'ee','9'=>'GG','3'=>'JJ','6'=>'bb'];
+uksort($arr,'my_sort');
+print_r($arr);结果：Array ( [9] => GG [8] => BB [6] => bb [5] => ee [3] => JJ [0] => a );

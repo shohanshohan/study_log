@@ -1,0 +1,41 @@
+一、卸载删除 mysql
+1 sudo apt-get autoremove --purge mysql-server-5.0
+2 sudo apt-get remove mysql-server
+3 sudo apt-get autoremove mysql-server
+4 sudo apt-get remove mysql-common (非常重要)
+上面的其实有一些是多余的，建议还是按照顺序执行一遍
+清理残留数据：
+dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
+sudo find /etc -name "*mysql*" |xargs rm -rf
+最后用 dpkg -l | grep mysql 检查，如无返回即干净卸载
+
+
+二、卸载删除apache
+sudo apt-get --purge remove apache-common
+sudo apt-get --purge remove apache
+找到没有删除掉的配置文件，一并删除
+sudo find /etc -name "*apache*" |xargs rm -rf 
+sudo rm -rf /var/www
+sudo rm -rf /etc/libapache2-mod-jk
+sudo rm -rf /etc/init.d/apache2
+sudo rm -rf /etc/apache2
+删除关联，
+dpkg -l |grep apache2|awk '{print $2}'|xargs dpkg -P
+
+
+删除svn
+sudo apt-get remove subversion
+sudo apt-get remove libapache2-svn
+最后用 dpkg -l | grep apache 和 dpkg -l | grep apache2检查，如无返回即干净卸载
+
+
+三、卸载删除php 
+sudo apt-get –-purge remove libapache2-mod-php5 php5 php5-gd php5-mysql
+sudo apt-get autoremove php5
+删除关联，
+sudo find /etc -name "*php*" |xargs rm -rf
+清楚残留信息
+dpkg -l |grep php|awk '{print $2}' | xargs dpkg -P
+最后用 dpkg -l | grep php 和dpkg -l | grep php5 检查，如无返回即干净卸载
+
+

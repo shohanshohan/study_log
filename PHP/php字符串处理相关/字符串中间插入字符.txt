@@ -1,0 +1,13 @@
+字符串中间插入字符，str_split(),join(),implode(),strrev()
+$a = 10212453658962; //转化成逗号分隔的金额
+$a = strrev($a);
+$strArray=str_split($a,3);
+$b=join(",",$strArray); 或用implode(',',$strArray);
+echo strrev($b);结果：10,212,453,658,962
+
+
+
+还可以利用chunk_split()函数来做！把字符串分割为一连串更小的部分。该函数不改变原始字符串。
+$a = 10212453658962; //转化成逗号分隔的金额
+$c = chunk_split(strrev($a), 3, ',');
+echo trim($c, ',');结果：10,212,453,658,962 与上面一样

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HTML5</title>
+    <!--[if it IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="jquery-1.12.3.min.js"></script>
+    <style>        
+        html,body {margin:0;padding:0;height:100%;overflow-x:hidden;}
+        aside {float:left;overflow:auto;width:10%;height:100%;background-color: gray;}
+        #logo-img {background-color:#fff;}
+        .info{background-color:lightgray;width:100%;text-align:center;}
+        .info p{margin:0;padding:5px 0px;}
+        #user-img {border-radius:60px;}
+        .info p a{padding:0px 15px;text-decoration:none;}
+        .container {overflow:auto;height:100%;}
+        ul {list-style-type:none;padding:0;margin:0;}
+        ul li a {text-decoration:none;display:inline-block;padding:10px;width:100%;}
+        ul li a span{width:20%;}
+        ul li a b{width:80%;}
+        ul li a:hover,ul li a.active {background:green;color:white;}
+        header {float:left;position:fixed;top:0;background-color:lightblue;width:100%;height:50px;line-height:1.5;}
+        nav ul li {display:inline-block;text-align:center;}
+        #turn-toggle {background-color:lightblue;float:left;height:50px;margin-right:8px;font-size:30px;color:#008000;}
+        section .main {margin-top:30px;padding:10px;}
+        footer {float:left;position:absolute;bottom:0;background-color:lightgray;width:100%;height:30px;text-align:center;line-height:30px;}
+    </style>
+</head>
+<body>
+<aside class="aside-turn">
+    <div class="info">
+        <img src="logo.png" width="100%" height="50px" id="logo-img" />
+        <p>
+            <img src="avatar.png" width="60" height="60" id="user-img">
+            <p>welcome admin <a href="#">退出</a></p>
+        </p>
+    </div>
+    <ul>
+       <li><a href="#" title="tipinfo" class="active"><span>&#9824</span>&nbsp;&nbsp;<b>One</b></a></li>
+       <li><a href="#" title="tipinfo"><span>&#9827</span>&nbsp;&nbsp;<b>One</b></a></li>
+       <li><a href="#" title="tipinfo"><span>&#9829</span>&nbsp;&nbsp;<b>One</b></a></li>
+       <li><a href="#" title="tipinfo"><span>&#9830</span>&nbsp;&nbsp;<b>One</b></a></li>
+       <li><a href="#" title="tipinfo"><span>&#9827</span>&nbsp;&nbsp;<b>One</b></a></li>
+       <li><a href="#" title="tipinfo"><span>&#9829</span>&nbsp;&nbsp;<b>One</b></a></li>
+   </ul>
+</aside>
+<div class="container">
+<header>
+    <nav>
+        <button id="turn-toggle">&#x2630;</button>
+        <ul>
+            <li><a href="#">首页</a></li>
+            <li><a href="#">后台管理</a></li>
+            <li><a href="#">系统管理</a></li>
+            <li><a href="#">用户管理</a></li>
+            <li><a href="#">数据汇总</a></li>
+        </ul>
+    </nav>
+</header>
+<section>
+    <div class="main">
+        <h1>title title h1</h1>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+        <p>pppppppppppppppp</p>
+    </div>
+</section>
+<footer>
+    copy &copy; 2016-2018 XXXXX有限公司
+</footer>
+</div>
+    <script>
+    $(function(){
+        $('a').click(function(){
+            $(this).addClass('active');
+            $(this).parent().siblings().find('a').removeClass('active');
+        });
+        $('#turn-toggle').click(function(){
+            if($('aside').width() > 40){
+                $('aside').animate({width:'2%'});
+            }else{
+                $('aside').animate({width:'10%'});
+            }
+            $('aside .info p').toggle('slow');
+            $('aside a b').toggle('slow');
+        });
+
+        $('.aside-turn').mouseleave(function(){
+            $('aside').animate({width:'2%'});
+            $('aside .info p').hide('slow');
+            $('aside a b').hide('slow');
+        });
+        $('.aside-turn').mouseenter(function(){
+            $('aside').animate({width:'10%'});
+            $('aside .info p').show('slow');
+            $('aside a b').show('slow');
+        });
+        
+    });
+    </script>
+</body>
+</html>

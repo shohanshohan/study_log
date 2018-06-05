@@ -1,0 +1,9 @@
+（1）解决mysql导入数据库大小限制的方法
+在php.ini中修改相关参数：
+
+影响MySQL导入文件大小的参数有三个：、
+
+memory_limit=128M,
+upload_max_filesize=2M,
+post_max_size=8M
+把这三个值设置超过数据文件的大小，一般都是修改后两个参数配置，然后重启服务器就可以了。

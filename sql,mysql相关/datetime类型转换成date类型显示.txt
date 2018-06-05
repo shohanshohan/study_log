@@ -1,0 +1,1 @@
+cast(create_time as date) as `date`

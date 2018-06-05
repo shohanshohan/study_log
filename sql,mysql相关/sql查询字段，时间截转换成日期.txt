@@ -1,0 +1,6 @@
+sql查询字段，时间截转换成日期
+date_format(from_unixtime(intTime),'%Y-%m-%d') as date
+
+对日期只保留年月日
+原来的数据格式：（2018-05-10 15:00:00）
+cast(create_time as date) as `date`

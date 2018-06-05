@@ -1,0 +1,155 @@
+<?php
+/**
+* 数据库增删改查函数封装
+*/
+class Db
+{
+	private $con = null;
+	private $host;
+	private $user;
+	private $pass;
+	private $dbName;
+	private $charset;
+
+	function __construct($host = 'localhost',$user = 'root',$pass = 'root',$dbName = 'aaa',$charset='utf8')
+	{
+		$this->host = $host;
+		$this->user = $user;
+		$this->pass = $pass;
+		$this->dbName = $dbName;
+		$this->charset = $charset;
+		if ($this->con == null) {
+			$this->con = mysqli_connect($host,$user,$pass) or die('数据库连接失败！');
+			mysqli_select_db($this->con,$dbName) or die('数据库找不到');
+			mysqli_query($this->con,'set names '.$charset);
+		}
+	}
+
+
+	//添加数据
+	public function insert($table='',$data=[]){
+		$k = '';
+		$v = '';
+		foreach ($data as $key => $value) {
+			$k .= "`$key`,";
+			$v .= "'$value',"; 
+		}
+		$k = trim($k,',');
+		$v = trim($v,',');
+
+		$sql = "insert into $table ($k) values ($v)";
+		$res = mysqli_query($this->con,$sql);
+		$insertId = mysqli_insert_id($this->con);//获取自增id
+		//$row = mysqli_affected_rows($con);//受影响行数
+		mysqli_close($this->con);
+		//return $row;
+		return $insertId;   
+	}
+
+	//添加多条数据
+	public function insertAll($table='',$data=[]){
+		$id = [];
+		foreach ($data as $a => $b) {
+			$k = '';
+			$v = '';
+			foreach ($b as $key => $value) {
+				$k .= "`$key`,";
+				$v .= "'$value',"; 
+			}
+			$k = trim($k,',');
+			$v = trim($v,',');
+
+			$sql = "insert into $table ($k) values ($v)";
+			$res = mysqli_query($this->con,$sql);
+			$insertId = mysqli_insert_id($this->con);
+			$id[] = $insertId;
+		}
+		$id = implode(',',$id);
+		$row = mysqli_affected_rows($this->con);
+		mysqli_close($this->con);
+		//return $row;
+		return $id;
+	}
+
+	//删除数据
+	public function delete($table='',$where=''){
+		$sql = "delete from $table";
+		if (!empty($where)) {
+			$sql .= " where $where";
+		}
+		mysqli_query($this->con,$sql);
+		$row = mysqli_affected_rows($this->con);
+		mysqli_close($this->con);
+		return $row;
+	}
+
+	//更新数据
+	public function update($table='',$data=[],$where=''){
+		$group = [];
+		foreach ($data as $key => $value) {
+			$group[] = "`$key`='$value'";
+		}
+		$groupStr = implode(',',$group);
+		$sql = "update $table set $groupStr";
+		if (!empty($where)) {
+			$sql .= " where $where";
+		}
+		mysqli_query($this->con,$sql);
+		$row = mysqli_affected_rows($this->con);
+		mysqli_close($this->con);
+		return $row;
+	}
+
+	//查询数据
+	public function select($table='',$cloumn='*',$where=''){
+		$sql = "select $cloumn from $table";
+		if (!empty($where)) {
+			$sql .= " where $where";
+		}
+		$res = mysqli_query($this->con,$sql);
+		$arr = [];
+		while ($row = mysqli_fetch_assoc($res)) {
+			$arr[] = $row;
+		}
+		return $arr;
+	}
+
+	//查询一条数据
+	public function find($table='',$cloumn='*',$where=''){
+		$sql = "select $cloumn from $table";
+		if (!empty($where)) {
+			$sql .= " where $where";
+		}
+		$res = mysqli_query($this->con,$sql);
+		$arr = mysqli_fetch_assoc($res);
+		return $arr;
+	}
+
+	//得到某个字段的值
+	public function value($table='',$field='*',$where=''){
+		$sql = "select $field from $table";
+		if (!empty($where)) {
+			$sql .= " where $where";
+		}
+		$res = mysqli_query($this->con,$sql);
+		$arr = mysqli_fetch_assoc($res);
+		return $arr[$field];
+	}
+
+
+
+}
+$data = [
+		['title' => '服装','autor'=>'aaa','addtime'=>date('Y-m-d H:i:s'),'content'=>'测试'],
+		['title' => '服装','autor'=>'bbb','addtime'=>date('Y-m-d H:i:s'),'content'=>'测试'],
+		['title' => '服装','autor'=>'ccc','addtime'=>date('Y-m-d H:i:s'),'content'=>'测试'],
+	];
+$db = new Db();
+$row = $db->find('news','*','id=6');
+//$row = insert('news',$data);
+if ($row) {
+	echo '操作成功！';echo "<br />";
+	var_dump($row);
+}else{
+	echo '操作失败！';
+}

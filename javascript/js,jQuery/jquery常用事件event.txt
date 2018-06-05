@@ -1,0 +1,99 @@
+jquery库的常用事件概括为4大类（鼠标事件，键盘事件，表单事件，文档窗口事件），
+
+1）单击事件 click
+$('#demo').click(function(){
+  $(this).html('demo');
+  ......
+});
+
+
+2）双击事件 dblclick
+$('#demo').dblclick(function(){
+  $(this).html('demo');
+  ......
+});
+
+
+3）鼠标指针进入元素时事件 mouseenter
+$('#demo').mouseenter(function(){
+  ......
+});
+
+
+4）鼠标指针离开元素时事件 mouseenter
+$('#demo').mouseleave(function(){
+  ......
+});
+
+
+5）按下鼠标按键时事件 mousedown
+$('#demo').mousedown(function(){
+  ......
+});
+
+
+6）松开鼠标按键时事件 mouseup
+$('#demo').mouseup(function(){
+  ......
+});
+
+
+7）模拟光标悬停事件 hover （相当于mouseenter与mouseleave两个事件的叠加,其实就是在里面放两个函数执行）
+$("#demo").hover(
+    function(){
+        alert("你进入了!");
+    },
+    function(){
+        alert("拜拜! 现在你离开了!");
+    }
+);
+
+
+8）获得焦点事件 focus
+$("input").focus(function(){
+  $(this).css("background-color","#cccccc");
+});
+
+
+9）失去焦点事件 blur
+$("input").blur(function(){
+  $(this).css("background-color","#cccccc");
+});
+
+
+10）提交表单事件 submit
+$("form").submit(function(){
+        alert("Submitted");
+    });
+$("button").click(function(){
+    $("form").submit();
+});
+
+
+11）触发更改事件 change
+$("input").change(function(){
+    alert("The text has been changed.");
+});
+
+
+12）为所选元素附加一个或多个事件处理事件 on
+$("p").on({
+    mouseenter: function(){
+        $(this).css("background-color", "lightgray");
+    }, 
+    mouseleave: function(){
+        $(this).css("background-color", "lightblue");
+    }, 
+    click: function(){
+        $(this).css("background-color", "yellow");
+    } 
+});
+
+
+
+
+
+
+
+
+

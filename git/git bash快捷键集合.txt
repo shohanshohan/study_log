@@ -1,0 +1,43 @@
+清屏用 ctrl + l
+
+光标
+按键	操作
+ctrl+b	前移至一个字符(backward)
+ctrl+f	后移至一个字符(forward)
+alt+b	前移至一个单词
+alt+f	后移至一个单词
+ctrl+a	跳转至行首
+ctrl+e	跳转至行尾
+ctrl+x	行首/当前位置光标跳转
+
+编辑
+按键	操作
+alt+.	粘帖上一次命令最后的参数
+ctrl+h	删除光标前一个字符（backspace）
+ctrl+d	删除光标后一个字符（delete）
+ctrl+w	删除光标左侧单词
+alt+d	删除光标右侧单词
+ctrl+u	删除光标左侧所有字符
+ctrl+k	删除光标右侧所有字符
+ctrl+l	清屏
+ctrl+shift+c	复制(ctrl+ins)
+ctrl+shift+v	粘贴(shift+ins)
+
+命令
+按键	操作
+ctrl+n	下一条命令
+ctrl+p	上一条命令
+shift+PageUp	向上翻页
+shift+PageDown	向下翻页
+ctrl+r	查找命令历史记录，输入keyword多次ctrl+r可返回下一个匹配项
+
+文件操作
+touch	新建文件
+mkdir	新建目录
+rm	删除文件
+rm -r	删除文件夹(recusive)
+mv	移动文件
+ls	列出文件
+pwd	打印工作目录
+cd	改变目录
+reset	清屏

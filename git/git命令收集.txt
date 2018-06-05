@@ -1,0 +1,51 @@
+检查配置信息：git config --list
+
+查看某个配置信息：git config config_name (如查看用户配置：git config user.name)
+
+用户信息配置：git config --global user.name "your name" , git config --global user.email "your email"
+
+暂存文件：git add file_name （提交到暂存区）
+
+提交更新：git commint -m '自定义说明文字'
+
+检查当前文件状态：git status
+
+状态简览：git status -s
+
+查看尚未暂存的文件更新了哪些部分，不加参数直接输入： git diff
+
+查看已暂存的将要添加到下次提交里的内容，可以用 git diff --cached
+
+跳过使用暂存区域提交：git commit -a -m 'some description'
+
+删除文件：git rm file_name  如果删除之前修改过并且已经放到暂存区域的话 git rm -f file_name（强制删除）
+如果仍然希望保留文件在当前工作目录中：git rm --cached file_name (只删除暂存)
+
+对文件改名：git mv old_name new_name
+
+查看提交历史：git log
+显示每次提交的内容差异: git log -p   (显示最近两次提交: git log -p -2)
+定制要显示的记录格式: git log --pretty=format:"%h - %an, %ar : %s" （简短哈希字串-作者的名字，作者修订日期-提交说明）
+
+取消暂存的文件: git reset HEAD file_name
+
+创建分支：git branch branch_name
+
+查看分支：git branch
+
+查看每一个分支最后一次提交：git branch -v
+
+分支切换: git checkout branch_name
+
+新建一个分支并同时切换到那个分支上:  git checkout -b branch_name
+
+合并分支：git merge branch_name
+
+查看哪些分支已经合并到当前分支： git branch --merged
+
+查看所有包含未合并工作的分支：git branch --no-merged
+
+删除分支：git branch -d branch_name
+
+
+

@@ -1,0 +1,195 @@
+PHP Iterator接口的作用是允许对象以自己的方式迭代内部的数据，从而使它可以被循环访问.
+要写一个迭代器接口类，必须在类中实现以下5个方法：
+public function rewind(){
+  //最开始执行，一般是给变量初始赋值，只执行一次
+}
+
+public function valid(){
+  //第二步执行，一般是做些数据验证
+}
+
+public function current(){
+  //第三步执行，输出或返回当前结果
+}
+
+public function key(){
+  //返回目前由迭代器指向的键
+}
+
+public function next()
+{
+  //移动迭代器到下一个键，即执行下一次循环做准备
+}
+
+
+
+下面是一个简单的例子演示Iterator的使用方法：
+<?php
+class BasicArray implements Iterator
+{
+    private $position;
+    private $array = ['first','second','third'];
+
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    public function next()
+    {
+        $this->position += 1;
+    }
+
+    public function valid()
+    {
+        return isset($this->array[$this->position]);
+    }
+
+    public function current()
+    {
+        return $this->array[$this->position];
+    }
+
+    public function key()
+    {
+        return $this->position;
+    }
+
+}
+
+$basicArray = new BasicArray;
+foreach ($basicArray as $value){
+    echo "{$value}<br />";
+}
+
+foreach ($basicArray as $key=>$value){
+    echo "{$key}=>{$value}<br />";
+}
+//执行的结果：
+first
+second
+third
+0=>first
+1=>second
+2=>third
+?>
+
+
+
+
+下面的迭代器类，清楚地指出了每一个步骤的执行顺序：
+<?php
+/**
+ * 该类允许外部迭代自己内部私有属性$_test，并演示迭代过程
+ *
+ * @author 疯狂老司机
+ */
+class TestIterator implements Iterator {
+    /*
+     * 定义要进行迭代的数组
+     */
+    private $_test = array('dog', 'cat', 'pig', 'bird', 'egg');
+    /*
+     * 索引游标
+     */
+    private $_key = 0;
+    /*
+     * 执行步骤
+     */
+    private $_step = 0;
+    /**
+     * 将索引游标指向初始位置
+     *
+     * @see TestIterator::rewind()
+     */
+    public function rewind() {
+        echo '第'.++$this->_step.'步：执行 '.__METHOD__.'<br>';
+        $this->_key = 0;
+    }
+    /**
+     * 判断当前索引游标指向的元素是否设置
+     *
+     * @see TestIterator::valid()
+     * @return bool
+     */
+    public function valid() {
+        echo '第'.++$this->_step.'步：执行 '.__METHOD__.'<br>';
+        return isset($this->_test[$this->_key]);
+    }
+    /**
+     * 将当前索引指向下一位置
+     *
+     * @see TestIterator::next()
+     */
+    public function next() {
+        echo '第'.++$this->_step.'步：执行 '.__METHOD__.'<br>';
+        $this->_key++;
+    }
+    /**
+     * 返回当前索引游标指向的元素的值
+     *
+     * @see TestIterator::current()
+     * @return value
+     */
+    public function current() {
+        echo '第'.++$this->_step.'步：执行 '.__METHOD__.'<br>';
+        return $this->_test[$this->_key];
+    }
+    /**
+     * 返回当前索引值
+     *
+     * @return key
+     * @see TestIterator::key()
+     */
+    public function key() {
+        echo '第'.++$this->_step.'步：执行 '.__METHOD__.'<br>';
+        return $this->_key;
+    }
+}
+$iterator = new TestIterator();
+foreach($iterator as $key => $value){
+    echo "输出索引为{$key}的元素".":$value".'<br><br>';
+}
+执行结果如下：
+第1步：执行 TestIterator::rewind
+第2步：执行 TestIterator::valid
+第3步：执行 TestIterator::current
+第4步：执行 TestIterator::key
+输出索引为0的元素:dog
+
+第5步：执行 TestIterator::next
+第6步：执行 TestIterator::valid
+第7步：执行 TestIterator::current
+第8步：执行 TestIterator::key
+输出索引为1的元素:cat
+
+第9步：执行 TestIterator::next
+第10步：执行 TestIterator::valid
+第11步：执行 TestIterator::current
+第12步：执行 TestIterator::key
+输出索引为2的元素:pig
+
+第13步：执行 TestIterator::next
+第14步：执行 TestIterator::valid
+第15步：执行 TestIterator::current
+第16步：执行 TestIterator::key
+输出索引为3的元素:bird
+
+第17步：执行 TestIterator::next
+第18步：执行 TestIterator::valid
+第19步：执行 TestIterator::current
+第20步：执行 TestIterator::key
+输出索引为4的元素:egg
+
+第21步：执行 TestIterator::next
+第22步：执行 TestIterator::valid
+?>
+
+
+
+
+
+
+
+
+

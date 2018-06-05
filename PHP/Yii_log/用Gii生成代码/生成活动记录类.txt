@@ -1,0 +1,54 @@
+进入Gii页面，localhost/basic/web/index.php?r=gii
+选择Model Generator点击Start进入配置页面
+填写表名称：Table Name
+模型名称：Model Class 一般填写完表名称后点击输入框会自动生成一个与表名称相同的开头大写的类名称，其它的默认就可以了，如果要使用表前缀的话就勾上Use Table Prefix选项
+点击Preview 查看生成的文件名和路径，如果之前有这个类名了的话会覆盖掉，可以点击diff查看新生成的文件内容比较与原来的区别，勾选Overwrite选项覆盖原来文件
+点击Genertate 看到The code has been generated successfully.说明文件生成ok
+
+生成的活动类继承\yii\db\Activerecord
+一般包括三个方法
+tablename:配置表名
+rules:字段的验证规则
+attributeLabels:字段属性的值命名
+
+Active Record （活动记录，以下简称AR）提供了一个面向对象的接口， 用以访问数据库中的数据。一个 AR 类关联一张数据表， 每个 AR 对象对应表中的一行，对象的属性（即 AR 的特性Attribute）映射到数据行的对应列。 一条活动记录（AR对象）对应数据表的一行，AR对象的属性则映射该行的相应列。 可以直接以面向对象的方式来操纵数据表中的数据。
+
+在控制器中引入活动记录类 use app\models\Test;
+
+插入新数据：$test = new Test(); $test->name = 'piter'; $test->save();
+
+操作数据：
+// 取回所有用户(状态为1的客户）并以他们的 ID 排序：
+$test= Test::find()
+    ->where(['status' => 1])
+    ->orderBy('id')
+    ->all();此时返回的是一个对象，要想得到结果数组则要加上一个asArray()这样->asArray()->all();就能得到结果集了。
+
+// 返回ID为1的用户：
+$test= Test::find()
+    ->where(['id' => 1])
+    ->asArray()
+    ->one();
+
+// 取回活跃客户的数量：
+$count = Test::find()
+    ->where(['status' => 1])
+    ->count();
+
+// 以客户ID索引结果集：
+$test= Test::find()->indexBy('id')->all();
+// 数组以 ID 为索引
+
+
+
+
+
+
+
+
+
+
+
+
+
+

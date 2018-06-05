@@ -1,0 +1,79 @@
+<?php
+
+/*
+数据库设计
+
+CREATE TABLE `copu_pro` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `pid` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of copu_pro
+-- ----------------------------
+INSERT INTO `copu_pro` VALUES ('1', '电脑', '0');
+INSERT INTO `copu_pro` VALUES ('2', '手机', '0');
+INSERT INTO `copu_pro` VALUES ('3', '服装', '0');
+INSERT INTO `copu_pro` VALUES ('4', '笔记本', '1');
+INSERT INTO `copu_pro` VALUES ('5', '台式机', '1');
+INSERT INTO `copu_pro` VALUES ('6', '游戏本', '1');
+INSERT INTO `copu_pro` VALUES ('7', '触屏', '2');
+INSERT INTO `copu_pro` VALUES ('8', '按键', '2');
+INSERT INTO `copu_pro` VALUES ('9', '女装', '3');
+INSERT INTO `copu_pro` VALUES ('10', '男装', '3');
+INSERT INTO `copu_pro` VALUES ('11', '连衣裙', '9');
+INSERT INTO `copu_pro` VALUES ('12', '西装', '10');
+INSERT INTO `copu_pro` VALUES ('13', '文胸', '9');
+ */
+$con = null;
+if ($con == null) {
+	$con = mysqli_connect('localhost','root','root') or die('数据库连接失败！');
+	mysqli_select_db($con,'aaa') or die('数据库找不到！');
+	mysqli_query($con,'set names utf8');
+}
+//查询表数据
+function select($table){
+	global $con;
+	$sql = 'select * from '.$table;
+	$res = mysqli_query($con,$sql);
+	$arr = [];
+	while ($row = mysqli_fetch_assoc($res)) {
+		$arr[] = $row;
+	}
+	mysqli_close($con);
+	return $arr;
+}
+
+//分类树
+function categoryTree($data=[],$pid=''){
+	$html = '';
+	foreach ($data as $key => $value) {
+		if ($value['pid'] == $pid) {
+			$html .= '<li>'.$value['name'];
+			$html .= categoryTree($data,$value['id']);
+			$html = $html.'</li>';
+		}
+	}
+	return $html ? '<ul>'.$html.'</ul>' : $html;
+}
+$data = select('copu_pro');
+echo categoryTree($data,0);
+
+/*
+打印效果-----------------
+电脑
+  笔记本
+  台式机
+  游戏本
+手机
+  触屏
+  按键
+服装
+  女装
+    连衣裙
+    文胸
+  男装
+    西装
+ */

@@ -1,0 +1,65 @@
+<?php
+header('content-type:text/html;charset=utf8');
+
+$startdate="2012-12-12 13:22:22";
+$enddate="2012-12-12 15:32:32";
+ 
+$date=floor((strtotime($enddate)-strtotime($startdate))/86400);
+echo "相差天数：".$date."天<br/><br/>";
+ 
+$hour=floor((strtotime($enddate)-strtotime($startdate))%86400/3600);
+echo "相差小时数：".$hour."小时<br/><br/>";
+ 
+$minute=floor((strtotime($enddate)-strtotime($startdate))%86400/60);
+echo "相差分钟数：".$minute."分钟<br/><br/>";
+
+$minut2 = floor((strtotime($enddate) - strtotime($startdate))%86400/60%60);
+echo "相差分钟数：".$minut2.'分钟<br>';
+
+$second=floor((strtotime($enddate)-strtotime($startdate))%86400%60);
+echo "相差秒数：".$second."秒<br>";
+
+function getTime($startDate,$endDate){
+	$sDate = strtotime($startDate);
+	$eDate = strtotime($endDate);
+	if ($sDate > $eDate) {
+		$tmp = $eDate;
+		$eDate = $sDate;
+		$sDate = $tmp;
+	}
+	$date = floor(($eDate - $sDate)/86400);//相差天数
+	$hour = floor(($eDate - $sDate)%86400/3600);//相差小时数
+	$minute = floor(($eDate - $sDate)%86400/60%60);//相差分钟数
+	$second = floor(($eDate - $sDate)%86400%60);//相差秒数
+	return '相差'.$date.' 天 '.$hour.' 小时 '.$minute.' 分钟 '.$second.' 秒 ';
+}
+echo getTime(date('Y-m-d H:i:s'),'2017-12-30 24:59:59');
+function getDay($day1,$day2){
+	$dayInt1 = strtotime($day1);
+	$dayInt2 = strtotime($day2);
+	if ($dayInt1 < $dayInt2) {
+		$tmp = $dayInt2;
+		$dayInt2 = $dayInt1;
+		$dayInt1 = $tmp; 
+	}
+	return ($dayInt1 - $dayInt2) / 60*60*24;
+}
+
+
+
+
+上面的案例从网上摘下来的，过程有点繁锁，其实有很简单的处理方法：
+function getDiffDateTime($startDate,$endDate)
+{
+	$sDate = date_create($startDate);
+	$eDate = date_create($endDate);
+	$diff = date_diff($sDate, $eDate);
+	return $diff->format("相差%a天--%H小时--%i分钟--%s秒"); 注：第一个%号后之所以用 a 是因为用 d 只能比较同月份相差天数
+}
+利用date_diff()函数，很简单就处理了
+
+
+
+
+
+

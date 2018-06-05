@@ -1,0 +1,1 @@
+Yii::$app->db->createCommand()->batchInsert('table_name', $columns, $data)->execute();注：$colums 是一个数组，$data是一个二维数组

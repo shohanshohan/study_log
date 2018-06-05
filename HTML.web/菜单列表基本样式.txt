@@ -1,0 +1,101 @@
+我们会经常用到列表。比如菜单显示，分类递归这些，下面是两种不同方式
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<title>test</title>
+    <style>
+    	dl {margin:0px;}
+    	dd {margin-left:15px;}
+    </style>
+</head>
+<body>
+	<dl>
+	  <dt>Coffee</dt>
+	  <dd>black hot drink</dd>
+	  <dt>Milk</dt>
+	  <dd>white cold drink</dd>
+	</dl>
+	<dl>
+		<dt>one</dt>
+		<dd>one-1</dd>
+		<dd>
+			<dl>
+				<dt>one-2</dt>
+				<dd>one-2-1</dd>
+				<dd>
+					<dl>
+						<dt>one-2-2</dt>
+						<dd>
+							<dl>
+								<dt>one-2-2-1</dt>
+								<dd>one-2-2-1-1</dd>
+								<dd>one-2-2-1-2</dd>
+						</dd>
+					</dl>
+				</dd>
+			</dl>
+		</dd>
+		<dt>two</dt>
+		<dd>
+			<dt>two-1</dt>
+			<dd>two-1-1</dd>
+		</dd>
+	</dl>
+	
+<!--也可以用<ul><li></li></ul> 效果和上面的一样-->
+<br><br>
+
+	<ul>
+		<li>one
+			<ul>
+				<li>one-1</li>
+				<li>one-2
+					<ul>
+						<li>one-2-1</li>
+						<li>one-2-2
+							<ul>
+								<li>one-2-2-1
+									<ul>
+										<li>one-2-2-1-1</li>
+										<li>one-2-2-1-2</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li>two
+			<ul>
+				<li>two-1
+					<ul>
+						<li>two-1-1</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</body>
+</html>
+
+
+效果如下：
+Coffee
+  black hot drink
+Milk
+  white cold drink
+one
+  one-1
+  one-2
+    one-2-1
+    one-2-2
+      one-2-2-1
+        one-2-2-1-1
+        one-2-2-1-2
+two
+  two-1
+    two-1-1

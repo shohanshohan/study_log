@@ -1,0 +1,6 @@
+（1）in_array($value,$arr);函数搜索数组中是否存在指定的值。成功返回true
+     array_search($value,$arr) 函数在数组中搜索某个键值，并返回对应的键名。如果没找到，则返回 false。
+
+
+
+

@@ -1,0 +1,45 @@
+1.安装
+$sudo apt-get update
+$sudo apt-get install redis-server
+
+使用redis-server -v 来查看redis的版本
+
+ 配置redis
+ 修改配置文件，路径在/etc/redis/redis.conf 
+#bind  127.0.0.1 把前面的#注释去掉
+
+2.启动redis服务
+$sudo /etc/init.d/redis-server restart
+重启：$sudo service redis-server restart
+
+3，查看redis是否安装成功
+redis-server 会出现redis的图形和相关信息说明安装成功！
+
+
+4，ubuntu php redis扩展
+安装php的redis扩展
+sudo apt-get install php-redis 
+
+下载phpredis扩展文件
+如果服务器没有安装git服务，下载之前，首先安装一下git服务，sudo apt-get install git
+git clone https://github.com/phpredis/phpredis.git
+移动文件
+mv phpredis(此处是你clone下的文件) /etc/phpredis
+安装
+cd /etc/phpredis
+phpize
+如果phpize命令没有响应，可能是没有安装php-dev。我目前安装的是php7.0，键入命令
+apt-get install php7.0-dev
+然后再phpize
+编译
+依次键入命令
+./configure
+make
+make install
+修改配置文件
+vim /etc/php/7.0/apache2/php.ini
+/php_shmop（查找字符串）
+然后添加一行
+extension=/etc/phpredis/modules/redis.so
+重启apache2
+

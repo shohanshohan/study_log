@@ -1,0 +1,36 @@
+(1)序列化是什么，什么时候用？
+所谓序列化就是在存放数据的时候，不仅存放数据本身也存放数据类型，还可反序列化。当我们需要把复合数据类型（如对象，数组）保存到文件中或在网络上传输时，我们需要序列化才能保存或传送。
+$class = new naclass();
+file_put_contents('name',serialize($class));
+
+
+(2)memcached安装、启动、应用。
+#安装：
+下载memcached.zip应用，最好建一个memcached文件夹放服务器环境中比如wamp目录下，解压后的文件memcached.exe其实有两个版本，一个64位系统的一个32位系统的，根据系统选择所需要的版本，特别要注意的是，用wampserver集成环境的服务器虽然安装在win7的64位系统里，但是wamp里用的其实是32位的，这个要注意。
+解压好后，打开命令行操作，注意是要以管理者身份的，直接快捷键windows+R打开cmd是不能安装的，权限不够。所以要在最左下角的系统应用中以管理员身份打开命令提示工具操作，进入命令行界面后，找到memcached.exe的目录，比如,D:回车键 cd wamp\memcached\x86回车键进入目录，输入memcached.exe -d install安装应用。
+
+#启动应用:
+memcached.exe -d start回车键，不报错表示成功。可以在计算机管理-》服务和应用程序-》单击服务，查看Memcached Server服务是否启动，状态是不是正在运行。
+
+#telnet进入连接操作:
+可以先输入netstat -an回车键，查看11211端口是否在监听，输入telnet 127.0.0.1 11211回车键，连接memcached服务，如果提示，telnet不是内部指令连接不上，要检查一下系统有没有开启telnet客户端，打开控制面板-》程序和功能-》点击启用或关闭windows功能选项，找到Telnet 客户端选项给勾上再重新启动一下服务memcached.exe -d start后再连接telnet 127.0.0.1 11211这时就能进入操作memcached的指令了。 add key1 0 60 5 hello 
+
+#php 连接memcached:
+连接之前要先加载扩展文件php_memcache.dll,放到php服务器环境目录的扩展目录ext下，比如：D:\wamp\bin\php\php5.5.12\ext。需要注意的是，这个下载的php_memcache.dll文件的版本要和服务器的版本号对应，是64位系统环境还是32位系统环境（wampserver系统环境要分清），并且是ts（线程安全）的还是nts（非线程安全）的要看清楚，打印phpinfo();可以看到Thread Safety的值是enabled说明是ts版本，还要查看php Version 是什么版本的，比如是5.5.12版本的，你下载的.dll文件是5.4版本的就对不上号，会导致扩展的文件不能用，打印phpinfo();就会看不到memcached server，在php文件中也不能实例化Memcache();这是要细心和处理的地方，搞大半天一直连接不上，找不到Memcache类文件，不知道版本原因，选择的文件不对浪费很多时间。
+$mem = new Memcache;
+$mem->connect('127.0.0.1',11211) or die('memcached连接失败');
+$mem->add('name','liming',MEMCACHE_COMPRESSED,60);
+$arr = array('a','b',12,'ghjk',235);
+$mem->add('name',$arr,MEMCACHE_COMPRESSED,60);
+$name = $mem->get('neme');
+
+
+
+
+
+
+
+
+
+
+

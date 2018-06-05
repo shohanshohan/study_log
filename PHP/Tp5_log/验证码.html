@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+    <p>hello world !</p>
+    <form action="" method="post">
+	验证码：<input type="text" name="verify_img"><img id="verify_img" src="{:captcha_src()}" alt="验证码" width="172">
+	<input type="submit" value="提交">
+	</form>
+</body>
+
+<script>
+	var verifyImg = document.getElementById('verify_img');
+	verifyImg.onclick = function(){
+		verifyImg.src = "{:captcha_src()}?id=" + Math.random();
+	}
+</script>
+</html>
+
+<!-- php 代码
+ // 验证码验证
+    public function check($code='')
+    {
+        $captcha = new \think\captcha\Captcha();
+        if($captcha->check($code)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+ -->
+ 
+ <!-- 验证码配置 （配置文件在应用目录下的config文件，在特定模块下的config配置无效）
+    // 验证码配置
+    'captcha'  => [
+        'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY', // 验证码字符集合
+        'expire'   => 1800, // 验证码过期时间（s）
+        'useImgBg' => false, // 使用背景图片
+        'fontSize' => 22, // 验证码字体大小(px)
+        'useCurve' => false, // 是否画混淆曲线
+        'useNoise' => true, // 是否添加杂点
+        'imageH'   => 45, // 验证码图片高度
+        'imageW'   => 150, // 验证码图片宽度
+        'length'   => 4, // 验证码位数
+        'fontttf'  => '', // 验证码字体，不设置随机获取
+        'bg'       => [243, 251, 254], // 背景颜色
+        'reset'    => true, // 验证成功后是否重置
+    ],
+ -->
+ 
+ 

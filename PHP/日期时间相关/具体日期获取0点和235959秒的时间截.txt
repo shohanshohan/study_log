@@ -1,0 +1,6 @@
+
+具体日期获取0点和23:59:59秒的时间截
+$date = '2017-10-20';
+$beginday = strtotime($date); //0点
+$endday = strtotime($date) + 86399; //23:59:59
+前一天：date("Y-m-d",strtotime("-1 day"));

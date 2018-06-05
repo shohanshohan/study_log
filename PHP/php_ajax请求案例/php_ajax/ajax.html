@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script language="javascript" src="jquery-1.12.3.min.js"></script>
+</head>
+<body>
+	<input type="hidden" name="mid" value="2" />
+    <p class="test">看这里的变化</p>
+    <button id="btn" type="button">点击提交ajax</button>
+</body>
+<script>
+	$(document).ready(function(){
+		$('#btn').click(function(){
+			var mid = $("input[name='mid']").val();
+
+			//原生js写法
+			var xmlhttp;
+			//创建xmlhttp
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			}else{
+				xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+			}
+			//连接和发送
+			if (xmlhttp != null) {
+				xmlhttp.open('POST','ajax.php',true);
+				//post请求一定要添加请求头才行不然会报错,而且要放在open()之后
+				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				xmlhttp.send('mid='+mid);
+				xmlhttp.onreadystatechange = callBack;
+			}
+			
+			//接收
+			function callBack() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var data = JSON.parse(xmlhttp.responseText); //这里需要进行json转换
+					if (data.code == 200) { 
+						$('.test').text(function(){
+							return data.msg;
+						});
+					}
+				}
+			}
+			
+
+
+
+			//使用JQuery简写
+			/*$.post(
+				"ajax.php",
+				{mid:mid},
+				function(data){
+					//console.log(data);
+					if (data.code==200) {
+						$('.test').text(function(){
+							return data.msg;
+						});
+					}
+				}
+			,'json');*/
+
+
+			//使用JQuery常规写法
+			/*$.ajax({
+				/*xhrFields: {
+				   //允许带上凭据，这在跨域访问中如果session无法保存接收，要用到这个
+				   withCredentials: true
+				 },*/
+				type: "POST",
+				url: 'ajax.php',
+				data: {mid:mid},
+				dataType: 'json',
+				success: function(data){
+					if (data.code == 200) {
+						$('.test').text(function(){
+							return data.msg;
+						});
+					}
+				}
+			});*/
+
+
+
+            
+        });
+		
+	});
+
+</script>
+</html>
+
+

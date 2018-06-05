@@ -1,0 +1,24 @@
+首先生成Model类，即活动记录类（进入service_root/gii）
+填写表名：如user
+类名：User
+命名空间：common\models
+
+
+
+点击CRUD Generator
+填写好：
+Model Class
+生成的模型类的引用地址，如：common\models\SysUser（注：这是表sys_user的模型）
+
+Search Model Class
+需要生成的查询类的引用地址，如：common\models\admin\UserSerach（注：如果要添加文件夹下，则需要先建立文件夹，把该目录也写入命名空间，如common\models\admin\）
+
+Controller Class
+需要生成的控制器类的引用地址，如：backend\controllers\UserController
+
+View Path
+@backend/views/user （注：这里的路径记得要写上@前面，也就是bootstrap.php配置文件中的配置路径，用‘/’不要写成反斜杠了！！）
+
+其它的默认就好，点击Preview查看生成的模板文件
+点击Generate生成代码
+

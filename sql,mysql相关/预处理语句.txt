@@ -1,0 +1,55 @@
+<?php
+//mysql预处理语句
+// 预处理语句对于防止 SQL 注入是非常有用的。预处理语句用于执行多个相同的 SQL 语句，并且执行效率更高。
+// 相比于直接执行SQL语句，预处理语句有两个主要优点：
+// a 预处理语句大大减少了分析时间，只做了一次查询（虽然语句多次执行）。
+// b 绑定参数减少了服务器带宽，你只需要发送查询的参数，而不是整个语句。
+// c 预处理语句针对SQL注入是非常有用的，因为参数值发送后使用不同的协议，保证了数据的合法性。
+$host = '127.0.0.1';
+$user = 'root';
+$pass = 'root';
+$dbName = 'test';
+$charset = 'utf8';
+$con = mysqli_connect($host,$user,$pass) or die('数据库连接失败');
+mysqli_select_db($con,$dbName);
+mysqli_query($con,'set names '.$charset);
+$sql = "insert into test (name,age) values (?, ?)";
+$res = $con->prepare($sql); //$con为连接资源
+$name = 'aaa';
+$age = 28;
+$res->bind_param('ss',$name, $age);//该函数绑定了 SQL 的参数，且告诉数据库参数的值。 "sss" 参数列处理其余参数的数据类型。s 字符告诉数据库该参数为字符串。
+
+//提交处理
+$res->execute();
+//关闭资源
+$con->close();
+
+//PDO 中的预处理语句:
+
+$mysql = 'mysql';
+$host = 'localhost';
+$user = 'root';
+$pass = 'root';
+$dbname = 'test';
+$dbh = "$mysql:host=$host;dbname=$dbname";
+$con = new PDO($dbh,$user,$pass) or die('数据库连接失败！');
+//用：变量名
+$sql = 'insert into test (name,age) values (:name, :age)';
+$name = 'bbb';
+$age = 18;
+$bind_param = [':name'=>$name,':age'=>$age];
+$res = $con->prepare($sql);
+$res->execute($bind_param);
+//用？号代替
+$sql = 'insert into test (name,age) values (?, ?)';
+$name = 'aaabbb';
+$age = 28;
+$bind_param = [$name,$age];
+$res = $con->prepare($sql);
+$res->execute($bind_param);
+
+
+
+
+
+

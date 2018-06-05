@@ -1,0 +1,27 @@
+（1）php Yii框架nginx运行项目，配置多域名访问
+在vhosts文件中配置自己的域名名称和访问路径，如：
+server {
+        listen       80;
+        server_name  www.fish.com ;
+       	root   "D:/phpstudy/WWW/btadmin/src/app/web";
+        location / {
+	    try_files $uri $uri/ /index.php?$args;
+            index  index.html index.htm index.php;
+            #autoindex  on;
+        }
+        location ~ \.php(.*)$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            fastcgi_param  PATH_INFO  $fastcgi_path_info;
+            fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+            include        fastcgi_params;
+        }
+}关键处是要在 
+location / {
+	    try_files $uri $uri/ /index.php?$args;
+            index  index.html index.htm index.php;
+            #autoindex  on;
+        }
+加上这一行try_files $uri $uri/ /index.php?$args;原来是没有的。不加的话会一直不能访问

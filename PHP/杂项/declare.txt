@@ -1,0 +1,26 @@
+declare 语句允许指定的一段代码执行命令。通常放在循环语句中很有效果。
+示例：
+function myFunction(){
+  echo 'ticks<br />';
+}
+register_tick_function("myFunction");
+declare(ticks = 3){ 
+  //ticks参数用来指定里面执行任务第几个语句间隔断点插入myFunction函数
+  for($i=0; $i<10; $i++){
+    echo $i.'<br />';
+  }
+}
+得到结果是：
+0
+1
+2
+ticks 
+3
+4
+5
+ticks 
+6
+7
+8
+ticks 
+9

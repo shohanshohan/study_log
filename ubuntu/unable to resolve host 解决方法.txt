@@ -1,0 +1,22 @@
+/etc/hosts 原始内容
+          127.0.0.1       localhost
+
+          # The following lines are desirable for IPv6 capable hosts 
+
+          ::1     localhost ip6-localhost ip6-loopback ip6-loopback
+
+         fe00::0 ip6-localnet 
+         ff00::0 ip6-mcastprefix 
+         ff02::1 ip6-allnodes
+         ff02::2 ip6-allrouters 
+         ff02::3 ip6-allhosts  
+
+
+
+         在127.0.0.1 localhost 后面加上主机名称(hostname) 即可, /etc/hosts 内容修改成如下:
+127.0.0.1       localhost abc  #要保证这个名字与 /etc/hostname中的主机名一致才有效
+# 或改成下面这两行 
+#127.0.0.1       localhost 
+#127.0.0.1       abc
+
+这样设完后, 使用sudo 就不会再有那个提示信息了。

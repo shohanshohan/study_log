@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HTML5</title>
+    <!--[if it IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="jquery-1.12.3.min.js"></script>
+    <style>   
+        .center {
+            text-align:center;
+        }  
+        .disabled {
+            cursor:not-allowed;
+        }
+        ul.pagination {
+            display:inline-block;
+        } 
+        ul.pagination li {
+            display:inline;
+        }
+        ul.pagination li a {
+            float:left;
+            color:black;
+            padding:8px 16px;
+            text-decoration:none;
+            border:1px solid #ddd;
+            transition:background-color: .3s;
+        }
+        ul.pagination li a.active {
+            background-color:#4CAF50;
+            color:white;
+            border:1px solid #4CAF50;
+        }
+        ul.pagination li a:hover:not(.active) {
+            background-color:#ddd;
+        }
+        /* 圆角 */
+        .pagination li:first-child a {
+            border-top-left-radius:5px;
+            border-bottom-left-radius:5px;
+        }
+        .pagination li:last-child a {
+            border-top-right-radius:5px;
+            border-bottom-right-radius:5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h2>bordered pagination</h2>
+        <ul class="pagination">
+            <li><a href="javascript:;" onclick="pageTurning(this)" name="lt">上一页</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">1</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">2</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)" class="active">3</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">4</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">5</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">6</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">7</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">8</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">9</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">10</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">11</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">12</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">13</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">14</a></li>
+            <li><a href="javascript:;" onclick="pageChoose(this)">15</a></li>
+            <li><a href="javascript:;" onclick="pageTurning(this)" name="gt">下一页</a></li>
+        </ul>
+    </div>
+
+    <script>
+        function pageChoose(obj){
+            //console.log(obj);
+            $(obj).addClass('active');
+            $(obj).parent().siblings().children('a').removeClass('active');
+        }
+
+        function pageTurning(obj){
+            var active = $('.active');
+            if($(obj).attr('name')=='lt'){
+                if(active.text()==1){
+                    $(obj).addClass('disabled');
+                }else{
+                    $(obj).removeClass('disabled');
+                    active.removeClass('active');
+                    active.parent().prev().children().addClass('active');
+                }
+            }else{
+                active.removeClass('active');
+                active.parent().next().children().addClass('active');
+            }
+        }
+    </script>
+</body>
+</html>

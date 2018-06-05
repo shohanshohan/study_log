@@ -1,0 +1,5 @@
+sudo apt-get install apache2
+ 
+sudo apt-get install php7.0
+ 
+sudo apt-get install libapache2-mod-php //关键是这一步安装apache的php扩展

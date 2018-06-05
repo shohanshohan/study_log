@@ -1,0 +1,32 @@
+基于APT源安装
+sudo apt-get install nginx
+
+Linux系统的配置文件一般放在/etc，日志一般放在/var/log，运行的程序一般放在/usr/sbin或者/usr/bin。
+重启：sudo /usr/local/nginx/sbin/nginx -s reload
+
+
+
+下载安装包安装：
+Ubuntu 14.04 安装Nginx
+1.先检查升级
+sudo apt-get update
+sudo apt-get upgrade
+2.安装nginx需要的依赖包
+sudo apt-get install libpcre3 libpcre3-dev libpcrecpp0 libssl-dev zlib1g-dev
+3.下载nginx
+cd /home
+wget http://nginx.org/download/nginx-1.10.2.tar.gz
+4.解压nginx
+tar -zxvf nginx-1.10.2.tar.gz
+5.编译，安装nginx
+cd nginx-1.10.2
+./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module
+make
+make install
+6.查看nginx版本
+ /usr/local/nginx/sbin/nginx -v
+7.启动nginx
+/usr/local/nginx/sbin/nginx
+注意：此步，有可能nginx默认的80端口被apache2服务占用，导致无法启动nginx。可以修改nginx的服务端口或者apache2的服务端口。
+8.修改apache2端口
+vi /etc/apache2/ports.conf

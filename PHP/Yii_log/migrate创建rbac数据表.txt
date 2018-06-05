@@ -1,0 +1,28 @@
+首先在配置文件中配置如下：
+return [
+    // ...
+    'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+        // ...
+    ],
+];
+
+打开命令行工具
+切换到Yii项目所在目录（包含Yii.bat），就可以在cmd中运行Yii命令了。
+输入：yii migrate --migrationPath=@yii/rbac/migrations/
+如有提示：yes|no  输入yes继续。查看数据库，创建好了五张表
+auth_item：用于存储角色、权限和路由
+auth_item_child：角色-权限的关联表
+auth_assignment：用户-角色的关联表
+auth_rule：存放规则
+migration：请求记录
+
+
+DbManager 使用4个数据库表存放它的数据：
+
+yii\rbac\DbManager::$itemTable： 该表存放授权条目（译者注：即角色和权限）。默认表名为 "auth_item" 。
+yii\rbac\DbManager::$itemChildTable： 该表存放授权条目的层次关系。默认表名为 "auth_item_child"。
+yii\rbac\DbManager::$assignmentTable： 该表存放授权条目对用户的指派情况。默认表名为 "auth_assignment"。
+yii\rbac\DbManager::$ruleTable： 该表存放规则。默认表名为 "auth_rule"

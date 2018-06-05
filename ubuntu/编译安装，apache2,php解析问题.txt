@@ -1,0 +1,38 @@
+打开配置文件：httpd.conf (/usr/local/apache2/conf/httpd.conf)这个文件在你安装apache2的具体目录下，这里只是说明
+把 ServerName .......:80 改成 ServerName 127.0.0.1:80
+ AllowOverride None 改成  AllowOverride All （这个需要访问的路径改好即可）
+ 在：AddType application/x-compress .Z
+    AddType application/x-gzip .gz .tgz
+    下加入下面两行
+    AddType application/x-httpd-php .php
+    AddType application/x-httpd-php-source .php5
+ 
+打开：Include conf/extra/httpd-vhosts.conf （把前面的#去掉）这个用来配置自定义的访问路径和端口号
+配置文本比如：(那些带注释的文本不需要可以删除它)
+Listen 8896
+Listen 9999
+
+<VirtualHost *:8896>
+    DocumentRoot "/var/www/wwwroot/btadmin/src/app/web"
+    ServerName www.jack.com
+    ServerAlias
+  <Directory "/var/www/wwwroot/btadmin/src/app/web">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+  </Directory>
+</VirtualHost>
+
+
+<VirtualHost *:9999>
+    DocumentRoot "/var/www/wwwroot/game/public"
+    ServerAlias
+  <Directory "/var/www/wwwroot/game/public">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+  </Directory>
+</VirtualHost>
+

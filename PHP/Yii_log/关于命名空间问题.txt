@@ -1,0 +1,17 @@
+有时发现在后台项目advanced\backend目录下的控制器等访问不到common目录下的模型类，
+命名空间都没错，却一直报错说找不到：Class 'common\models\forms\LoginForm' not found
+
+这时要查看一下config目录下的bootstrap.php文件关于路径的定义了
+如：打开backend\config\bootstrap.php文件
+<?php
+Yii::setAlias('@common', dirname(__DIR__));
+Yii::setAlias('@frontend', dirname(dirname(__DIR__)) . '/frontend');
+Yii::setAlias('@backend', dirname(dirname(__DIR__)) . '/backend');
+Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
+
+因为我们的common目录是和/backend同级的，而不是放在/backend里面的，所以上面的第一条需要改正一下：
+Yii::setAlias('@common', dirname(dirname(__DIR__)) . '/common');
+
+这样就能正常访问了！！！（或者把common目录放置backend下面，不过也没有必要，我在common目录下建好文件夹分前后台也可以，如common/models/admin）
+
+这个问题一开始不知道哪里的问题，搞的莫名其妙！！！好惨

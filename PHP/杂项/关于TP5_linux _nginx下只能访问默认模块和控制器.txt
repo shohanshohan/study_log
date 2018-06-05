@@ -1,0 +1,4 @@
+找到config.php配置文件中的pathinfo_fetch这个配置项，在后面添加一个参数： REQUEST_URI 这个就ok了
+
+// 兼容PATH_INFO获取
+'pathinfo_fetch'         => ['ORIG_PATH_INFO', 'REDIRECT_PATH_INFO', 'REDIRECT_URL','REQUEST_URI'],

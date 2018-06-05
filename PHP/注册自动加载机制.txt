@@ -1,0 +1,64 @@
+__autoload函数,php的__autoload函数是一个魔术函数，
+在这个函数出现之前，如果一个php文件里引用了100个对象，那么这个文件就需要使用include或require引进100个类文件，这将导致该php文件无比庞大。
+于是就有了这个 __autoload函数。
+function __autoload($classname)
+{
+  $classpath = "$classname.php";
+  if(is_file($classname)){
+    require_once $classpath;
+  }else{
+    die("class $classname not found");
+  }
+}
+__autoload函数在什么时候调用呢？当php文件中使用了new关键字实例化一个对象时（或调用静态方法::），如果该类没有在本php文件中被定义，将会触发__autoload函数，
+此时，就可以引进定义该类的php文件，然后，就能实例化成功了。
+（注意：如果需要实例化的对象，在本文件中已经找到该类的定义的话，就不会触发__autoload函数）
+
+
+
+了解完了__autoload函数的作用，再来看看spl_autoload_register函数的作用。
+spl_autoload_register函数的作用就是将自定义函数设置替换为__autoload函数
+（注意：当文件中同时出现__autoload和spl_autoload_register时，以spl_autoload_register为准）
+function register($classname)
+{
+    $classpath = "test/$classname.php";
+    if(is_file($classpath)){
+        require_once $classpath;
+    }else{
+        die("class $classname not found!");
+    }
+}
+
+spl_autoload_register("register",true,true);
+
+function register($classname)
+{
+    $classpath = "test/$classname.php";
+    if(is_file($classpath)){
+        require_once $classpath;
+    }else{
+        die("class $classname not found!");
+    }
+}
+
+spl_autoload_register("register");
+（1）spl_autoload_register可多次调用，注册的多个函数将在事件发生时依次执行。 
+（2）bool spl_autoload_register ([string autoload_function],[bool throw],[bool prepend false] ) 
+参数：
+autoload_function
+欲注册的自动装载函数。如果没有提供任何参数，则自动注册 autoload 的默认实现函数spl_autoload()。
+
+throw
+此参数设置了 autoload_function 无法成功注册时， spl_autoload_register()是否抛出异常
+
+prepend
+如果是 true，spl_autoload_register() 会添加函数到队列之首，而不是队列尾部。
+
+
+
+
+
+
+
+
+

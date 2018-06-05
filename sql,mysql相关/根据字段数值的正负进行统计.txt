@@ -1,0 +1,12 @@
+有时会有需要根据字段的正负数分别统计具体日期的数据，如正数代表获得，负数代表消耗。
+下面是一个示例参考：
+select item_id,
+sum(case when item_num > 0 then item_num else 0 end) as magic_get,
+sum(case when item_num < 0 then item_num else 0 end) as magic_out,
+date_format(from_unixtime(log_time),'%Y-%m-%d') as date_time 
+from t_item_log 
+where user_id=10000005 and log_time>=1526947200 and log_time<=1527004799 
+group by date_time
+order by date_time
+
+这个语句不是很长，关键是用case()进行正负的判断分别求和，再根据时间截转换成具体日期并根据日期来统计选择时间段的数据

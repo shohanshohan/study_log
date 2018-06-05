@@ -1,0 +1,21 @@
+class yii\widgets\DetailView
+DetailView：主要用来显示一条记录数据的详细情况。 (ListView 和 GridView：他们可以用来显示一个拥有分页、 排序和过滤功能的一组数据。)
+
+use yii\widgets\DetailView;
+
+需要调用DetailView的静态方法widget
+<?php echo DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+    	'username',
+    	'email',
+    	['attribute'=>'gender','value'=>$model->getGender($model->gender)], //性别文字输出
+    	'phone',
+    	['attribute'=>'status','value'=>$model->state->name], //状态，关联关系表输出状态名称
+    	'register_time'        
+    ],
+    'template' => '<tr><th>{label}</th><td>{value}</td></tr>',  //表格模板
+    'options' => ['class' => 'table table-striped table-bordered detail-view'],
+]);
+
+?>

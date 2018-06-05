@@ -1,0 +1,27 @@
+1）len(dict) 计算字典元素个数，即键的总数。
+>>> dict = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
+>>> len(dict)
+3
+
+
+
+
+
+2）str(dict) 输出字典，以可打印的字符串表示。
+>>> dict = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
+>>> str(dict)
+"{'Name': 'Runoob', 'Class': 'First', 'Age': 7}"
+>>> str1 = 'abc'
+>>> print(str(dict) + str1)
+{'Name': 'Runoob', 'Class': 'First', 'Age': 7}abc
+
+
+
+
+
+3）type(var) 返回输入的变量类型，如果变量是字典就返回字典类型。
+>>> dict = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
+>>> type(dict)
+<class 'dict'>
+>>> type(dict['Age'])
+<class 'int'>

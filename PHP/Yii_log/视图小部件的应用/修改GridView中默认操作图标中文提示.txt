@@ -1,0 +1,39 @@
+找到文件：vendor\yiisoft\yii2\grid\ActionColumn.php
+把英文替换成中文
+protected function initDefaultButtons()
+    {
+        $this->initDefaultButton('view', 'eye-open');
+        $this->initDefaultButton('update', 'pencil');
+        $this->initDefaultButton('delete', 'trash', [
+            'data-confirm' => Yii::t('yii', '确定删除?'),
+            'data-method' => 'post',
+        ]);
+    }
+
+protected function initDefaultButton($name, $iconName, $additionalOptions = [])
+    {
+        if (!isset($this->buttons[$name]) && strpos($this->template, '{' . $name . '}') !== false) {
+            $this->buttons[$name] = function ($url, $model, $key) use ($name, $iconName, $additionalOptions) {
+                switch ($name) {
+                    case 'view':
+                        $title = Yii::t('yii', '查看');
+                        break;
+                    case 'update':
+                        $title = Yii::t('yii', '更新');
+                        break;
+                    case 'delete':
+                        $title = Yii::t('yii', '删除');
+                        break;
+                    default:
+                        $title = ucfirst($name);
+                }
+                $options = array_merge([
+                    'title' => $title,
+                    'aria-label' => $title,
+                    'data-pjax' => '0',
+                ], $additionalOptions, $this->buttonOptions);
+                $icon = Html::tag('span', '', ['class' => "glyphicon glyphicon-$iconName"]);
+                return Html::a($title, $url, $options); //注意：这里的a标签显示的是$title,而不是图标$icon
+            };
+        }
+    }

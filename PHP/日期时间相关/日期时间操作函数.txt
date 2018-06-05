@@ -1,0 +1,133 @@
+
+date_default_timezone_set(‘PRC’)函数设置用在脚本中所有日期/时间函数的默认时区。
+1）date() 函数可把时间戳格式化为可读性更好的日期和时间。
+date(format,timestamp);
+参数	      描述
+format	    必需。规定时间戳的格式。
+timestamp	  可选。规定时间戳。默认是当前的日期和时间。
+format一些常用的字符：
+d - 代表月中的天 (01 - 31) ;  j - 不带前导零（1 到 31）
+m - 代表月 (01 - 12) ; n - 月份的数字表示，不带前导零（1 到 12） ; M - 月份的短文本表示（用三个字母表示）
+Y - 代表年 (四位数) ；y - 年份的两位数表示
+H - 24 小时制，带前导零（00 到 23）; G - 24 小时制，不带前导零（0 到 23）; 
+h - 12 小时制，带前导零（01 到 12）; g - 12 小时制，不带前导零（1 到 12）
+i - 分，带前导零（00 到 59）
+s - 秒，带前导零（00 到 59）
+date('Y-m-d'); //返回今天的 年-月-日 如2018-02-01
+
+如果在日期时间中间要加入自己的描述字符，可用反斜杠：
+echo date('Y\年 m\月 d\日  H\时 i\分 s\秒'); //2018年 02月 01日 16时 22分 56秒
+
+还有一些有意思的字符：
+l（'L' 的小写形式）- 星期几的完整的文本表示 echo date('l'); //Thursday 
+D - 星期几的文本表示（用三个字母表示）echo date('D'); //Thu
+N - 星期几的 ISO-8601 数字格式表示（1 表示 Monday[星期一]，7 表示 Sunday[星期日]）echo date('N'); //4
+
+z - 一年中的第几天（从 0 到 365）echo data('z'); //31  注：这个是从0开始计数！按习惯实际的第几天应该加 1 就是了
+
+F - 月份的完整的文本表示（January[一月份] 到 December[十二月份]）echo date('F'); //February
+
+t - 给定月份中包含的天数 echo date('t'); //28
+
+L - 是否是闰年（如果是闰年则为 1，否则为 0） echo date('L')==1 ? '闰年' : '不是闰年'; //闰年
+
+a - 小写形式表示：am 或 pm  echo date('Y-m-d H:i:s a'); //2018-02-01 16:06:44 pm
+A - 大写形式表示：AM 或 PM  echo date('Y-m-d H:i:s A'); //2018-02-01 16:06:44 PM
+
+e - 时区标识符（例如：UTC、GMT、Atlantic/Azores） echo date('e'); //PRC
+
+o - ISO-8601 标准下的年份数字 echo date('o');  //2018
+
+
+
+
+2）date_create(time,timezone) 函数返回一个新的 DateTime 对象。
+参数	    描述
+time	    可选。规定一个日期/时间字符串。NULL 表示当前的日期/时间。
+timezone	可选。规定 time 的时区。默认是当前时区。
+$date=date_create("2013-03-15");
+echo date_format($date,"Y/m/d"); //2013/03/15
+
+
+
+
+3）date_add(object,interval) 函数添加日、月、年、时、分和秒到一个日期。
+参数	    描述
+object	  必需。规定 date_create() 返回的 DateTime 对象。
+interval	必需。规定 DateInterval 对象。
+添加 40 天到 今天：
+$date = date_create();
+$after = 40;
+date_add($date,date_interval_create_from_date_string("$after days"));
+//date_sub($date,date_interval_create_from_date_string("40 days")); 此为减去40天数，与date_add()相反
+echo '距离今天 '.$after.'天 后的日期就是：'.date_format($date,"Y-m-d"); //距离今天 40天 后的日期就是：2018-03-13
+
+
+
+
+4）date_diff(datetime1,datetime2,absolute) 函数返回两个 DateTime 对象间的差值。
+参数	      描述
+datetime1	  必需。规定一个 DateTime 对象。
+datetime2	  必需。规定一个 DateTime 对象。
+absolute	  可选。规定一个布尔值。TRUE 表示间隔/差值必须是正的。默认是 FALSE。
+
+$date1=date_create("2017-12-31");
+$date2=date_create("2018-12-31");
+$diff=date_diff($date1,$date2); 
+echo $diff->date_format("%R%a days"); // +365 days 如果$date1和$date2参数位置对换一下则是 -365 days
+
+
+
+5）date_format(object,format) 函数返回一个根据指定格式进行格式化的日期。通常与date_create()一起应用
+参数	    描述
+object	  必需。规定一个由 date_create() 返回的 DateTime 对象。
+format	  必需。规定日期格式。
+$date=date_create("2013-03-15");
+echo date_format($date,"Y/m/d H:i:s"); //2013-03-15 00:00:00
+
+
+
+
+6）date_modify(object,format) 函数修改时间戳。
+参数	    描述
+object	  必需。规定一个由 date_create() 返回的 DateTime 对象。
+format	  必需。规定一个日期/时间格式。
+$date=date_create("2018-02-01");
+date_modify($date,"+15 days");
+echo date_format($date,"Y-m-d"); //2018-02-16
+
+上面3）date_add();的例子可以用这个函数简化一下：
+$date=date_create();
+$diffdays = '+40';
+date_modify($date,"$diffdays days");
+echo '距离今天 '.$diffdays.'天 后的日期就是：'.date_format($date,"Y-m-d"); //距离今天 +40天 后的日期就是：2018-03-13
+此方法还可以倒推之前的日期，只要把变量改一下 $diffdays = -40;
+
+
+
+
+7）strtotime() 函数将任何英文文本的日期或时间描述解析为 Unix 时间戳
+echo(date('Y-m-d H:i:s',strtotime("now")) . "<br>"); 当前时间截用time()
+echo(date('Y-m-d H:i:s',strtotime("3 October 2005")) . "<br>");
+echo(date('Y-m-d H:i:s',strtotime("+5 hours")) . "<br>");
+echo(date('Y-m-d H:i:s',strtotime("+1 week")) . "<br>");
+echo(date('Y-m-d H:i:s',strtotime("+1 week 3 days 7 hours 5 seconds")) . "<br>");
+echo(date('Y-m-d H:i:s',strtotime("next Monday")) . "<br>");
+echo(date('Y-m-d H:i:s',strtotime("last Sunday")) . "<br>");
+echo(date('Y-m-d H:i:s',strtotime("+5 days")) . "<br>");
+echo(date('Y-m-d H:i:s',strtotime("+1 month")) . "<br>"); 
+echo(date('Y-m-d H:i:s',strtotime("-1 month")) . "<br>");
+结果：
+2018-02-01 17:31:30
+2005-10-03 00:00:00
+2018-02-01 22:31:30
+2018-02-08 17:31:30
+2018-02-12 00:31:35
+2018-02-05 00:00:00
+2018-01-28 00:00:00
+2018-02-06 17:31:30
+2018-03-01 17:31:30
+2018-01-01 17:31:30
+
+
+

@@ -1,0 +1,63 @@
+1.在windows 下配置php环境变量
+
+
+  我电脑------右键属性-----高级系统设置-----环境变量---点击path----添加php.exe路径到环境变量
+
+
+C:\phpStudy\php53;
+
+
+
+
+2. php.ini 配置打开 php_openssl.dll
+
+
+3.推荐装上Git Bash，这样你就可以在CMD里面使用Linux命令了
+
+
+运行如下命令: php -i | grep openssl   在windows 运行 php -i |findstr openssl
+openssl
+
+
+4. 下载 composer_setup.exe
+
+
+5.  cmd 进入到 你的服务器目录， 创建composer.phar 文件 通常在你的项目中创建
+C:\Users\Administrator>d:
+
+
+D:\>cd wwwroot
+
+
+D:\wwwroot>php -r " eval('?>' .file_get_contents('https://getcomposer.org/installer'));" #输入这行命令
+#!/usr/bin/env php
+All settings correct for using Composer
+Downloading...
+
+
+Composer successfully installed to: D:\wwwroot\composer.phar
+Use it: php composer.phar
+
+
+D:\wwwroot>
+
+
+6.composer就基本安装好了。那么接下来我们要安装扩展包了
+ 
+ 
+-----------------------------------------
+
+
+安装yii2
+
+
+1. 下载模板 https://github.com/yiisoft/yii2-app-advanced  
+
+
+2. 解压到wwwroot/yii2  并重命名 advanced
+
+
+3. dos 命令进入 php -r " eval('?>' .file_get_contents('https://getcomposer.org/installer'));"
+
+
+这是就在D:\wamp\www\yii2\advanced目录下面下载了一个composer.phar文件，有了这个文件就可以执行php composer.phar命令了

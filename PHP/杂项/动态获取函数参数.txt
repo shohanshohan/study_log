@@ -1,0 +1,33 @@
+1.func_num_args — 返回传入函数的参数总个数
+function  demo ()
+{
+    $numargs  =  func_num_args ();
+    echo  "参数个数为:  $numargs \n" ;
+}
+demo ( 'a' ,  'b' ,  'c' );  //参数个数为: 3
+
+
+2.func_get_args — 返回传入函数的参数列表
+function  demo ()
+{
+    $args = func_get_args();
+    echo "传入的参数分别为:";
+    var_dump($args);
+}
+demo ( 'a' ,  'b' ,  'c' );  //传入的参数分别为:array(3) { [0]=> string(1) "a" [1]=> string(1) "b" [2]=> string(1) "c" }
+
+
+3.func_get_arg — 根据参数索引从参数列表返回参数值，索引从0开始
+function  demo ()
+{
+    $numargs  =  func_num_args ();
+    echo  "参数个数为:  $numargs <br />" ;
+    $args = func_get_args();
+    if ( $numargs  >=  2 ) {
+        echo  "第二个参数为: "  .  func_get_arg ( 1 ) .  "<br />" ;
+        //或 echo "第二个参数为: "  .  $args[1] .  "<br />" ;
+    }
+}
+demo ( 'a' ,  'b' ,  'c' );
+参数个数为: 3 
+第二个参数为: b

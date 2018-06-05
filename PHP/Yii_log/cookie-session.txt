@@ -1,0 +1,74 @@
+cookie操作
+1）发送 Cookies 
+注：为安全起见 yii\web\Cookie::$httpOnly 被设置为 true， 这可减少客户端脚本访问受保护 cookie（如果浏览器支持）的风险
+(new \yii\web\Cookie())->httpOnly = true;
+
+方法一：
+$cookie = new \yii\web\Cookie();
+$cookie->name = 'name';                //cookie名
+$cookie->value = 'value';              //cookie值
+$cookie->expire = time() * 3600;       //过期时间
+$cookie->httpOnly = true;              //是否只读
+\Yii::$app->response->cookies->add($cookie);
+
+方法二：
+$cookie = new \yii\web\Cookie([
+    'name' => 'name',
+    'value' => 'value',
+    'expire' => time() + 18000,
+    'httpOnly' => true
+]);
+\Yii::$app->response->cookies->add($cookie);  
+
+方法三: 此方法看起来简明一些
+$cookies= Yii::$app->response->cookies;
+$data=[
+    'name'=>'789',
+    'value'=>'45613'
+    'expire' => time() + 18000,
+];
+$cookies->add(new \yii\web\Cookie($data));
+
+
+2）读取 Cookies
+$cookie = \Yii::$app->request->cookies;
+$cookie->has('name');			//判断cookie是否存在
+$cookie->get('name');			//get()方法读取cookie 对象
+$cookie->getValue('name');		//getValue()方法读取cookie 值
+$cookie->count();			//获取cookie个数
+
+3）删除cookie 设置成只读的删除不了
+删除一个Cookie
+$name = \Yii::$app->request->cookies->get('name');
+\Yii::$app->response->cookies->remove($name);  或 unset(\Yii::$app->response->cookies[$name]);
+删除全部Cookie
+\Yii::$app->response->cookies->removeAll();
+
+
+
+
+
+session操作
+$session = \Yii::$app->session;
+(一)、添加一个session
+$session->set('name_string','value');
+$session->set('name_array',[1,2,3]);  
+
+(二)、读取一个session
+$session->get('name_string');
+$session->get('name_array');  
+判断一个session是否存在 $session->has($name);
+
+(三)、删除一个session
+$session->remove('name_array');  
+
+(四)、删除所有session
+$session->removeAll();
+
+
+
+
+
+
+
+

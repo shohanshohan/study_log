@@ -1,0 +1,27 @@
+1）windows下安装
+
+1.进入Python官方网站下载安装包
+点击导航栏的 Downloads 会自动识别你的windows系统  你会看到  Python3.6.2 和 Python2.7.13   （32位系统）的安装包
+注：Python3以后版本不再向Python2进行兼容，所有如果你是单纯为了学新东西建议直接下载Python3以后的版本 
+如果你是系统是windows64位或者你想下载其他版本的安装包—— 请点击Downloads  > Windows   下载你需要的版本安装包
+注：64位版本不可以安装在32位的系统上，但是32位版本可以安装在64位的系统上
+
+注： 请选中 把Python添加到环境变量，这样以后在windows命令提示符下面也可以运行Python
+点击安装install就可以了，非常简单 Setup was successfull说明安装完成
+
+
+2）Python的运行
+
+1.1 使用IDEL    在windows开始菜单下搜索IDLE，会出现IDLE(Python 3.6 32-bit),点击它出来Python 3.6.4 Shell编辑器，就可以在里面编辑你的内容了。（一般安装完成后，在开始菜单里会生成一个IDLE(Python 3.6 32-bit)图标，直接点击就可）
+Ctrl+N 新建文件，随便输入print("一天到晚敲代码");
+Ctrl+S 保存文件test.py（文件格式为.py）
+
+在cmd命令提示符下输入python如果出现python的版本信息，说明已经成功安装了python到环境变量
+进入.py文件目录下，输入test.py回车，则会打印出内容：一天到晚敲代码
+
+
+
+
+
+
+

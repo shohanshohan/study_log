@@ -1,0 +1,145 @@
+Class yii\widgets\ActiveForm：表单小部件
+
+
+
+文本框:textInput();
+密码框:passwordInput();
+单选框:radio(),radioList();
+复选框:checkbox(),checkboxList();
+下拉框:dropDownList();
+隐藏域:hiddenInput();
+文本域:textarea(['rows'=>3]);
+文件上传:fileInput();
+提交按钮:submitButton();
+重置按钮:resetButtun(); 
+
+
+<?php $form = ActiveForm::begin(['id'=>'form-signup','options' => ['class' => 'form-horizontal'],
+'action' => ['player/register'],'method'=>'post',]); ?>
+<!--规定了id属性，class属性，action提交地址，method提交方法-->
+ 
+<?= $form->field($model, 'username')->textInput(['maxlength' => 20,'autofocus'=>true]) ?>
+<!--输入框，最大字符长度20，默认鼠标焦点-->
+
+<?= $form->field($model,'email') ?>
+<!--邮箱输入框，会自动验证-->
+
+<?= $form->field($model, 'password')->passwordInput(['maxlength' => 20]) ?>
+<!--密码框，最大字符长度20-->
+
+<?= $form->field($model, 'gender')->radioList(['1'=>'男','0'=>'女']) ?>
+<!--性别选项，单选框-->
+
+<?= $form->field($model, 'hoby')->checkboxList(['0'=>'篮球','1'=>'足球','2'=>'羽毛球','3'=>'乒乓球']) ?>
+<!--复选框-->
+
+<?= $form->field($model, 'education')->dropDownList(['1'=>'大学','2'=>'高中','3'=>'初中'], 
+['prompt'=>'请选择','style'=>'width:120px']) ?>
+<?= $form->field($model, 'education')->dropDownList(Post::find()->select(['title','id'])->indexBy('id')->column(),
+['prompt'=>'请选择','style'=>'width:120px']) ?>
+<!--下拉框，默认文字’请选择‘，自定义样式-->
+
+<?= $form->field($model, 'image')->fileInput() ?>
+<!--文件上传框-->
+
+<?= $form->field($model, 'content')->textarea(['rows'=>5]) ?>
+<!--文本框，规定框的高度5行-->
+
+<?= $form->field($model, 'username')->textInput()->hint('Please enter your name')->label('用户名') ?>
+<!--增加一个提示标签,在输入框的下方会出现提示内容：Please enter your name-->
+
+在上面的代码中，yii\widgets\ActiveForm::begin() 不仅创建了一个表单实例，同时也标志着表单的开始。
+放在 yii\widgets\ActiveForm::begin() 与 yii\widgets\ActiveForm::end() 之间的所有内容都被包裹在 HTML 的 <form> 标签中。
+
+<?= $form->field($model, 'id')->hiddenInput(['value'=>3]) ?>
+<!--隐藏框，value值-->
+
+<?= Html::submitButton('提交', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
+   
+<?= Html::resetButton('重置', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
+
+<?php ActiveForm::end(); ?>
+
+
+
+
+
+登录框表单标签：（应用的是adminTEL模板）
+
+<?php
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $model \common\models\LoginForm */
+
+$this->title = '登 录';
+
+$fieldOptions1 = [ //输入框图标配置
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-user form-control-feedback'></span>" 
+    //图标glyphicon glyphicon-user可参考bootstrap组件
+];
+
+$fieldOptions2 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
+];
+?>
+
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>XXX</b>后台登录</a>
+    </div>
+    <!-- /.login-logo --> 
+    <div class="login-box-body">
+        <p class="login-box-msg"></p>
+
+        <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
+	//表单开始，设置属性id
+
+        <?= $form
+            ->field($model, 'username', $fieldOptions1) 
+	    //这里的$fieldOptions1为自定义输入框图标显示，需要另外配置这个变量，如：参考上面
+            ->label(false) //不需要显示属性名称
+            ->textInput(['placeholder' => $model->getAttributeLabel('用户名'),'autofocus'=>true]) ?>
+	    //设置placeholder,鼠标焦点autofocus
+
+        <?= $form
+            ->field($model, 'password', $fieldOptions2)
+            ->label(false)
+            ->passwordInput(['placeholder' => $model->getAttributeLabel('密码')]) ?> 
+	    //设置placeholder也可直接这样写'placeholder' =>'密码'
+
+        <div class="row">
+            <div class="col-xs-8">
+                <?= $form->field($model, 'rememberMe')
+                    ->label('一周内免登录') //重置属性名
+                    ->checkbox() ?>
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-4">
+                <?= Html::submitButton('登 录', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
+            </div>
+            <!-- /.col -->
+        </div>
+
+
+        <?php ActiveForm::end(); ?>
+
+        <!--<div class="social-auth-links text-center">
+            <p>- OR -</p>
+            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in
+                using Facebook</a>
+            <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Sign
+                in using Google+</a>
+        </div>-->
+        <!-- /.social-auth-links -->
+
+        <a href="#">忘记密码？</a><br>
+        <!--<a href="register.html" class="text-center">Register a new membership</a>-->
+
+    </div>
+    <!-- /.login-box-body -->
+</div>

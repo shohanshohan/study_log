@@ -1,0 +1,13 @@
+有时候访问的url太长要简化或不让别人知道具体模块路径，就需要配置自定义的路由来访问
+假如我们原来的访问地址是：http://localhost/Tp5/admin/tp_admin_layui/public/test_demo/hello_world/testindex
+我们在route.php（一般在应用目录下） 文件中定义自己的路由
+return [
+    // 添加路由规则 路由到 test_demo模块下的 helloWorld控制器的 testIndex操作方法
+    'demo' => 'test_demo/hello_world/testIndex',
+];
+访问地址变为：http://localhost/Tp5/admin/tp_admin_layui/public/demo （这和原来的效果一样）
+注意
+定义路由规则后，原来的URL地址将会失效，变成非法请求。
+
+更多的路由配置请看Thinkphp5快速入门
+

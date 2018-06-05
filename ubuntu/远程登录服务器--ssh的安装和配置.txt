@@ -1,0 +1,12 @@
+1）安装ssh
+sudo apt-get install openssh-server（会要求输入系统用户密码）
+
+
+2）查看ssh服务是否启动
+输入"sudo ps -e |grep ssh"-->回车-->有sshd,说明ssh服务已经启。
+如果没有启动，输入"sudo service ssh start"-->回车-->ssh服务就会启动。
+
+3）查看ubuntu本机ip地址
+sudo ifconfig 
+
+4）用secureFx 快速连接（需要输入用户名和密码）

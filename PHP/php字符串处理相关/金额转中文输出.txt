@@ -1,0 +1,25 @@
+(1)php 金额转中文输出
+ function cny($ns = 32178128746;) {
+        static $cnums=array('O','一','二','三','四','五','六','七','八','九'),
+        //$cnyunits=array('圆','角','分'),
+        $grees=array("十","百","千","万","十","百","千","亿");
+        @list($ns1,$ns2)=explode(".",$ns,2);
+        $ns2=array_filter(array($ns2[1],$ns2[0]));
+        $ret=array_merge($ns2,array(implode("",cny_map_unit(str_split($ns1),$grees)),""));
+        //$ret=implode("",array_reverse(cny_map_unit($ret,$cnyunits)));
+        var_dump(str_replace(array_keys($cnums),$cnums,$ret)) ;
+    }
+
+   function cny_map_unit($list,$units) {
+        $ul=count($units);
+        $xs=array();
+        foreach (array_reverse($list) as $x) {
+            $l=count($xs);
+            if ($x!='0' || !($l%4)) $n=($x=='0'?'':$x).(@$units[($l-1)%$ul]);
+            else $n=is_numeric(@$xs[0][0])?$x:'';
+            array_unshift($xs,$n);
+        }
+        return $xs;
+
+    }
+调用cny($number);就可以了，如果需要中文大写的，把上面的简写换成大写就ok了。

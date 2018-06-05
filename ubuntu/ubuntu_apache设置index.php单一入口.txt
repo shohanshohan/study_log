@@ -1,0 +1,45 @@
+进入目录: cd /etc/apache2/ 有一个配置文件apache2.conf
+vim apache2.conf（如果为只读文件则需要设置一下权限，sudo chmod 777 /etc/apache2/apache2.conf）
+把AllowOverride none 都改为 AllowOverride All
+引入配置文件：(要注意php版本信息，如果是php7.2就不要写php7.0)
+Include /etc/apache2/mods-available/php7.0.load
+Include /etc/apache2/mods-available/php7.0.conf
+退出保存：wq
+
+
+激活apache rewrite 模块
+sudo ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+编辑
+vim /etc/apache2/httpd.conf 如果没有httpd.conf的话就是apache2.conf文件
+将AllowOverride None  修改成 AllowOverride All.
+
+:wq退出保存
+
+在项目index.php入口文件处放入.htaccess文件
+文件内容
+Options +FollowSymLinks
+IndexIgnore /
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php
+
+修改访问路径：
+编辑
+vim /etc/apache2/sites-enabled/000-default.conf
+把访问目录改成项目入口文件目录就行了
+如：DocumentRoot /var/www/advanced/backend/web
+
+
+最后，重启apache
+sudo /etc/init.d/apache2 restart
+
+
+
+注：如果是yii框架，还需要打开下面配置
+'urlManager' => [
+            'enablePrettyUrl' => true, //设置为true
+            'showScriptName' => false,
+            'rules' => [
+            ],
+        ],

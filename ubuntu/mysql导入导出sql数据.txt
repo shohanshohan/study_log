@@ -1,0 +1,36 @@
+
+直接使用命令：
+导出整个数据库中的所有数据
+
+1、在linux命令行下输入：
+mysqldump -u userName -p  dabaseName  > fileName.sql
+fileName.sql最好加上路径名
+
+导出数据库中的某个表的数据
+mysqldump -u userName -p  dabaseName tableName > fileName.sql 
+
+导出整个数据库中的所有的表结构
+在linux命令行下输入：
+mysqldump -u userName -p -d dabaseName  > fileName.sql
+注意：是加了-d 
+
+导出整个数据库中某个表的表结构
+在linux命令行下输入：
+mysqldump -u userName -p -d dabaseName tableName > fileName.sql
+注意：是加了-d
+
+导入数据库（sql文件）
+mysql -u 用户名 -p  数据库名 < 数据库名.sql（导入整个数据库或导入单个表数据的.sql都是这样操作）
+mysql -u abc -p abc < abc.sql
+注意sql文件必须在当前目录下，如果不在当前目录下需要在< 之后加上具体sql文件路径
+
+
+
+进入数据库再操作：
+
+选择数据库 
+mysql>use abc;
+设置数据库编码 
+mysql>set names utf8;
+导入数据（注意sql文件的路径） 
+mysql>source /home/abc/abc.sql;

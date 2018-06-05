@@ -1,0 +1,14 @@
+在配置文件main-local.php中注释掉如下内容就可以了
+
+if (!YII_ENV_TEST) {
+    // configuration adjustments for 'dev' environment
+    /*$config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+    ];*/注释
+
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+    ];
+}

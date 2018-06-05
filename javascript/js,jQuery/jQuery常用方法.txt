@@ -1,0 +1,22 @@
+(1) 获取标签属性值：$('#id').attr('title');
+修改标签属性值：$('#id').attr('title','newname');
+删除属性：$('#id').removeAttr('title','newname');
+
+
+(2) 判断是否存在某属性：if(typeof($('#id').attr('title') !== 'undefined'){......}
+
+
+(3) 添加class: $('#id').addClass('content');
+
+
+(4) jquery 截取字符串: substring(sting,0,10);注：开始位置是0开始，0,10表示从第一个位置截取10个字符
+
+
+(5)点击事件获取当前元素：两种形式
+1）$('#id').click(function(){
+	$(this);
+});
+2)a标签的点击事件函数：<a herf='javascript:;' onclick="click_now(this)"></a> //规定传入参数为this
+function click_now(e){
+	$(e).remove(); //需要传入一个参数
+}

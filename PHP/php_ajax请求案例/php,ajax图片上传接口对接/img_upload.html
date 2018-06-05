@@ -1,0 +1,52 @@
+<!DOCTYPE html>  
+<html>  
+  
+    <head>  
+        <title>Html5 Ajax 上传文件</title>  
+        <meta charset="utf-8">  
+        <!--引入jquery-->
+        <script type="text/javascript" src="jquery-1.12.3.min.js"></script>
+    </head>  
+  
+    <body>  
+        <div class="box">
+            <div>
+                <div class="item">
+                <input type="file" name="myfile" style="font-size: 0.7rem;">
+            </div>
+            <div class="item">
+                <button type="button" style="display: block; padding: 4px 18px;" class="btn-default">ajax提交</button>
+            </div>
+        </div>
+        <div class="prompt" style="font-size: 0.7rem;"></div>        </div>
+      <script type="text/javascript">  
+            $(function() {
+                $('input[name=myfile]').on('change', function(e) {
+                    $('button[type=button]').on('click', function(e) {
+                    var formData = new FormData();
+                    // formData.ppend(name, element);
+                    formData.append('myfile', $("input[name='myfile']")[0].files[0]);
+                    $.ajax({
+                            url: 'test.php',
+                            method: 'POST',
+                            data: formData,
+                            contentType: false, // 注意这里应设为false
+                            processData: false,
+                            cache: false,
+                            success: function(data) {
+                                if (JSON.parse(data).result == 1) {
+                                    $('.prompt').html(`文件${JSON.parse(data).filename}已上传成功`);
+                                }
+                            },
+                            error: function (jqXHR) {
+                            console.log(JSON.stringify(jqXHR));
+                            }
+                        })
+                    
+                    });
+                });
+            });
+        </script>  
+    </body>  
+  
+</html>  

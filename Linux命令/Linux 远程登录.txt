@@ -1,0 +1,5 @@
+Linux一般作为服务器使用，而服务器一般放在机房，你不可能在机房操作你的Linux服务器。
+这时我们就需要远程登录到Linux服务器来管理维护系统。
+Linux系统中是通过ssh服务实现的远程登录功能，默认ssh服务端口号为 22。
+Window系统上 Linux 远程登录客户端有SecureCRT, Putty, SSH Secure Shell等，本文以Putty为例来登录远程服务器。
+putty下载地址：http://www.putty.org/

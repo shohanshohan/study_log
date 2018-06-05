@@ -1,0 +1,17 @@
+1）可变变量其实是允许改变一个变量的变量名，允许使用一个变量的值作为另外一个变量的名。
+$value0 = 'guest';         //定义变量$value0并赋值
+$$value0 = 'customer';     //再次给变量赋值
+echo $guest;            //输出customer
+
+$guest = 'feifei';
+echo $guest.'---'.$value0;  //输出feifei---guest
+
+
+
+2）变量引用相当于给变量添加了一个别名，使用“&”来引用变量，其实两个变量名指的都是同一个变量。
+$value1 = 'xiaoming';
+$value2 = &$value1;
+echo $value1.'---'.$value2;   //输出xiaoming---xiaoming
+
+$value2 = 'lili';
+echo $value1.'---'.$value2;   //输出lili---lili

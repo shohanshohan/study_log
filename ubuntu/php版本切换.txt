@@ -1,0 +1,8 @@
+切换 PHP 版本 ( Apache )指令:
+前提是要已经安装了该版本 apt-get install php5.6
+
+from php5.6 to php7.0:
+sudo a2dismod php5.6 ; sudo a2enmod php7.0 ; sudo service apache2 restart
+
+from php7.0 to php5.6:
+sudo a2dismod php7.0 ; sudo a2enmod php5.6 ; sudo service apache2 restart

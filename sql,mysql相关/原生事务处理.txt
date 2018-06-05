@@ -1,0 +1,26 @@
+//事务处理，首先要确定是事务表（InnoDB表引擎），才可用。
+$host = '127.0.0.1';
+$user = 'root';
+$pass = 'root';
+$dbName = 'test';
+$charset = 'utf8';
+$con = mysqli_connect($host,$user,$pass) or die('数据库连接失败');
+mysqli_select_db($con,$dbName);
+mysqli_query($con,'set names '.$charset);
+mysqli_query($con,'set AUTOCOMMIT=0'); //手动提交，AUTOCOMMIT=1为自动提交
+
+//开启事务
+mysqli_query($con,'start transation');
+
+$sql = "insert into test (name,age) values ('事务',99)";
+$res = mysqli_query($con,$sql);
+$sql2 = "insert into test2 (name,age) values ('事务2',88)";
+$res2 = mysqli_query($con,$sql2);
+
+if ($res && $res2) {
+	//事务提交
+	mysqli_query($con,'commit');echo '操作成功';
+}else{
+	//事务回滚
+	mysqli_query($con,'rollback');echo '操作失败';
+}

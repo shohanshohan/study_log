@@ -1,0 +1,13 @@
+首先要配置模板参数：（这个最好在你的对应模块下的config文件配置，而不要在公共配置文件）
+'template'  =>  [
+    'layout_on'     =>  true, // 开启布局
+    // 这个是布局文件名称（不包含后缀，这个文件目录是默认当前模块的 view 目录）
+    'layout_name'   =>  'layout', （如果要在view目录下建一个文件夹来public包含header,footer,layout三个文件,则layout_name 的值为 public/layout）
+]
+
+然后是新建对应的layout.html文件，内容如下：
+{include file="layout/header" /} （注：这里的布局文件夹为layout）
+ {__CONTENT__}
+{include file="layout/footer" /}
+
+这样子就ok了，如果不需要引入布局文件，则在视图文件开头加入 {__NOLAYOUT__}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap 实例</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <style>
+  </style>
+</head>
+<body>
+<div class="container">
+    <div class="progress">
+    	<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="myBar"></div>
+    </div><br>
+    <button type="button" class="btn btn-success" onclick="progress()">点击下载</button>
+</div>
+</body>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script>
+  	function progress() {
+	    var elem = $("#myBar"); 
+	    var width = 1;
+	    var id = setInterval(frame, 100);
+	    function frame() {
+	        if (width >= 100) {
+	            clearInterval(id);
+	        } else {
+	            width++; 
+	            elem.css('width',width + '%'); 
+	            elem.text(width + '%');
+	        }
+	    }
+	}
+  </script>
+</html>

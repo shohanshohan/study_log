@@ -1,0 +1,31 @@
+有时候明明已经安装了php扩展如： sudo apt-get install php-xml
+但打印phpinfo()时就是不能加载
+sudo php -v 查看版本信息会看到：
+root@VM-76-227-ubuntu:/usr/lib/php# sudo php -v
+php: /usr/local/lib/libxml2.so.2: no version information available (required by php)
+php: /usr/local/lib/libxml2.so.2: no version information available (required by php)
+php: /usr/local/lib/libxml2.so.2: no version information available (required by php)
+php: /usr/local/lib/libxml2.so.2: no version information available (required by php)
+PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20131226/dom.so' - /usr/lib/php/20131226/dom.so: symbol 
+xmlOutputBufferGetSize, version LIBXML2_2.9.0 not defined in file libxml2.so.2 with link time reference in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20131226/simplexml.so' - /usr/lib/php/20131226/simplexml.so: 
+symbol xmlOutputBufferGetSize, version LIBXML2_2.9.0 not defined in file libxml2.so.2 with link time reference in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20131226/xmlreader.so' - /usr/lib/php/20131226/xmlreader.so: 
+undefined symbol: dom_node_class_entry in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20131226/xsl.so' - /usr/lib/x86_64-linux-gnu/libxslt.so.1: 
+symbol xmlBufUse, version LIBXML2_2.9.0 not defined in file libxml2.so.2 with link time reference in Unknown on line 0
+
+其实这一串的信息说明 linux 软件版本可能有冲突，进sudo cd /usr/local/lib 查看，有重复的文件libxml2.so.2是多余的，已存在libxml2.so
+所以把libxml2.so.2 删除掉 sudo rm libxml2.so.2
+再查看 sudo php -v
+root@VM-76-227-ubuntu:/usr/local/lib# sudo php -v
+PHP 5.6.35-1+ubuntu14.04.1+deb.sury.org+1 (cli) 
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+    with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
+root@VM-76-227-ubuntu:/usr/local/lib# sudo service apache2 restart
+ * Restarting web server apache2
+   ...done.
+   整个世界都清静了！！！
+   重启服务service apache2 restart
+   查看phpinfo()打印信息：SimpleXML扩展已出现！

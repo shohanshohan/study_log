@@ -1,0 +1,5 @@
+1）返回当前所属的类名称：get_called_class();
+
+
+2）输出当前访问的域名：$_SERVER['HTTP_HOST']; //输出域名加端口号，一般用这个
+$_SERVER['SERVER_NAME']; //直接输出域名，即serverName值

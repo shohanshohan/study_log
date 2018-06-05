@@ -1,0 +1,13 @@
+首先克隆下载应用项目仓库
+git clone https://github.com/top-think/think tp5 (注：这是最新版本,现在已是5.1版本)
+
+然后切换到 tp5 目录下面，再克隆核心框架仓库：cd tp5
+git clone https://github.com/top-think/framework thinkphp
+
+两个仓库克隆完成后，就完成了 Tp5 的 Git 方式下载
+
+如果需要更新核心框架的时候，只需要切换到thinkphp核心目录下面，然后执行：
+git pull https://github.com/top-think/framework
+
+目前git clone https://github.com/top-think/think 只能下载最新版本
+如果不需要最新版本，可以到官方下载5.0.20完整版本http://www.thinkphp.cn/donate/download/id/1155.html

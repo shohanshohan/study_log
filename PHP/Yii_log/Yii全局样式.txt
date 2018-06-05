@@ -1,0 +1,33 @@
+一般默认的全局样式在入口目录web\css下面，如：backend\web\css\site.css
+这里可以添加自己的样式文件，如新建一个样式文件用作全局样式，backend\web\css\main.css
+
+1）在配置文件中引入全局样式，找到项目目录,如：advanced\backend\assets\AppAsset.php
+打开配置，加入自己的样式
+class AppAsset extends AssetBundle
+{
+    public $basePath = '@webroot';
+    public $baseUrl = '@web';
+    public $css = [
+        'css/site.css',
+        'css/main.css' //这个是新添加的全局样式
+    ];
+    public $js = [ //这个是添加全局js文件
+    ];
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
+    ];
+}
+
+
+2）如果不想改配置文件，只是加入很少样式代码的话，还有一种方式
+在布局文件中配置样式，在页面中单独写样式，如：在布局文件layouts\main.php加入如下代码（此方法也可用在某一个单独的视图文件）
+<?php
+use yii\helpers\Html;
+
+$cssString = ".main-title{color:red;} .form-group{color:red;}";  //设置样式
+$this->registerCss($cssString); //载入样式
+//......
+
+
+如果是全局样式的话，一般用第一种方法，方便扩展和修改 

@@ -1,0 +1,201 @@
+1）clear() 清空字典
+dict = {'Name': 'Zara', 'Age': 7}
+dict.clear()
+print(len(dict)) #0,字典长度为0
+
+
+
+
+2）copy() 返回一个字典的浅复制。(即复制原始字典，字典更改(一级目录)不受影响，但更改子对象目录会改变)
+dict1 = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
+ 
+dict2 = dict1.copy()
+print ("新复制的字典为 : ",dict2)
+以上实例输出结果为：
+新复制的字典为 :  {'Age': 7, 'Name': 'Runoob', 'Class': 'First'}
+
+直接赋值和 copy 的区别
+可以通过以下实例说明：
+dict1 =  {'user':'runoob','num':[1,2,3]}
+ 
+dict2 = dict1          # 浅拷贝: 引用对象
+dict3 = dict1.copy()   # 浅复制：深拷贝父对象（一级目录），子对象（二级目录）不拷贝，还是引用
+ 
+# 修改 data 数据
+dict1['user']='root'
+dict1['num'].remove(1)
+ 
+# 输出结果
+print(dict1)
+print(dict2)
+print(dict3)
+实例中 dict2 其实是 dict1 的引用（别名），所以输出结果都是一致的，dict3 父对象进行了深拷贝，不会随dict1 修改而修改，子对象是浅拷贝所以随 dict1 的修改而修改。
+{'user': 'root', 'num': [2, 3]}
+{'user': 'root', 'num': [2, 3]}
+{'user': 'runoob', 'num': [2, 3]}
+
+
+
+
+3）fromkeys(seq,value) 用于创建一个新字典，以序列seq中元素做字典的键，value为字典所有键对应的初始值。
+参数
+seq -- 字典键值列表。
+value -- 可选参数, 设置键序列（seq）的值。默认为None
+seq = ('name', 'age', 'sex')
+
+dict = dict.fromkeys(seq)
+print ("新的字典为 : %s" %  str(dict))
+
+dict1 = dict.fromkeys(seq, 10)
+print ("新的字典为 : %s" %  str(dict1))
+以上实例输出结果为：
+新的字典为 : {'age': None, 'name': None, 'sex': None}
+新的字典为 : {'age': 10, 'name': 10, 'sex': 10}
+
+
+
+
+4）get(key, default=None) 返回指定键的值，如果值不在字典中返回默认值。
+参数
+key -- 字典中要查找的键。
+default -- 如果指定键的值不存在时，返回该默认值。
+dict = {'Name': 'Runoob', 'Age': 27}
+
+print ("Age 值为 : %s" %  dict.get('Age'))
+print ("Sex 值为 : %s" %  dict.get('Sex','男'))
+以上实例输出结果为：
+Age 值为 : 27
+Sex 值为 : 男
+
+
+
+5）key in dict 字典 in 操作符用于判断键是否存在于字典中，如果键在字典dict里返回true，否则返回false。
+dict = {'Name': 'Runoob', 'Age': 7}
+
+# 检测键 Age 是否存在
+if  'Age' in dict:
+    print("键 Age 存在")
+else :
+    print("键 Age 不存在")
+
+# 检测键 Sex 是否存在
+if  'Sex' in dict:
+    print("键 Sex 存在")
+else :
+    print("键 Sex 不存在")
+
+
+
+
+6）items() 以列表返回可遍历的(键, 值) 元组数组。
+dict = {'Name': 'Runoob', 'Age': 7}
+
+print ("Value : %s" %  dict.items())
+print(list(dict.items())[1])
+以上实例输出结果为：
+Value : dict_items([('Age', 7), ('Name', 'Runoob')])
+Runoob
+
+for i,j in dict.items():
+    print(i, ":\t", j)
+输出：
+Name :   Runoob
+Age :    7
+
+
+
+
+7）keys() 以列表返回一个字典所有的键。
+dict = {'Name': 'Runoob', 'Age': 7}
+
+print ("字典所有的键为 : %s" %  dict.keys())
+以上实例输出结果为：
+字典所有的键为 : dict_keys(['Age', 'Name'])
+
+若要返回列表值还需调用list函数。
+print(list(dict.keys())) #['Name', 'Age']
+
+
+
+
+8）values() 以列表返回字典中的所有的值
+dict = {'Sex': 'female', 'Age': 7, 'Name': 'Zara'}
+
+print ("字典所有值为 : ",  list(dict.values()))
+以上实例输出结果为：
+字典所有值为 :  ['female', 'Zara', 7]
+
+
+
+
+9）setdefault(key, default=None)
+字典 setdefault() 方法和get()方法类似, 如果键不已经存在于字典中，将会添加键并将值设为默认值。
+dict = {'Name': 'Runoob', 'Age': 7}
+
+print ("Age 键的值为 : %s" %  dict.setdefault('Age', None))
+print ("Sex 键的值为 : %s" %  dict.setdefault('Sex', None))
+print ("新字典为：", dict)
+以上实例输出结果为：
+Age 键的值为 : 7
+Sex 键的值为 : None
+新字典为： {'Age': 7, 'Name': 'Runoob', 'Sex': None}
+
+
+
+
+10）update(dict2) 把字典dict2的键/值对更新到dict里。把新的键/值插入到末尾
+dict = {'Name': 'Runoob', 'Age': 7}
+dict2 = {'Sex': 'female' }
+
+dict.update(dict2)
+print ("更新字典 dict : ", dict)
+以上实例输出结果为：
+更新字典 dict :  { 'Age': 7, 'Name': 'Runoob'，'Sex': 'female'}
+
+
+
+
+11）pop(key,default) 删除字典给定键 key 所对应的值，返回值为被删除的值。key值必须给出。
+参数
+key: 要删除的键值
+default: 如果没有 key，返回 default 值
+
+dict = {'Name': 'Runoob', 'Age': 7}
+
+print(dict.pop('ab','no')) #no
+print(dict.pop('Name')) #Runoob
+print(dict) #{'Age':7}
+
+
+
+
+12）popitem() 字典 popitem() 方法以元组方式随机返回并删除字典中的一对键和值(一般删除末尾对)。
+如果字典已经为空，却调用了此方法，就报出KeyError异常。
+dict = {'Name': 'Runoob', 'Age': 7,'Sex': 'female'}
+print(dict.popitem()) #（'Sex', 'female'）
+print(dict) #{'Name': 'Runoob', 'Age': 7,'}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

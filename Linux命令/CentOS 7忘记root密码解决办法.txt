@@ -1,0 +1,11 @@
+开启此虚拟机，按e,回车
+在LANG=en_US.UFT-8后面添加init=/bin/sh
+按Ctrl+X重启
+输入【ls】,回车
+再输入【mount –o remount ,rw / 】，回车 （注意空格）
+输入【passwd】（注意：密码不能少于8位），重复输入两次密码
+输入【touch /.autorelabel】，回车
+再输入【exec /sbin/init】回车
+以便重启系统，然后用新密码登录
+
+

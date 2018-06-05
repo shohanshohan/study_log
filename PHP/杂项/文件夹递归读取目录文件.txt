@@ -1,0 +1,66 @@
+<?php
+header('content-type:text/html;charset=utf8'); 
+
+function showDir($dirs=__DIR__)
+{
+	$dir = opendir($dirs);
+	while ($f = readdir($dir)) {
+		if (! in_array($f,['.','..'])) {
+			$file = $dirs.'/'.$f;
+			if (is_dir($file)) {
+				showDir($file);
+			}else{
+				echo '文件名：'.$file.'<br />';
+			}
+		}
+	}
+	closedir($dir);
+}
+
+showDir();
+
+function showDir2($dirs = __DIR__)
+{
+	$dir = opendir($dirs);
+	$file = array();
+	while($f = readdir($dir)){
+		if(!in_array($f,['.','..'])){
+			$filename = $dirs.'/'.$f;
+			if(is_file($filename)){
+				$filename = '文件名：'.$dirs.'/'.$f;
+				echo '文件名：'.$filename.'<br />';
+			}else{
+				showDir2($filename);
+			}
+		}
+	}
+	closedir($dir);
+}
+//print_r(showDir2('dir_file/test'));
+
+
+function getfiles($path){ 
+	foreach(scandir($path) as $afile)
+	{
+		if($afile !='.' && $afile!='..'){
+			$dir = $path.'/'.$afile;
+			if(is_dir($path.'/'.$afile)) 
+			{ 
+				getfiles($path.'/'.$afile.'/'); 
+			} else { 
+				echo $dir.'<br>'; 
+			} 
+		}
+	} 
+}
+
+
+function getfiles2($path=__DIR__){ 
+	foreach(glob($path) as $afile){ 
+		if(is_dir($afile)) { 
+			getfiles($afile.'/*'); 
+		} else {
+			echo $afile.'<br />';
+		} 
+	} 
+}

@@ -1,0 +1,117 @@
+这是对以下的搭建LAMP 命令总结：【
+apache2：sudo apt-get install apache2
+         sudo apt-get install apache2-dev
+         sudo service apache2 status
+         sudo vi  /etc/apache2/apache2.conf  (ServerName 127.0.0.1)
+         sudo vi  /etc/apache2/ports.conf   (Listen 8080)这个是端口自定义
+         sudo vi  /etc/apache2/sites-enabled/yourproject.conf  这个是项目端口和路由配置（自定义）
+         sudo /etc/init.d/apache2 restart  (start , stop)
+         
+myssql： sudo apt-get install mysql-server mysql-client
+
+php:  sudo apt-get install software-properties-common
+      sudo add-apt-repository ppa:ondrej/php
+      sudo apt-get update
+      sudo apt-get install php7.0 (这里以php7.0为例，因为ubuntu自带的只有php5,要升级的话必须下载安装包或如这种方法来安装)
+      sudo apt-get install libapache2-mod-php
+      sudo apt-get install libapache2-mod-auth-mysql
+      sudo apt-get install php7.0-mysql
+      sudo apt-get install php7.0-gd
+】
+
+
+
+1）安装apache
+sudo apt-get install apache2 回车，会提示输入用户密码
+
+有时会要重装apache,如下步骤：
+$ sudo apt-get --purge remove apache2 
+$ sudo apt-get --purge remove apache2.2-common 
+$ sudo apt-get autoremove apache2
+ 找到没有删干净的配置文件，删除 
+$ sudo find /etc -name "*apache*" -exec rm -rf {};
+重装apache2 
+$ sudo apt-get install apache2 
+$ sudo apt-get install apache2-dev
+安装完成后察看服务启动状态
+sudo service apache2 status
+启动apache服务
+# /etc/init.d/apache2 start
+重启apache服务
+# /etc/init.d/apache2 restart
+停止apache服务
+# /etc/init.d/apache2 stop
+如果启动时报错：
+Starting web server apache2
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1. Set the 'ServerName' directive globally to suppress this message
+(98)Address already in use: AH00072: make_sock: could not bind to address 0.0.0.0:80
+no listening sockets available, shutting down
+AH00015: Unable to open logs
+Action 'start' failed.
+The Apache error log may have more information.
+解决办法：
+首先，在 /etc/apache2/apache2.conf 文件里加上 ServerName 127.0.0.1 这个放开头第一行就行了
+could not bind to address 0.0.0.0:80说明端口被占用，使用命令：sudo lsof -i :80  查看端口占用情况，如：
+root@VM-0-8-ubuntu:/# sudo lsof -i :80
+COMMAND   PID   USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+httpd    9342 daemon    3u  IPv4 1772998      0t0  TCP *:http (LISTEN)
+httpd   16551   root    3u  IPv4 1772998      0t0  TCP *:http (LISTEN)
+httpd   16555 daemon    3u  IPv4 1772998      0t0  TCP *:http (LISTEN)
+httpd   16556 daemon    3u  IPv4 1772998      0t0  TCP *:http (LISTEN)
+httpd   16557 daemon    3u  IPv4 1772998      0t0  TCP *:http (LISTEN)
+杀死占用的进程：kill -9 16551(PID)
+再次重启apache2就可以了，sudo /etc/init.d/apache2 restart
+在浏览器上输入服务器地址，如192.168.36.59看能不能访问页面
+
+
+2）安装mysql
+sudo apt-get install mysql-server mysql-client 回车，会要求设置root用户的密码
+
+3）安装php
+sudo apt-get install php7.0
+如果是Ubuntu14.04，默认源是PHP5.0，所以也需要添加外部源
+Personal Package Archive(PPA) 是一个apt仓库，允许第三方开发者发布用于ubuntu的外部资源
+Ondřej Surý 提供了用于PPA的PHP7.0，使用以下命令：
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+sudo apt-get install php7.0
+
+其他模块
+sudo apt-get install libapache2-mod-php7.0
+sudo apt-get install libapache2-mod-auth-mysql
+sudo apt-get install php7.0-mysql
+sudo apt-get install php7.0-gd
+
+4）安装phpmyadmin
+sudo apt-get install 
+
+5）修改权限
+sudo chmod 777 /var/www
+
+6）重启apache
+sudo /etc/init.d/apache2 restart
+如果碰到这样的错误：
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+则在配置文件 /etc/apache2/apache2.conf 开头加上这一句：ServerName 127.0.0.1
+再重启
+
+7）查看本机ip地址
+sudo ifconfig -a
+
+8）PHP解析问题
+进入目录: cd /etc/apache2/ 有一个配置文件apache2.conf
+vim apache2.conf
+把AllowOverride none 都改为 AllowOverride All
+LoadModule php5_module  /usr/lib/apache2/modules/libphp5.so（如果没有要加入这个，后面的路径和版本要根据自己安装的实际情况）
+sudo apt-get install libapache2-mod-php //关键是这一步安装apache的php扩展
+
+
+9）改变apache2的默认目录到当前的开发目录
+apache2的默认目录配置在 /etc/apache2/sites-enabled/000-default.conf文件
+vim 000-default.conf
+找到DocumentRoot项，将/var/www/html改为自己的开发目录就可以了，一般就到/var/www
+
+
+10)查看端口占用
+netstat lnp|grep 80

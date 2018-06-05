@@ -1,0 +1,57 @@
+创建分支 git branch branch_name
+ git branch 命令仅仅 创建 一个新分支，并不会自动切换到新分支中去。
+新建一个分支并同时切换到那个分支上:  git checkout -b branch_name
+它是下面两条命令的简写：
+$ git branch branch_name
+$ git checkout branch_name
+ 
+ 查看分支：git branch
+ 注意 branch_name 分支前的 * 字符：它代表现在检出的那一个分支（也就是说，当前 HEAD 指针所指向的分支）。 
+ 这意味着如果在这时候提交，master 分支将会随着新的工作向前移动
+ 如果需要查看每一个分支的最后一次提交，可以运行 git branch -v 
+ 查看所有包含未合并工作的分支，可以运行 git branch --no-merged
+ 
+分支切换 git checkout branch_name
+要切换到一个已存在的分支，你需要使用 git checkout 命令。 
+我们现在切换到新创建的 testing 分支去：$ git checkout testing
+分支切换会改变你工作目录中的文件
+在切换分支时，一定要注意你工作目录里的文件会被改变。 如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的样子。
+
+合并分支：git merge branch_name
+如果要查看哪些分支已经合并到当前分支，可以运行 git branch --merged
+
+删除分支：git branch -d branch_name
+
+遇到冲突时的分支合并
+有时候合并操作不会如此顺利。 如果你在两个不同的分支中，对同一个文件的同一个部分进行了不同的修改，Git 就没法干净的合并它们。
+此时 Git 做了合并，但是没有自动地创建一个新的合并提交。 Git 会暂停下来，等待你去解决合并产生的冲突。 
+你可以在合并冲突后的任意时刻使用 git status 命令来查看那些因包含合并冲突而处于未合并（unmerged）状态的文件：
+任何因包含合并冲突而有待解决的文件，都会以未合并状态标识出来。 
+Git 会在有冲突的文件中加入标准的冲突解决标记，这样你可以打开这些包含冲突的文件然后手动解决冲突。 
+出现冲突的文件会包含一些特殊区段，看起来像下面这个样子：
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html
+这表示 HEAD 所指示的版本（也就是你的 master 分支所在的位置，因为你在运行 merge 命令的时候已经检出到了这个分支）
+在这个区段的上半部分（======= 的上半部分），而 iss53 分支所指示的版本在 ======= 的下半部分。
+为了解决冲突，你必须选择使用由 ======= 分割的两部分中的一个，或者你也可以自行合并这些内容。 
+例如，你可以通过把这段内容换成下面的样子来解决冲突：
+<div id="footer">
+please contact us at email.support@github.com
+</div>
+上述的冲突解决方案仅保留了其中一个分支的修改，并且 <<<<<<< , ======= , 和 >>>>>>> 这些行被完全删除了。 
+在你解决了所有文件里的冲突之后，对每个文件使用 git add 命令来将其标记为冲突已解决。
+一旦暂存这些原本有冲突的文件，Git 就会将它们标记为冲突已解决。
+如果你对结果感到满意，并且确定之前有冲突的的文件都已经暂存了，这时你可以输入 git commit 来完成合并提交。
+
+
+
+
+
+
+
+

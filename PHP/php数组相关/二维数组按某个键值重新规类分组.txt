@@ -1,0 +1,57 @@
+（1）//二维数组按某个键值重新规类分组，并累加要求数字字段的值，比如按日期分类，相同日期的保留一条记录并累加相关字段
+$arr = [
+	['item'=>'aaa','num'=>10,'date'=>'2017-10-20'],
+	['item'=>'aaa','num'=>20,'date'=>'2017-10-18'],
+	['item'=>'aaa','num'=>10,'date'=>'2017-10-20'],
+	['item'=>'aaa','num'=>10,'date'=>'2017-10-20'],
+	['item'=>'aaa','num'=>10,'date'=>'2017-10-18'],
+	['item'=>'aaa','num'=>12,'date'=>'2017-10-20'],
+	['item'=>'aaa','num'=>13,'date'=>'2017-10-16'],
+	['item'=>'aaa','num'=>12,'date'=>'2017-10-20'],
+	['item'=>'aaa','num'=>18,'date'=>'2017-10-16'],
+	['item'=>'aaa','num'=>16,'date'=>'2017-10-20'],
+	['item'=>'aaa','num'=>18,'date'=>'2017-10-18'],
+];
+$data = [];
+foreach ($arr as $key => $value) {
+	$data[$value['date']][] = $value;
+}
+
+$result = [];
+foreach ($data as $key => $value) {
+	$res = [];
+	$res['num'] = 0;
+	foreach ($value as $k => $v) {
+		$res['item'] = $v['item'];
+		$res['num'] += $v['num'];
+		$res['date'] = $v['date'];
+	}
+	$result[] = $res;
+}
+
+print_r($result);
+打印效果：
+Array
+(
+    [0] => Array
+        (
+            [num] => 70
+            [item] => aaa
+            [date] => 2017-10-20
+        )
+
+    [1] => Array
+        (
+            [num] => 48
+            [item] => aaa
+            [date] => 2017-10-18
+        )
+
+    [2] => Array
+        (
+            [num] => 31
+            [item] => aaa
+            [date] => 2017-10-16
+        )
+
+)

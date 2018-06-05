@@ -1,0 +1,20 @@
+静态变量只是在函数内存在，在函数外无法访问。
+但是执行后，其值保留，也就是说这一次执行完毕后，静态变量的值保留，下一次再执行此函数，这个值不还可调用。
+
+$person = 20;
+
+function showpeople()
+{
+	static $person = 5;
+	$person++;
+	echo '再增加一位，将会有 '.$person.' 位人员<br />';
+}
+
+showpeople();
+echo $person;
+showpeople();
+
+结果：
+再增加一位，将会有 6 位人员
+20人数
+再增加一位，将会有 7 位人员

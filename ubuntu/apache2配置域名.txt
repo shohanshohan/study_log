@@ -1,0 +1,69 @@
+进入apache的配置目录
+cd /etc/apache2
+ls 
+一般会看到有如下文件（夹）：
+apache2.conf  conf-enabled  httpd.conf  mods-available  ports.conf 
+sites-enabled  conf-available  envars magic  mods-enabled  site-availabled
+
+cat apache2.conf 查看配置内容
+IncludeOptional sites-enabled/*.conf说明加载 sites-enabled文件夹下的所有.conf配置文件
+进入 cd sites-enabled
+ls 
+有一个默认配置000-default.conf
+<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/advanced/backend/web #配置默认的访问路径
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+还可以新建一个文件来配置另一个域名
+vi 001-default.conf
+复制上面的内容做修改，如：
+<VirtualHost *:8888>
+        #ServerName www.example.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/src/app/web
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+如果配置了ServerName www.example.com,则还需要在 /etc/hosts配置一下 vi /etc/hosts
+添加如下配置
+127.0.0.1   www.example.com
+
+上面使用了不同的端口号，添加端口号的配置在 /etc/apache2/ports.conf
+vi /etc/apache2/ports.conf
+添加 Listen 8888
+:wq 退出保存
+
+
+最后不要忘记重启apache
+sudo /etc/init.d/apache2 restart
+
+
+

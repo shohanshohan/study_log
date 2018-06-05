@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HTML5</title>
+    <!--[if it IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <style>  
+        .center {text-align:center;}
+        ul.breadcrumb {
+            padding:8px 16px;
+            list-style:none;
+            background-color:#eee;
+        }
+        ul.breadcrumb li {display:inline;}
+        ul.breadcrumb li+li:before {
+            padding:8px;
+            color:black;
+            content:'/\00a0';
+        }
+        ul.breadcrumb li a {text-decoration:none;}
+        ul.breadcrumb li a.active {color:green;} 
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h2>breadcrumb pagination</h2>
+        <ul class="breadcrumb">
+            <li><a href="#">list</a></li>
+            <li><a href="#" class="active">edit</a></li>
+            <li><a href="#">detail</a></li>
+        </ul>
+    </div>
+
+    <script>
+        
+    </script>
+</body>
+</html>

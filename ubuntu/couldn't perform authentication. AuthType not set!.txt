@@ -1,0 +1,4 @@
+如果apache版本是小于2.4的
+删除一行
+Require all granted
+它只需要在apache>=2.4上使用。

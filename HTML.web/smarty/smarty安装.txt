@@ -1,0 +1,65 @@
+基础安装
+1）第一步到官网下载最新版https://www.smarty.net/download，现在最新版本是Smarty 3 latest 3.1.30
+在Smarty发行包中，目录/libs/ 里面的文件就是Smarty的库文件。 库文件都是.php文件，开发者不应该编辑它们。 
+库文件可以多个应用程序共用，而且只在升级新版本的Smarty时进行覆盖。
+
+2）将下载下来文件解压后，只要这个smarty的核心文件libs夹，其它的都是不用的
+
+3）将libs文件夹放在自己的网页根目录下，一般是WWW目录，如果是项目目录可据情况自己创建一个项目目录然后放里面
+
+4）在放置文件夹libs的地方,新建一个自己的目录，如app；
+根据配置文件的路径名创建对应的文件夹，一般templates模板文件存放的目录， templates_c编译过的模板文件存放的目录，
+cache缓存文件存放的目录， configs模板配置文件存放的目录，这几个文件夹是必须的(这些在发行包中有一个demo文件夹中全有示例)
+目录结构：
+         |---app
+ game-app|
+         |---libs
+
+
+5）在目录app下新建smarty.inc.php文件，输入如下内容
+<?php
+/*
+ * file:smarty.inc.php Smarty对角的实例化及初使化文件
+ */
+define("ROOT",str_replace("\\","/",dirname(dirname(__FILE__))).'/');
+//echo ROOT;
+require_once ROOT.'libs/Smarty.class.php';
+$smarty = new Smarty();
+$smarty ->setTemplateDir(ROOT.'app/templates/')         //设置所有模板文件存放的目录
+//        ->addTemplateDir(ROOT.'templates2/')     //可以添加多个模板目录（前后台各一个）
+->setCompileDir(ROOT.'app/templates_c/')    //设置所有编译过的模板文件存放的目录
+->setPluginsDir(ROOT.'app/plugins/')       //设置为模板扩充插件存放的目录
+->setCacheDir(ROOT.'app/cache/')           //设置缓存文件存放的目录
+->setConfigDir(ROOT.'app/configs');        //设置模板配置文件存放的目录
+
+
+$smarty->caching = false;                                 //设置Smarty缓存开关功能
+$smarty->cache_lifetime = 60*60*24;                       //设置模板缓存有效时间段的长度为1天
+$smarty->left_delimiter = '<{';                           //设置模板语言中的左结束符
+$smarty->right_delimiter = '}>';                          //设置模板语言中的右结束符
+
+
+6）在app目录下再建index.php文件，输入如下内容：
+<?php
+require_once "smarty.inc.php";
+
+$smarty->assign('title','网页标题');
+$smarty->assign('content','网页内容');
+$smarty->display('test.tpl');
+
+
+7）在模板文件夹templates下新建一个测试文件test.tpl
+<html> 
+    <head> 
+        <title><{$title}></title> 
+    </head> 
+    <body> 
+        <{$content}>
+    </body> 
+</html> 
+
+
+8）浏览网页查看内容http://localhost/smarty/game-app/app/index.php
+能显示‘网页内容’就说明smarty搭建成功了
+
+

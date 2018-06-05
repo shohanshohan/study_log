@@ -1,0 +1,266 @@
+1）计算字符串的长度 strlen($str)
+$str = 'hello 长度是多少？';
+$strlen = strlen($str);
+echo $strlen; //输出为24，注：字符串内的每个空格也算一个字符，utf8的每个中文字占3个字符，中文符号也一样。
+如果要计算中文字符和英文字符一样计算个数，可用mb_strlen();
+echo mb_strlen($str);   //输出12
+
+
+2）对字符串的单词统计
+使用 str_word_count() 函数可以实现对英文字符串的单词统计
+这个函数只对基于ASCII码的英文单词起作用，并不对UTF8的中文字符起作用
+$str = 'hello world!';
+echo str_word_count($str); //输出2
+
+
+
+3）清理字符串两头的空格
+ltrim($str); //清除字符串头部的空格
+rtrim($str); //清除字符串尾部的空格
+trim($str); //清除字符串两头的空格
+
+
+
+
+4）字符串的切分与组合
+切分使用 explode() 和 str_split() 函数
+$str = 'h_e_llo';
+$arr = explode('_', $str);
+print_r($arr);  //Array ( [0] => h [1] => e [2] => llo )
+
+$arr2 = str_split($str,5); 注：表示把字符串按5个字符长度切分，默认是1
+print_r($arr2);  //Array ( [0] => h_e_l [1] => lo )
+
+组合使用implode() 和 join()
+$arr = ['a','b','c'];
+$str = implode('-',$arr); 或 $str = join('-',$arr);
+echo $str; //输出 a-b-c
+
+
+5）字符串截取 substr(目标字符串， 起始位置， 截取长度)
+$str = 'abcdefg';
+echo substr($str, 1, 3); //输出bcd,表示从第二个位置开始截取3个字符
+echo substr($str, 0, -3); //abcd,表示从开始位置截取除最右侧3个字符外的字符
+echo substr($str, -5, -2); //cde,表示从倒数第5个位置开始截取除最右侧2个字符外的字符
+$str2 = 'abc你说啥';
+echo mb_substr($str2, 0, 5); //abc你说，带中文的用mb_substr()
+
+substr_count() 函数计算子串在字符串中出现的次数。
+echo substr_count("Hello world. The world is nice","world"); //2
+
+
+
+6）字符串替换
+substr_replace(目标字符串，替换字符串，起始位置，替换长度)
+str_replace()
+str_ireplace()对大小写不敏感
+
+$str = 'ID:125867775825';
+echo substr_replace($str,'********',3,8); //ID:*********5825
+$str2 = "Hello world!";
+echo str_replace("world","Shanghai",$str2); //Hello Shanghai!,把字符串 "Hello world!" 中的字符 "world" 替换为 "Shanghai"：
+
+
+
+7）字符串查找strstr() 或 stristr() 并返回从第一个查找到字符串的位置往后所有的字符串内容
+strstr(目标字符串， 需要查找的字符串)
+stristr()，对大小写不敏感，用法一样
+$str = 'I have a Dream that to find a string with a dream';
+echo strstr($str, 'dream'); //dream
+echo stristr($str, 'dream'); //Dream that to find a string with a dream
+
+
+
+8）大小写转换
+strtolower($str) 转换为小写
+strtoupper($str) 转换为大写
+ucfirst($str)    整个字符串首字母大写 
+lcfirst($str)    整个字符串首字母小写
+ucwords($str)    整个字符串以空格为分隔符的单词首字母大写
+
+
+
+9）strpos() 检索字符串内指定的字符或文本。并返回检索字符或文本的索引位置,stripos()对大小写不敏感。
+$str = "Hello world!";
+echo strpos($str, 'world'); //输出6，检索位置是从0开始算起
+
+strrpos() 函数查找字符串在另一字符串中最后一次出现的位置。trripos() 对大小写不敏感。
+echo strrpos('hello world! world', 'world'); //13
+
+
+10）addslashes() 返回在预定义字符之前添加反斜杠的字符串。stripslashes() 函数删除由 addslashes(string) 函数添加的反斜杠。
+预定义字符是：
+单引号（'）
+双引号（"）
+反斜杠（\）
+NULL
+注：该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串。
+$str = "Who's billy \ I don't know";
+echo addslashes($str);  //Who\'s billy \\ I don\'t know
+注意：默认地，PHP 对所有的 GET、POST 和 COOKIE 数据自动运行 addslashes()。
+所以您不应对已转义过的字符串使用 addslashes()，因为这样会导致双层转义。遇到这种情况时可以使用函数 get_magic_quotes_gpc() 进行检测。
+
+addcslashes() 函数返回在指定字符前添加反斜杠的字符串。stripcslashes() 函数删除由 addcslashes(string) 函数添加的反斜杠。
+echo addcslashes($str, 'k');   //Who's billy \ I don't \know
+
+
+
+
+11）chop(string,charlist) 移除字符串右端的空白字符或其他预定义字符。
+string	必需。规定要检查的字符串。
+charlist	可选。规定从字符串中删除哪些字符。
+如果 charlist 参数为空，则移除以下字符：
+"\0" - NULL
+"\t" - 制表符
+"\n" - 换行
+"\x0B" - 垂直制表符
+"\r" - 回车
+" " - 空格
+$str = "Hello World!\n\n";
+移除字符串右侧的换行符（\n）：
+echo chop($str);
+
+
+
+12）chunk_split(string,length,end) 把字符串分割为一连串更小的部分。并返回已分隔的字符串
+注：该函数不改变原始字符串。
+参数：
+string	必需。规定要分割的字符串。
+length	可选。数字值，定义字符串块的长度。默认是 76。
+end	可选。字符串值，定义在每个字符串块末端放置的内容。默认是 \r\n。
+$str = "Helloworld!";
+echo chunk_split($str, 5); //Hello world !
+在每个分割后添加 "..."：
+echo chunk_split($str, 5, '...'); //Hello...world...!... 
+
+
+
+
+13）sprintf() 函数把格式化的字符串写入变量中。返回格式化的字符串。
+printf() 函数用法与sprintf()一样，不同的是，prinft()直接打印出格式化后的字符串
+$number = 2;
+$str = "Shanghai";
+$txt = sprintf("There are %u million cars in %s.",$number,$str);
+echo $txt; //There are 2 million cars in Shanghai.
+该函数是逐步执行的。在第一个 % 符号处，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。
+
+vsprintf() 函数把格式化字符串写入变量中。
+与 sprintf() 不同，vsprintf() 中的参数位于数组中。数组元素将被插入到主字符串中的百分号（%）符号处。
+该函数是逐步执行的。在第一个 % 符号处，插入第一个数组元素，在第二个 % 符号处，插入第二个数组元素，依此类推。
+$txt = vsprintf("There are %u million bicycles in %s.",array($number,$str));
+
+可能的格式值：
+%% - 返回一个百分号 %
+%b - 二进制数
+%c - ASCII 值对应的字符
+%d - 包含正负号的十进制数（负数、0、正数）
+%e - 使用小写的科学计数法（例如 1.2e+2）
+%E - 使用大写的科学计数法（例如 1.2E+2）
+%u - 不包含正负号的十进制数（大于等于 0）
+%f - 浮点数（本地设置）
+%F - 浮点数（非本地设置）
+%g - 较短的 %e 和 %f
+%G - 较短的 %E 和 %f
+%o - 八进制数
+%s - 字符串
+%x - 十六进制数（小写字母）
+%X - 十六进制数（大写字母）
+$number = 123.123456;
+$txt = sprintf("%.4f",$number); 保留四位小数
+echo $txt; //123.1235
+
+如果 % 符号多于 arg 参数，则必须使用占位符。占位符位于 % 符号之后，由数字和 "\$" 组成
+$number = 123.123456;
+$num = 99.986;
+$txt = sprintf("带两位小数：%1\$.2f---不带小数：%1\$u---另一个整数：%2\$d",$number,$num); 注：%号后面的数字1表示第一个参数
+echo $txt; //带两位小数：123.12---不带小数：123---另一个整数：99
+
+
+
+14）fprintf() 函数把格式化的字符串写入指定的输出流（例如：文件或数据库）。返回被写字符串的长度。
+格式化语法同上sprintf()
+$number = 9;
+$str = "Beijing";
+$file = fopen("test.txt","w");
+echo fprintf($file,"There are %u million bicycles in %s.",$number,$str); //输出：40
+以下文本将被写入文件 "test.txt"：
+There are 9 million bicycles in Beijing.
+
+vfprintf() 函数把格式化的字符串写到指定的输出流（例如：文件或数据库）。
+与 fprintf() 不同，vfprintf() 中的参数位于数组中。数组元素将被插入到主字符串中的百分号（%）符号处。
+该函数是逐步执行的。在第一个 % 符号处，插入第一个数组元素，在第二个 % 符号处，插入第二个数组元素，依此类推。
+echo vfprintf($file,"There are %u million bicycles in %s.",array($number,$str));
+
+
+
+15）str_pad(string,length,pad_string,pad_type) 函数把字符串填充为新的长度。默认填充右侧
+$str = "Hello World";
+echo str_pad($str,30,"."); //Hello World...................
+参数	          描述
+string	        必需。规定要填充的字符串。
+length	        必需。规定新的字符串长度。如果该值小于字符串的原始长度，则不进行任何操作。
+pad_string	    可选。规定供填充使用的字符串。默认是空白。
+pad_type	      可选。规定填充字符串的哪边。
+可能的值：
+STR_PAD_BOTH - 填充字符串的两侧。如果不是偶数，则右侧获得额外的填充。
+STR_PAD_LEFT - 填充字符串的左侧。
+STR_PAD_RIGHT - 填充字符串的右侧。默认。
+echo str_pad($str,20,'.',STR_PAD_BOTH); //....Hello World.....
+
+
+
+16）str_repeat(string,repeat) 函数把字符串重复指定的次数。返回被重复的字符串。
+$str = 'hello';
+echo str_repeat($str,3); //hellohellohello
+
+
+
+17）str_shuffle() 函数随机打乱字符串中的所有字符。
+$str = 'Hello world';
+echo str_shuffle($str); //olllod erHW  每次的结果都是随机的
+
+
+
+18）strstr() 函数搜索字符串在另一字符串中的第一次出现。该函数对大小写敏感。如需进行不区分大小写的搜索，使用 stristr() 函数。
+返回字符串的剩余部分（从匹配点）。如果未找到所搜索的字符串，则返回 FALSE。
+strchr() 函数是 strstr()的别名，用法一样
+strstr(string,search,before_search）
+参数	      描述
+string	    必需。规定被搜索的字符串。
+search	    必需。规定所搜索的字符串。如果此参数是数字，则搜索匹配此数字对应的 ASCII 值的字符。
+before_search	可选。默认值为 "false" 的布尔值。如果设置为 "true"，它将返回 search 参数第一次出现之前的字符串部分。
+$str = 'I like python language';
+echo strstr($str,'python'); //输出 python language
+var_dump(strstr($str, 'Python')); //输出bool(false)
+echo strstr($str, 'python', true); //输出 I like
+
+
+
+
+19）strrev() 函数反转字符串。
+$str = 'hello';
+echo strrev($str); //olleh
+
+
+
+20）wordwrap(string,width,break,cut) 函数按照指定长度对字符串进行折行处理。
+参数	    描述
+string	  必需。规定要进行折行的字符串。
+width	    可选。规定最大行宽度。默认是 75。
+break	    可选。规定作为分隔符使用的字符（字串断开字符）。默认是 "\n"。
+cut	      可选。规定是否对大于指定宽度的单词进行折行：
+                                              FALSE - 默认。No-wrap
+                                              TRUE - 折行
+$str = "An example of a long word is: Supercalifragulistic";
+echo wordwrap($str,15,"<br>\n",TRUE);
+输出结果：
+An example of a
+long word is:
+Supercalifragul
+istic
+
+
+
+
+
+

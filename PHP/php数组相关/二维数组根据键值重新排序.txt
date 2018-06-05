@@ -1,0 +1,68 @@
+二维数组根据键值重新排序
+$arr=[
+    array(
+        'name'=>'小坏龙',
+        'age'=>28
+    ),
+    array(
+        'name'=>'小坏龙2',
+        'age'=>14
+    ),
+    array(
+        'name'=>'小坏龙3',
+        'age'=>59
+    ),
+    array(
+        'name'=>'小坏龙4',
+        'age'=>23
+    ),
+    array(
+        'name'=>'小坏龙5',
+        'age'=>23
+    ),
+    array(
+        'name'=>'小坏龙6',
+        'age'=>21
+    ),
+];
+array_multisort(array_column($arr,'age'),SORT_DESC,$arr);
+print_r($arr);
+注：：：
+array_column($arr,'age','column'); 返回输入数组中某个单一列的值。
+print_r(array_column($arr,'age'));
+打印出单列结果：
+Array
+(
+    [0] => 28
+    [1] => 14
+    [2] => 59
+    [3] => 23
+    [4] => 23
+    [5] => 21
+)
+print_r(array_column($arr,'age','name'));以另外一个列值作为键名
+打印出单列结果：
+Array
+(
+    [小坏龙] => 28
+    [小坏龙2] => 14
+    [小坏龙3] => 59
+    [小坏龙4] => 23
+    [小坏龙5] => 23
+    [小坏龙6] => 21
+)
+array_multisort() 函数返回排序数组。函数先对第一个数组进行排序，接着是其他数组，如果两个或多个值相同，它将对下一个数组进行排序。
+注释：字符串键名将被保留，但是数字键名将被重新索引，从 0 开始，并以 1 递增。
+//多个数组排序
+$a1=array("Dog","Dog","Cat");
+$a2=array("Pluto","Fido","Missy");
+array_multisort($a1,SORT_ASC,$a2,SORT_DESC);
+print_r($a1);
+print_r($a2);  
+
+//合并两个数组，并按数字降序排列
+$a1=array(1,30,15,7,25);
+$a2=array(4,30,20,41,66);
+$num=array_merge($a1,$a2);
+array_multisort($num,SORT_DESC,SORT_NUMERIC);
+print_r($num);

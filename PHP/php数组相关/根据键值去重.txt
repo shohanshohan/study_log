@@ -1,0 +1,88 @@
+根据键值去重，array_unique(),join(),explode(),array_combine()
+$arr = array(
+	'0'=>array(
+	    'name'=>'james',
+	    'age'=>30,
+	    ),
+	'1'=>array(
+	    'name'=>'susu',
+	    'age'=>26,
+	    ),
+	'2'=>array(
+	    'name'=>'james',
+	    'age'=>30,
+	    ),
+	'new'=>array(
+	    'name'=>'kube',
+	    'age'=>37,
+	    ),
+	'list'=>array(
+	    'name'=>'kube',
+	    'age'=>27,
+            ),
+  );
+function unique1($arr) //这种方法有一个缺陷就是键名不能保存，会变成数字索引
+{
+	$tmp = [];
+	foreach ($arr as $key => $value) {
+		$tmp[] = join(',',$value);
+	}
+	$tmp = array_unique($tmp);
+	foreach ($tmp as $k => $v) 
+	{ 
+		$temp[$k] = explode(",",$v); //再将拆开的数组重新组装 
+	} 
+	return $temp;
+}
+
+要想保存键名则用下面方法
+function unique($arr)
+{
+	$tmp = [];
+	$tmp2 = [];
+	foreach ($arr as $key => $value) {
+		$tmp[$key] = join(',',$value);
+		foreach ($value as $k => $v) {
+			$tmp2[] = $k;
+		}
+	}
+	$tmp = array_unique($tmp);
+	$tmp2 = array_unique($tmp2);
+	$temp = [];
+	foreach ($tmp as $k => $v) 
+	{ 
+		//通过合并两个数组来创建一个新数组，其中的一个数组元素为键名，另一个数组元素为键值
+		$temp[$k] = array_combine($tmp2,explode(",",$v)); //如果要让最外层数组保持数字顺序索引则把$k去掉$temp[] = array_combine($tmp2,explode(",",$v));
+	} 
+
+	return $temp;
+}
+打印结果如下：
+
+Array
+(
+    [0] => Array
+        (
+            [name] => james
+            [age] => 30
+        )
+
+    [1] => Array
+        (
+            [name] => susu
+            [age] => 26
+        )
+
+    [new] => Array
+        (
+            [name] => kube
+            [age] => 37
+        )
+
+    [list] => Array
+        (
+            [name] => kube
+            [age] => 27
+        )
+
+)

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<title>test</title>
+    <style>
+    	table {width:60%;margin:0 auto;}
+		thead {color:black;}
+		tbody {color:blue;}
+		tfoot {color:red;}
+		table, th, td {border:1px solid #ccc;border-collapse:collapse;padding:10px 10px;}
+		tbody tr:nth-child(even) {background-color:#c7e7f1;}
+		tbody tr:nth-child(odd) {background-color:#d4f1c7;}
+    </style>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>username</th>
+				<th>email</th>
+				<th>address</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>piter</td>
+				<td>gh@qq.com</td>
+				<td>hgk hgkhgjkh</td>
+			</tr>
+			<tr>
+				<td>shohan</td>
+				<td>gh@qq.com</td>
+				<td>hgk hgkhgjkh</td>
+			</tr>
+			<tr>
+				<td>jack</td>
+				<td>gh@qq.com</td>
+				<td>hgk hgkhgjkh</td>
+			</tr>
+			<tr>
+				<td>piter</td>
+				<td>gh@qq.com</td>
+				<td>hgk hgkhgjkh</td>
+			</tr>
+			<tr>
+				<td>shohan</td>
+				<td>gh@qq.com</td>
+				<td>hgk hgkhgjkh</td>
+			</tr>
+			<tr>
+				<td>jack</td>
+				<td>gh@qq.com</td>
+				<td>hgk hgkhgjkh</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td>date</td>
+				<td>2018-05-01</td>
+				<td>15:00:00</td>
+			</tr>
+		</tfoot>
+	</table>
+</body>
+</html>

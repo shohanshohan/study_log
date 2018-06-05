@@ -1,0 +1,92 @@
+call_user_func  把第一个参数作为回调函数调用,其余参数是回调函数的参数。
+call_user_func() 的例子
+1）function barber($type)
+{
+    echo "You wanted a $type haircut, no problem\n";
+}
+call_user_func('barber', "mushroom");
+call_user_func('barber', "shave");
+输出：
+You wanted a mushroom haircut, no problem 
+You wanted a shave haircut, no problem 
+
+
+
+ 2）call_user_func() 命名空间的使用
+ namespace Foobar;
+class Foo {
+    static public function test($name='') {
+        print "Hello ".$name.'<br />';
+    }
+}
+call_user_func(__NAMESPACE__ .'\Foo::test'); // 输出 Hello
+call_user_func(array(__NAMESPACE__ .'\Foo', 'test'),'Piter'); // 输出 Hello Piter
+
+
+
+3）用call_user_func()来调用一个类里面的方法
+class myclass {
+    static function say_hello()
+    {
+        echo "Hello!\n";
+    }
+}
+$classname = "myclass";
+call_user_func(array($classname, 'say_hello'));
+call_user_func($classname .'::say_hello'); 
+
+$myobject = new myclass();
+call_user_func(array($myobject, 'say_hello'));
+
+注意，传入call_user_func()的参数不能为引用传递
+function increment(&$var)
+{
+    $var++;
+}
+$a = 0;
+call_user_func('increment', $a);
+echo $a."\n"; 输出 0
+call_user_func_array('increment', array(&$a)); 这个可以
+echo $a."\n"; 输出 1
+
+
+
+
+
+
+
+call_user_func_array  调用回调函数，并把一个数组参数作为回调函数的参数
+call_user_func_array()例子
+1）function foobar($arg, $arg2) {
+    echo __FUNCTION__, " got $arg and $arg2\n";
+}
+class foo {
+    function bar($arg, $arg2) {
+        echo __METHOD__, " got $arg and $arg2\n";
+    }
+}
+call_user_func_array("foobar", array("one", "two")); 输出：foobar got one and two
+
+$foo = new foo;
+call_user_func_array(array($foo, "bar"), array("three", "four")); 输出：foo::bar got three and four
+
+
+2）call_user_func_array()使用命名空间的情况
+namespace Foobar;
+class Foo {
+    static public function test($name) {
+        print "Hello {$name}!\n";
+    }
+}
+call_user_func_array(__NAMESPACE__ .'\Foo::test', array('Hannes'));
+
+call_user_func_array(array(__NAMESPACE__ .'\Foo', 'test'), array('Philip'));
+
+
+
+call_user_func() 与 call_user_func_array() 不同点在于后者把参数放入数组传入，并可以传引用参数，而前者不能
+
+
+
+
+

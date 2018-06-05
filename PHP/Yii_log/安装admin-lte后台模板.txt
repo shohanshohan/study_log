@@ -1,0 +1,50 @@
+安装 AdminLTE 渲染后台
+
+1、利用 AdminLTE 渲染后台模板
+
+AdminLTE 是一个完全响应管理模板。基于 Bootstrap3 框架，易定制模板。适合多种屏幕分辨率，从小型移动设备到大型台式机。
+内置了多个页面，包括仪表盘、邮箱、日历、锁屏、登录及注册、404错误、500错误等页面。
+
+进入 cmd，切换到 advanced 目录（确保有composer.json文件），输入
+composer require dmstr/yii2-adminlte-asset "2.*"（进程可能有点慢，如果不报错请耐心等待...）
+
+成功后，在vendor目录下会生成mdmstr文件夹
+复制 vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app下面的layouts和site文件夹 到 backend/views/，需要覆盖的则覆盖
+
+
+
+
+2、安装 yii2-admin 集成 rbac
+
+1、yii2-admin 是 yii2 rbac 的一套管理工具，实现了漂亮的界面和完整的权限管理功能
+
+进入 cmd，切换到 advanced 目录，输入
+composer require mdmsoft/yii2-admin "~2.0"
+（如果不能顺利安装，可以下载资源文件：https://github.com/mdmsoft/yii2-admin/releases，下载好后解压到vendor目录mdmsoft（没有的话新建）下，并命名为yii2-admin）
+
+
+配置 backend/config/main.php 文件
+
+"modules" => [
+    "admin" => [
+        "class" => "mdm\admin\Module",
+    ],
+],
+
+"aliases" => [
+    "@mdm/admin" => "@vendor/mdmsoft/yii2-admin",//也可以在bootstrap.php配置中Yii::setAlias('@mdm/admin', dirname(dirname(__DIR__)) . '/vendor/mdmsoft/yii2-admin');
+],
+
+'as access' => [
+    'class' => 'mdm\admin\components\AccessControl',
+    'allowActions' => [
+        //这里是允许访问的action
+        //controller/action
+    ]
+],
+'components' => [
+    "authManager" => [
+        "class" => 'yii\rbac\DbManager',
+        "defaultRoles" => ["guest"],
+    ],
+],

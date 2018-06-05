@@ -1,0 +1,99 @@
+首先生成Gii模型,即活动记录类
+use app/models/Customer;
+
+1）Customer::find()->one();    此方法返回一条数据（obj）；
+// 返回 ID 为 3 的客户：
+// SELECT * FROM `customer` WHERE `id` = 3
+$customer = Customer::find()
+    ->where(['id' => 3])
+    ->one();
+也可这样代替上面语句：$customer = Customer::findOne(3);
+
+
+2）Customer::find()->all();    此方法返回所有数据（obj）；
+// 取回所有活跃客户并以他们的 ID 排序：
+// SELECT * FROM `customer` WHERE `status` = 1 ORDER BY `id`
+$customers = Customer::find()
+    ->where(['status' => Customer::STATUS_ACTIVE])
+    ->orderBy('id')
+    ->all();
+也可以这样代替上面语句：$customers = Customer::findAll(['status' => Customer::STATUS_ACTIVE]);
+// 返回 id 是 100, 101, 123, 124 的客户
+// SELECT * FROM `customer` WHERE `id` IN (100, 101, 123, 124)
+$customers = Customer::findAll([100, 101, 123, 124]);
+
+
+3）Customer::find()->count();    此方法返回记录的数量（string）；
+// 取回活跃客户的数量：
+// SELECT COUNT(*) FROM `customer` WHERE `status` = 1
+$count = Customer::find()
+    ->where(['status' => Customer::STATUS_ACTIVE])
+    ->count();
+
+
+4）Customer::find()->average('column_name');    此方法返回指定列的平均值（string）；
+
+5）Customer::find()->min('column_name');    此方法返回指定列的最小值（strint） ；
+
+6）Customer::find()->max('column_name');    此方法返回指定列的最大值 （strint）；
+
+7）Customer::find()->scalar();    此方法返回值的第一行第一个字段的查询结果（string）；
+
+8）Customer::find()->column();    此方法返回查询结果中的第一列的值（array）；
+查询数据表中具体列：
+Customer::find()->select('name')->asArray()->column();或者：\yii\helpers\ArrayHelper::getColumn(Customer::find()->all(),'name');
+
+
+9）Customer::find()->exists();    此方法返回一个值指示是否包含查询结果的数据行；
+以上查询数据有的为对象，可以转换为数组形式加上->asArray(),如：Customer::find()->asArray()->one();
+
+
+// 每次获取 10 条客户数据
+10）foreach (Customer::find()->asArray()->batch(10) as $customers) {
+    // $customers 是个最多拥有 10 条数据的数组
+    $a[] = $customers;
+}
+
+
+// 每次获取 10 条客户数据，然后一条一条迭代它们
+11）foreach (Test::find()->asArray()->each(10) as $customer) {
+    // $customer 是个 `Customer` 对象
+    $b[] = $customer;
+}
+
+
+12）获取查询SQL
+$query = Customer::find()->where(['id'=>1]);
+$query->......
+echo $query->createCommand()->getRawSql();或echo $query->createCommand()->rawSql;
+
+
+13）使用Expression
+yii\db\Expression是一个代表了“数据库表达式”的类
+如果不用Expression，条件里面有函数等表达式的话，会被当成字符串用'号引住，因为框架要实现防注入
+使用find_in_set()等函数，需要用到Expression() 表达式。
+User::find()
+    ->where(new yii\db\Expression('FIND_IN_SET(:status, status)'))
+    ->addParams([':status' => 1])
+    ->all();
+
+
+14）模糊查询like
+Customer::find()->where(['like', 'name', 'tester']);  会生成 name LIKE '%tester%'。
+要想使用单边‘%’号查询，可这样定义：Customer::find()->where(['like', 'name', 'tester%',false]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

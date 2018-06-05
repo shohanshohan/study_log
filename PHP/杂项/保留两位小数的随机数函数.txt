@@ -1,0 +1,12 @@
+<?php
+header('content-type:text/html;charset=utf8'); 
+
+function randomFloat($min = 0, $max = 10)  
+   {  
+       $num = $min + mt_rand() / mt_getrandmax() * ($max - $min);  
+       return sprintf("%.2f", $num);  
+  
+   }  
+
+echo randomFloat(50,60);
+

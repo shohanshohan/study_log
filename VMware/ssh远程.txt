@@ -1,0 +1,5 @@
+首先，要确保CentOS安装了  openssh-server（一般CentOS系统默认安装了openssh）
+rpm -qa |grep ssh 检查是否装了SSH包
+没有的话yum install openssh-server
+
+chkconfig --list sshd 检查SSHD是否在本运行级别下设置为开机启动

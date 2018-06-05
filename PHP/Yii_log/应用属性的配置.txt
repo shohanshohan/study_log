@@ -1,0 +1,54 @@
+入口脚本index.php中通常要加载应用配置
+$config = require(__DIR__ . '/../config/web.php');
+而在应用配置文件中有各种配置项
+return [
+    'id' => '2018app ',
+    'language' => 'zh-CN',
+    'timezone' => 'Asia/shanghai',
+    'sourceLanguage' => 'zh-CN',
+    ......
+ ]
+ 下面就来说明一下每个配置项的名称和作用
+1）'id' => 'app2255',该ID属性指定一个唯一的ID区别于其他的应用程序。为了获得最佳的互操作性，建议指定应用程序ID时仅使用字母数字字符
+
+2）'basePath' => dirname(__DIR__),基本路径属性指定的应用程序的根目录下。它是包含应用系统所有受保护的源代码的目录。
+这个目录下，你通常会看到子目录，如models，views和controllers，其中含有相应于MVC模式的源代码。
+
+3）'sourceLanguage' => 'en-US',源语言：此属性指定应用程序代码所用的语言，这是指源代码中的文本消息被写入的语言。
+源语言的默认值是en-US，意思是美国英语。这里建议保持此默认值不变
+
+4）'language' => 'zh-CN',目标语言：这是应该用来向最终用户显示内容的语言，如果向目标用户的内容都是中文，可以在配置文件配置此项
+如果经常需要根据不同的因素（例如最终用户的语言偏好）动态设置目标语言。您可以使用以下语句来更改目标语言，而不是在应用程序配置中对其进行配置：
+// change target language to Chinese 翻译成中文显示
+\Yii::$app->language = 'zh-CN';
+消息翻译服务将文本消息从一种语言（源语言）翻译成另一种（目标语言）。对应的文本消息文件在@vendor/yiisoft/yii2/messages/zh-CN可以找到简体中文
+这个翻译配置文件可以自定义的
+
+5）'timezone' => 'Asia/shanghai',此属性作为设置PHP运行时的默认时区，这里为上海时区
+
+6）'charset' => 'utf8',该属性指定应用程序使用的字符集。默认值是'UTF-8'，对大多数应用程序应该保持原样,一般不需要设置
+
+7）'defaultRoute'=>'login/login',此属性指定应用程序在请求未指定时应使用的路线。路由可以由子模块ID，控制器ID和/或动作ID组成。
+也就是说访问入口文件不指定控制器和方法就会直接跳转到此路径
+此属性的默认值是'site'，这意味着SiteController应该使用控制器及其默认操作
+
+8）'layoutPath' => '@app/views/site',该属性指定查找布局文件的路径，默认值为 视图路径 下的 layouts 子目录。
+可以自定义，一般全局布局文件都在views/layouts目录下，不需要改变配置。
+'layout' => 'main',指定渲染 视图 默认使用的布局名字， 默认值为 'main' 对应布局路径下的 main.php 文件
+如果有个别视图不需要用到布局或布局比较个性化，可以在控制器方法中单独定义这两个属性
+Yii::$app->layoutPath = "@app/views/site";
+Yii::$app->layout = "my_layout";
+Yii::$app->layout = false; 设置成false表示不应用布局
+
+9）'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',该路径包含应用使用的包括Yii框架在内的所有第三方库。 默认值为带别名的 @app/vendor
+
+
+
+
+应用组件配置。
+
+
+
+
+
+

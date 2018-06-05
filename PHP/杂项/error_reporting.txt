@@ -1,0 +1,20 @@
+error_reporting() 函数规定应该报告何种 PHP 错误。
+<?php
+ // 关闭错误报告
+ error_reporting(0);
+
+ // 报告 runtime 错误
+ error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
+ // 报告所有错误
+ error_reporting(E_ALL);
+
+ // 等同 error_reporting(E_ALL);
+ ini_set("error_reporting", E_ALL);
+
+ // 报告 E_NOTICE 之外的所有错误
+ error_reporting(E_ALL & ~E_NOTICE);
+ error_reporting(E_ALL^E_WARNING^E_NOTICE);//显示除去E_WARNING E_NOTICE 之外的所有错误信息 
+ 
+ // 报告 E_WARNING 之外的所有错误信息
+ error_reporting(E_ALL ^ E_WARNING);

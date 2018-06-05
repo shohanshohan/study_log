@@ -1,0 +1,21 @@
+1）内置函数：memory_get_usage([ bool $real_usage = false ]);
+这个函数返回当前分配给你的 PHP 脚本的内存量，单位是字节（byte）。
+参数：如果设置为 TRUE，获取系统分配总的内存尺寸，包括未使用的页。如果未设置或者设置为 FALSE，仅仅报告实际使用的内存量。
+
+2）内置变量：DIRECTORY_SEPARATOR
+windows上习惯性的使用\作为文件分隔符，但是在linux上人家是不认识这个标识的，人家只认识/，于是就要引入下面这个php内置变量了：DIRECTORY_SEPARATOR。
+
+3）PHP 常量 PHP_SAPI 具有和 php_sapi_name() 相同的值。返回一个描述PHP与WEB服务器接口的小写字符串。
+用来检测PHP运行环境。
+SAPI是Server Application Programming Interface（服务器应用编程接口）的缩写。
+
+4）内置变量：PHP_OS，服务器操作系统：
+
+5）内置变量：PHP_VERSION，php版本信息
+
+6）parse_ini_file() ,解析一个配置文件,ini 文件的结构和 php.ini 的相似。
+成功时以关联数组 array 返回设置，失败时返回 FALSE。
+
+7）putenv( string $setting ) — 设置环境变量的值
+添加 setting 到服务器环境变量。 环境变量仅存活于当前请求期间。 在请求结束时环境会恢复到初始状态。
+getenv() - 获取一个环境变量的值
