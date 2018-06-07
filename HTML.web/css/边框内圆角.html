@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>css demo</title>
+	<link rel="stylesheet" href="">
+	<style>
+		body {background-color:#eee;}
+		.div {
+			display:inline-block;
+			margin:20px;
+			padding:10px;
+		}
+		h1 {background:#58a;padding:8px;text-align:center;}
+		.d1-box {
+			background:#655;
+			padding:.8em;
+		}
+		.d1-box > div {
+			background:tan;
+			padding:1em;
+			border-radius:.8em;
+		}
+		.d2 {
+			background:tan;
+			border-radius:.8em;
+			padding:1em;
+			box-shadow:0 0 0 .6em #655;
+			outline:.8em solid #655;
+		}
+	</style>
+</head>
+<body>
+	<h1>边框内圆角</h1>
+	<div class="div d1">
+		<h2>有时我们需要一个容器，只在内侧有圆角，而边框或描边的四个角在外部仍然保持直角的形状</h2>
+		<div class="d1-box">
+			<div>
+				<p>用两个元素可以实现这个效果，这并没有什么特别的</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="div d2">
+		<p>有没有办法可以只用一个元素达成同样的效果呢？看这里</p>
+	</div>
+</body>
+</html>
