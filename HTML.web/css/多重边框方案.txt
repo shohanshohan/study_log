@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>css test</title>
+	<link rel="stylesheet" href="">
+	<style>
+		body {background-color:#eee;}
+		div {
+			display:inline-block;
+			margin:50px;
+			padding:10px;
+		}
+		.d1 {
+			background:yellowgreen;
+			/*border:20px solid #ccc;*/
+			box-shadow: 0 0 0 10px green,
+			            0 0 0 20px #ccc,
+				    0 0 0 25px deeppink,
+				    0 3px 5px 35px rgba(0,0,0,.6);
+		}
+		.d2 {
+			background:yellowgreen;
+			border:10px solid #ccc;
+                        outline:5px solid deeppink;
+		}
+		.d2 .d2-outline {
+			background:#655;
+			border:10px solid #655;
+			outline:1px dashed #ccc;
+			outline-offset:-10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="d1">
+		<h2>box-shadow方案</h2>
+		用box-shadow模拟边框效果,用border:;实现的效果几乎是一样的，
+		这两者有什么不同呢？用border生成的边框宽度包含在盒子大小中，
+		而box-shadow模拟的边框不占盒子的大小，其实只是投影，看起来像边框
+		<p>
+		这并没有什么了不起的，因为你完全可以用 border 属性来生成完全一样的边框效果。
+		不过 box-shadow 的好处在于，它支持逗号分隔语法，我们可以创建任意数量的投影,
+		像是多个边框围绕，这样做并不需要嵌套多余的盒子
+		</p>
+		<p>
+		需要注意的是，box-shadow 是层层叠加的，第一层投影位于最顶层，依次类推。因此，你需要按此规律调整扩张半径。比如说，在前面的代码中，我们想在外圈再加一道5px的外框，那就需要指定扩张半径的值为15px（10px+5px）。
+		如果你愿意，甚至还可以在这些“边框”的底下再加一层常规的投影
+		</p>
+		<p>
+		box-shadow参数有6个：
+		水平阴影位置（必须，允许负值），
+		垂直阴影位置（必须，允许负值），
+		模糊距离（可选），
+		阴影的尺寸（可选），
+		阴影的颜色（可选），
+		阴影效果（可选，默认为外部阴影outset，inset改为内部阴影）
+		</p>
+		<p>
+		多重投影解决方案在绝大多数场合都可以很好地工作，但有一些注意事项。
+    投影的行为跟边框不完全一致，因为它不会影响布局，而且也不会
+    受到 box-sizing属性的影响。不过，你还是可以通过内边距或外边距（这取决于投影是内嵌和还是外扩的）来额外模拟出边框所要占据的空间。
+	  上述方法所创建出的假“边框”出现在元素的外圈。它们并不会响应鼠标事件，比如悬停或点击。
+	  如果这一点非常重要，你可以给box-shadow 属性加上inset 关键字，来使投影绘制在元素的内圈。
+    请注意，此时你需要增加额外的内边距来腾出足够的空隙
+	   </p>
+	</div>
+
+	<div class="d2">
+		<h2>outline方案</h2>
+		<p>在某些情况下，你可能只需要两层边框，那就可以先设置一层常规边框，再加上outline(描边)属性来产生外层的边框。</p>
+		<p>这种方法的一大优点在于边框样式十分灵活，不像上面的box-shadow方案吸能模拟实线边框（假设我们需要产生虚线边框效果，box-shadow就没辙了）</p>
+		<p>描边的另一个好处在于，你可以通过outline-offset属性来控制它跟元素之间的间距，这个属性甚至可以接受负值。这对于某些效果来说非常有用</p>
+		<p>对一层 dashed（虚线）描边使用负 的 outline-offset后，可以得到简单的缝边效果</p>
+		<div class="d2-outline">
+			<p>简单的缝边效果</p>
+		</div>
+		<p>这个方案同样也有一些需要注意的地方。如上所述，它只适用于双层“边框”的场景，因为outline并不能接受用逗号分隔的多个值。如果我们需要获得更多层的边框，前一种方案就是我们唯一的选择了。边框不一定会贴合borderradius属性产生的圆角，因此如果元素是圆角的，它的描边可能还是直角的。请注意，这种行为被CSS工作组认为是一个bug，因此未来可能会改为贴合border-radius 圆角。</p>
+	</div>
+</body>
+</html>
