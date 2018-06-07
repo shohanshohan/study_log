@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>css test</title>
+	<link rel="stylesheet" href="">
+	<style>
+		body {background-color:#eee;}
+		div {
+			display:inline-block;
+			margin:50px;
+			padding:10px;
+		}
+		.d1 {
+			background:url("visa.png") no-repeat bottom right #58a;
+			background-position:right 20px bottom 20px;
+		}
+		.d2 {
+			padding:20px;
+			background:url("visa.png") no-repeat #58a bottom right;
+			background-origin:content-box;
+			background-position:bottom 10px right 5px;
+		}
+		.d3 {
+			background:url("visa.png") no-repeat #58a;
+			background-position:calc(100% - 20px) calc(100% - 10px);
+		}
+	</style>
+</head>
+<body>
+	<h2>对背景图片的定位</h2>
+	<div class="d1">
+		<h2>background-position的扩展方案</h2>
+		<div>
+			<p>把背景图片定位在右下角，并设置偏移量</p>
+			<p>我们还需要提供一个合适的回退方案。因为对上述方案来
+	      说，在不支持 background-position 扩展语法的浏览器中，背景图片会紧
+	      贴在左上角（背景图片的默认位置）。这看起来会很奇怪，而且它会干挠到文字的可读性，提供一个回退方案也很简单，
+        就是把老套的bottom right 定位值写进 background 的简写属性中：background:url(visa.png) no-repeat bottom right #58a;
+			</p>
+			<p>你很可能多次写过类似 background-position: top left;这样的代码。你是否曾经有过疑惑：这个topleft到底是哪个左上角？
+      你可能知道，每个元素身上都存在三个矩形框.borderbox（边框的外沿框）、padding box（内边距的外沿框）和 content box（内容区的外沿框）。
+      那 background-position这个属性指定的到底是哪个矩形框的左上角?
+      </p>
+			<p>默认情况下，background-position是以paddingbox为准的，这样边框才不会遮住背景图片。因此，topleft默认指的是padding box 的左上角。</p>
+		</div>
+	</div>
+
+	<div class="d2">
+		<h2>background-origin方案</h2>
+		<div>
+			<p>在给背景图片设置距离某个角的偏移量时，有一种情况极其常见：偏移量与容器的内边距一致。</p>
+			<p>如果采用上面提到的background-position方案，每次改动内边距的值时，我们都需要在三个地方更新这个值！</p>
+			<p>还有一个更简单的办法可以实现这个需求：让它自动地跟着我们设定的内边距走，不用另外声明偏移量的值background-origin:content-box;
+      也就是说，此时背景图片距离边角的偏移量就跟内边距保持一致了</p>
+			<p>另外别忘了，在必要时可以把这两种技巧组合起来！如果你想让偏移量与内边距稍稍有些不同（比如稍微收敛或超出），
+      那么可以在使用background-origin: content-box 的同时，再通过 background-position的扩展语法来设置这些额外的偏移量。
+      (此时偏移的参照是content-box,也就是除内边距外的内容区)
+      </p>
+		</div>
+	</div>
+
+	<div class="d3">
+		<h2>calc()方案</h2>
+		<div>
+			<p>把背景图片定位到距离底边10px且距离右边20px的位置。如果我们仍然以左上角偏移的思路来考虑，
+      其实就是希望它有一个100% - 20px 的水平偏移量，以及 100% - 10px 的垂直偏移量。
+      谢天谢地，calc()函数允许我们执行此类运算，
+      它可以完美地在background-position 属性中使用background-position:calc(100% - 20px) calc(100% - 10px);
+			</p>
+			<p>请不要忘记在 calc() 函数内部的 - 和 + 运算符的两侧各加一个空白符，否则会产生解析错误！
+      这个规则如此怪异，是为了向前兼容：未来，在 calc() 内部可能会允许使用关键字，而这些关键字可能会包含连字符（即减号）。
+      </p>
+		</div>
+	</div>
+</body>
+</html>
