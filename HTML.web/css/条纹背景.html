@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>css demo</title>
+	<link rel="stylesheet" href="">
+	<style>
+		body {background-color:#eee;}
+		.div {
+			float:left;
+			margin:20px;
+			padding:10px;
+			border:1px solid #ccc;
+		}
+		h1 {background:#58a;padding:8px;text-align:center;}
+		.color-box {
+			width:150px;
+			height:150px;
+		}
+		.d1-box {
+			background:linear-gradient(#fb3,#58a);
+		}
+		.d2-box {
+			background:linear-gradient(#fb3 20%,#58a 80%);
+		}
+		.d3-box {
+			background:linear-gradient(#fb3 50%,#58a 50%);
+		}
+		.d4-box {
+			background:linear-gradient(#fb3 50%,#58a 50%) no-repeat;
+			background-size:100% 30px;
+		}
+		.d5-box {
+			background:linear-gradient(#fb3 50%,#58a 50%);
+			background-size:100% 20px;
+		}
+		.d6-box {
+			background:linear-gradient(#fb3 30%,#58a 30%);
+			background-size:30px;
+		}
+		.d7-box {
+			background:linear-gradient(#fb3 20%,#58a 0,#58a 60%,green 0);
+			background-size:100% 45px;
+		}
+		.d8-box {
+			background:linear-gradient(#fb3 25%,#58a 0,#58a 50%,green 0,green 75%,#655 0);
+			background-size:100% 45px;
+		}
+		.d9-box {
+			background:linear-gradient(to right,#fb3 50%,#58a 50%);
+			background-size:100% 20px;
+		}
+		.d10-box {
+			background:linear-gradient(to right,#fb3 30%,#58a 30%);
+			background-size:30px;
+		}
+		.d11-box {
+			background:linear-gradient(to right,#fb3 20%,#58a 0,#58a 60%,green 0);
+			background-size:100% 45px;
+		}
+		.d12-box {
+			background:linear-gradient(to right,#fb3 25%,#58a 0,#58a 50%,green 0,green 75%,#655 0);
+			background-size:100% 45px;
+		}
+		.d13-box {
+			background:linear-gradient(45deg,#fb3 25%,#58a 0,#58a 50%,#fb3 0,#fb3 75%,#58a 0);
+			background-size:30px 30px;
+		}
+		.d14-box {
+			background:repeating-linear-gradient(60deg,#fb3,#fb3 15px,#58a 0,#58a 30px);
+		}
+
+	</style>
+</head>
+<body>
+	<h1>条纹背景</h1>
+	<h2>垂直条纹背景</h2>
+	<div class="div">
+		<h2>线性渐变</h2>
+		<div class="color-box d1-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>线性渐变</h2>
+		<div class="color-box d2-box"></div>
+		<p>渐变现在出现在总高的 60% 区域，</p><p>剩下的部分显示为实色</p>
+	</div>
+
+	<div class="div">
+		<h2>实色无渐变</h2>
+		<div class="color-box d3-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>调整条纹尺寸</h2>
+		<p>设置整个高度为30px</p>
+		<p>设置no-repeat不重复</p>
+		<div class="color-box d4-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>调整条纹尺寸</h2>
+		<p>铺满背景</p>
+		<div class="color-box d5-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>不等宽条纹</h2>
+		<p>铺满背景</p>
+		<div class="color-box d6-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>不等宽多条纹</h2>
+		<p>铺满背景</p>
+		<div class="color-box d7-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>等宽多条纹</h2>
+		<p>铺满背景</p>
+		<div class="color-box d8-box"></div>
+	</div>
+
+	<hr style="clear: both">
+
+	<h2>水平条纹背景</h2>
+	<div class="div">
+		<h2>调整条纹尺寸</h2>
+		<p>铺满背景</p>
+		<div class="color-box d9-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>不等宽条纹</h2>
+		<p>铺满背景</p>
+		<div class="color-box d10-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>不等宽多条纹</h2>
+		<p>铺满背景</p>
+		<div class="color-box d11-box"></div>
+	</div>
+
+	<div class="div">
+		<h2>等宽多条纹</h2>
+		<p>铺满背景</p>
+		<div class="color-box d12-box"></div>
+	</div>
+
+	<hr style="clear: both">
+
+	<h2>斜向条纹背景</h2>
+	<p>注意斜向条纹不同于以上两种，单个贴片包含了四条条纹，而不是两条，只有这样才有可能做到无缝拼接</p>
+	<p>因此，两个交替的背景色循环是这样：background:linear-gradient(45deg,#fb3 25%,#58a 0,#58a 50%,#fb3 0,#fb3 75%,#58a 0);</p>
+	<div class="div">
+		<h2>调整条纹尺寸</h2>
+		<p>铺满背景</p>
+		<div class="color-box d13-box"></div>
+	</div>
+
+	<div class="div">
+		<p>假设我们想让条纹不是 45°而是60°怎么办？或者是 30°？</p>
+		<div class="color-box d14-box"></div>
+	</div>
+
+</body>
+</html>
