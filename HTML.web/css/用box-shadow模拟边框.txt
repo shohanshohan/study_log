@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>css test</title>
+	<link rel="stylesheet" href="">
+	<style>
+		body {background-color:#eee;}
+		.d1 {
+			width:300px;
+			height:300px;
+			margin:30px auto;
+			padding:10px;
+			background:yellowgreen;
+			/*border:20px solid #ccc;*/
+			box-shadow:0 0 0 20px #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div class="d1">用box-shadow模拟边框效果,用border:;实现的效果几乎是一样的，
+	这两者有什么不同呢？用border生成的边框宽度包含在盒子大小中，
+	而box-shadow模拟的边框不占盒子的大小，其实只是投影，看起来像边框</div>
+</body>
+</html>
