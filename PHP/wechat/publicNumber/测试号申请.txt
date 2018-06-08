@@ -1,0 +1,47 @@
+首先你要有一个公众号，公众号注册登录访问https://mp.weixin.qq.com
+登录自己的公众号，选择开发=>开发者工具=>公众平台测试帐号（要求绑定的微信管理帐号扫描登录）
+登录后，会生成测试号信息：appID wx91******
+appsecret 89f97d***********
+配置url信息，token,js安全域名
+url 设置要求你有服务器正常访问地址，且端口号为80，必须http://或https://开头（比如：http://123.25.25.23/wx）
+token 自定义填写，要用来验证响应微信服务访问，比如（hello2018）,这个可以随便填，记住验证时也要一样就可以了
+这个时候提交配置是不能通过的。会提示配置失败，因为你还没有验证配置信息（配置信息还要先码代码！）
+我们进入到上面填写的url访问地址下的目录（这个在unix服务器完成）比如wx目录下，新建一个文件index.php用来验证微信服务器访问
+代码逻辑如下：
+<?php
+date_default_timezone_set('PRC');
+if(isset($_GET['signature']) && isset($_GET['timestamp']) && isset($_GET['nonce']) && isset($_GET['echostr'])){
+	$token = 'hello2018'; // 这个token要和你配置的那个一致
+	$signature = $_GET['signature'];
+	$timestamp = $_GET['timestamp'];
+	$nonce = $_GET['nonce'];
+	$echostr = $_GET['echostr'];
+
+	$tmpArr = [$token,$timestamp,$nonce];
+	sort($tmpArr,SORT_STRING); //字典排序
+	$tmpStr = implode($tmpArr);
+	$tmpString = sha1($tmpStr); //接成一个字符串进行sha1加密 
+
+	if($signature == $tmpString){ //获得加密后的字符串与signature对比
+	  $f = fopen('error.txt', 'a+');
+	  fwrite($f, date('Y-m-d H:i:s')."接收信息:$tmpStr\n");
+	  echo $echostr; //返回微信给的随机字符串(注意这里用echo 而不是 return)
+	}else{
+	  $f = fopen('error.txt', 'a+');
+	  fwrite($f, date('Y-m-d H:i:s')."接收信息不匹配\n");
+	  return false;
+	}
+
+}else{
+	$f = fopen('error.txt', 'a+');
+	fwrite($f, date('Y-m-d H:i:s')."无接收信息\n");
+}
+确定http://123.25.25.23/wx能正常访问
+完成这一步后再提交配置，如果程序正常，则会提示配置成功！
+这样就配置好了url和token
+
+JS接口安全域名，设置JS接口安全域后，通过关注该测试号，开发者即可在该域名下调用微信开放的JS接口（比如上面的http://123.25.25.23）
+只要你填写的地址能正常访问，提交这个配置，提示成功
+
+
+
