@@ -29,3 +29,7 @@ http://www.runoob.com/index.php?id=1&image=awesome.jpg
 		}
 		return args;
 	}
+如上面第一个实例，要拿某个特定的参数值：urlArgs().image
+
+
+
