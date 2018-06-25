@@ -1,0 +1,68 @@
+<?php
+//post请求
+function post($postUrl='', $post_data = '', $timeout = 15){
+		/*$post_data = [
+            'user_id'       => 122,
+            'user_account'  => 'vv_10000129',
+            'pre_balance'   => 0, // 用户充值前金额
+            'after_balance' => 0, // 用户充值后金额
+            'status'        => '-1', // 支付状态
+            'balance'       => 28, // 充值金额
+            'order_no'      => 'vv_10000129000177642584935', // 订单号
+            'consum'        => 17, // 消费点
+            'agent_id'      => '002', // 二级代理
+            'top_agent'     => '001', // 一级代理
+            'level'         => 3, // 用户等级
+            'pay_result'    => (string) json_encode(['001'=>'test']), // 回调信息
+            'bill_time'     => time() // 充值时间
+        ];*/
+		if(empty($postUrl)){
+			return false;
+		}
+        $ch = curl_init();//初始化curl
+        curl_setopt($ch, CURLOPT_URL,$postUrl);//抓取指定网页
+        //curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+	    if($post_data != ''){
+	      curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+	    }
+	    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1); 
+	    curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	    curl_setopt($ch, CURLOPT_HEADER, false);
+	 	$file_contents = curl_exec($ch);
+	    curl_close($ch);
+	    return $file_contents;
+  }
+  
+  
+  //get请求
+  function getRequest($url, $data){
+    	$getdata = http_build_query($data);
+    	$opts = array('http' =>
+           array(
+             'method' => 'GET',
+             'header' => 'Content-type: application/x-www-form-urlencoded',
+             'content' => $getdata
+           )
+    	);
+    	$context = stream_context_create($opts);
+    	$result = file_get_contents($url, false, $context);
+    	return json_decode($result,true);
+  	}
+    
+    
+  //get请求接口
+	function curl_get_https($url){ //参数已做拼接
+	    $curl = curl_init(); // 启动一个CURL会话
+	    curl_setopt($curl, CURLOPT_URL, $url);
+	    curl_setopt($curl, CURLOPT_HEADER, 0);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	    $tmpInfo = curl_exec($curl);     //返回api的json对象
+	    //关闭URL请求
+	    curl_close($curl);
+	    return json_decode($tmpInfo,true);   //返回数组 
+	    //返回json对象
+	    //return $tmpInfo;
+	}
+  
+  
