@@ -1,0 +1,10 @@
+1）如果是服务器系统安装LAMP，则配置文件一般在 /etc/apache2/apache2.conf（主配置），和/etc/apache2/sites-enabled/project.conf（项目配置）
+端口配置文件在 /etc/apache2/ports.conf
+项目配置文件一般样式：
+<VirtualHost *:6001>
+        #ServerName www.example.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /mydata/www/smallgame/sgadmin/public
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
