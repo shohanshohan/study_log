@@ -8,3 +8,19 @@
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+
+
+2）如果是编译安装，安装目录一般在/usr/local/apache2/httpd.conf（主配置），和 /usr/local/apache2/conf/extra/httpd-vhosts.conf（扩展配置）
+配置样式：（端口号配置也一起）
+Listen 40003
+<VirtualHost *:40003>
+    DocumentRoot "/var/www/wwwroot/smallgame/sgadmin/public"
+    #ServerName www.jack.com
+    ServerAlias
+  <Directory "/var/www/wwwroot/smallgame/game/public">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+  </Directory>
+</VirtualHost>
