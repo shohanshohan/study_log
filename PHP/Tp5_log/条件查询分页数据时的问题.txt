@@ -1,0 +1,42 @@
+查询分页数据时，也要同时查询总条数，但是同一个句柄多次查询会出现问题，后面的查询不能按照条件来查询结果。如：
+$query = new userModel();
+if($cond){
+  $query = $query->where($cond);
+}
+$rows = $quer
+  ->order($order)
+  ->page($paged, $pagesize)
+  ->select();
+$total = $query->count();
+这样的查询就是后面查询总条数时，不按条件查询了，如果先查总条数则数据查询又会不按条件来出结果，这样就不能正确显示数据表，
+用Db::table()方法也一样的效果，所以，这个坑要特别注意。
+解决办法：
+可以使用两个句柄，如:
+$query = new userModel();
+$querycount = Db::name('user');
+if($cond){
+  $query = $query->where($cond);
+  $qureycount = $querycount->where($cond);
+}
+但是这样的话也增加了查询难度，特别是多表关联查询时，用两个句柄来实现并不好做。
+
+用下面这个方法会有效一些：(就是把查询条件分别赋值一次)
+$query = new userModel();
+if($cond){
+  $query = $query->where($cond);
+}
+$rows = $query
+  ->order($order)
+  ->page($paged, $pagesize)
+  ->select();
+if($rows){
+  if($cond){
+     $query = $query->where($cond);
+  }
+  $total = $query->count();
+}else{
+  $total = 0; // 没有数据时，总条数就是0
+}
+
+return ['total'=>$total, 'rows'=>$rows];
+
