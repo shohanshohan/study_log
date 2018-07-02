@@ -1,0 +1,18 @@
+配置好访问路径后访问会出现这样的错误提示：
+ You don't have permission to access / on this server.
+ 权限不够访问。修改一下主配置文件 /usr/local/apache2/conf/httpd.conf
+ 把：
+ <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+    Order deny,allow
+    Deny from all
+</Directory>
+ 修改成如下
+ <Directory />
+    Options FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+</Directory>
+重启apache2 就可以了：/usr/local/apache2/bin/apachectl restart
