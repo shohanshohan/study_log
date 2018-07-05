@@ -51,3 +51,18 @@ class Modules extends Validate
        ........
 */
 
+// 如果没有定义验证器类，直接在控制器中实现验证，可以这样写
+//验证数据
+    if($id){
+        $rules = [
+            ['name','require|alphaDash|unique:modules,name^id','模块名称不能为空！|名称必须是为字母和数字，下划线_及破折号-|模块名称已存在']
+            ['title','require|chs|unique:modules,title^id|length:2,30','模块标题必须|标题只能是汉字|标题不能重复|标题长度为2-30个字符']
+        ];
+    }else{
+        $rules = [
+            ['name','require|alphaDash|unique:modules,name,,id','模块名称不能为空！|名称必须是为字母和数字，下划线_及破折号-|模块名称已存在']
+            ['title','require|chs|unique:modules,title,,id|length:2,30','模块标题必须|标题只能是汉字|标题不能重复|标题长度为2-30个字符']
+        ];
+    }
+    $result = $this->validate($data,$rules);
+
