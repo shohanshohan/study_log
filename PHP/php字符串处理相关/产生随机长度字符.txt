@@ -1,0 +1,10 @@
+给定一个字符串，要求从该字符串中随机挑选出n个字符 （每次结果都是随机的，可应用于验证码的生成）
+
+如：
+$str = "abcdefghjkmnopqrstuvwxyzABCDEFGHJKMNOPQRSTUVWXYZ23456789";
+$n = 4;
+echo substr(str_shuffle($str),3,$n); //这样就可以得到随机 n 个字符了。（固定从第四个位置开始截取n个字符）
+如果要再随机一点，可以这样：
+echo substr(str_shuffle($str),strlen($str)-$n-1,$n);（没有固定位置截取字符，截取位置不应超过strlen($str)-$n-1）
+
+上面使用的字符串方法：substr()截取字符串，str_shuffle()打乱字符串顺序，strlen()得到字符串长度
