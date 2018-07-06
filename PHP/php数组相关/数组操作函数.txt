@@ -182,6 +182,7 @@ else
   {
   echo "值不存在！";
   }
+如果要检查数组中是否存在指定的键值，则使用 in_array($value,$array);
 
 
 
