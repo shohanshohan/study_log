@@ -1,6 +1,6 @@
 有时候访问的url太长要简化或不让别人知道具体模块路径，就需要配置自定义的路由来访问
 假如我们原来的访问地址是：http://localhost/Tp5/admin/tp_admin_layui/public/test_demo/hello_world/testindex
-我们在route.php（一般在应用目录下） 文件中定义自己的路由
+我们在route.php（在应用目录下） 文件中定义自己的路由
 return [
     // 添加路由规则 路由到 test_demo模块下的 helloWorld控制器的 testIndex操作方法
     'demo' => 'test_demo/hello_world/testIndex',
@@ -9,5 +9,47 @@ return [
 注意
 定义路由规则后，原来的URL地址将会失效，变成非法请求。
 
-更多的路由配置请看Thinkphp5快速入门
+以下是一些路由配置示例：（route.php脚本）
+<?php
+return [
+    '__pattern__' => [ //全局参数规则配置
+        'name' => '\w+',
+    ],
+    '[hello]'     => [
+        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
+        ':name' => ['index/hello', ['method' => 'post']],
+    ],
+
+    //根目录访问指向
+    '/' => 'index/index/route1', 
+
+    //常规路由
+    'route1' => 'index/index/route1', 
+
+    //规定请求类型，参数规则验证
+    'route2/[:id]' => ['index/index/route2',['method'=>'get|post'],['id'=>'\d+']], 
+
+    //域名检测，只有在规定的域名下访问才有效
+    'route3' => ['index/index/route3',['domain'=>'127.0.0.1']], 
+
+    //规定url访问后缀，只有有效的后缀才能访问，service/route4.html
+    'route4' => ['index/index/route4',['method'=>'get','ext'=>'html']], 
+
+    //排除url访问后缀，访问service/route5.php通不过
+    'route5' => ['index/index/route5',['deny_ext'=>'php']], 
+
+    //前置行为检测,如果行为方法返回false表示当前路由规则无效
+    'route6' => ['index/index/route6',['before_behavior'=>'\app\index\behavior\Usercheck']], 
+
+    //与以上路由配置类似的是，使用函数检测路由，如果函数返回false则表示当前路由规则无效,这个函数位置放在当前脚本
+    'route7' => ['index/index/route7',['callback'=>'route7back']],
+
+    //后置行为执行，定义后置行为执行，表示当路由匹配成功后，执行的行为
+    'route8' => ['index/index/route8',['after_behavior'=>'\app\index\behavior\Methodcheck']],
+];
+
+function route7back()
+{
+	return false;
+}
 
