@@ -1,0 +1,31 @@
+动态注入当前Request对象的属性
+
+如在index模块下的控制器文件Base.php
+<?php
+namespace app\index\controller;
+use think\Controller;
+use think\Request;
+
+class Base extends Controller
+{
+	
+	function __construct()
+	{
+		parent::__construct();
+		Request::instance()->bindtest = 'request-bind'; //动态注入属性
+	}
+}
+
+
+在index模块的控制器文件Index.php
+<?php
+namespace app\index\controller;
+
+class Index extends Base
+{
+  public function index()
+  {
+    echo $this->request->bindtest; //可以直接使用注入的 request 属性
+  }
+}
+
