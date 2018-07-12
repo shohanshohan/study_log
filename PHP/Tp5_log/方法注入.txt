@@ -1,0 +1,37 @@
+如果你需要在Request请求对象中添加自己的方法，可以使用Request对象的方法注入功能
+
+方法注入示例：
+首先，注入动态方法 （如index模块下的index控制器）
+<?php
+namespace app\index\controller;
+use think\Controller;
+use think\Request;
+
+class Index extends Controller
+{
+  function __construct()
+  {
+    parent::__construct();
+    Request::hook('user','getUserInfo'); //动态方法注入
+  }
+
+  public function index($uid='')
+  {
+    print_r($this->request->user($uid)); //使用动态方法请求信息
+  }
+}
+
+然后，在index模块下的common.php脚本写入方法getUserInfo （如果没有common.php文件请自建一个）
+<?php
+use think\Request;
+use think\Db;
+
+function getUserInfo(Request $request, $uid)
+{
+  return Db::name('user')->where('uid',$uid)->find(); //数据查询请先配置好数据库信息，参照文档数据库部分
+}
+
+这样就可以了，我们访问 服务器地址如：localhost/tp5/public/index.php/index/index/index?uid=1
+就可以得到信息了。后面uid参数就是用户id
+如果使用范围比较多的话，可以把Request::hook('user','getUserInfo'); 动态方法注入放到一个公共脚本里，然后再继承这个脚本
+
