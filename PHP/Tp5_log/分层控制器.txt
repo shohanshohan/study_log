@@ -1,0 +1,59 @@
+tp分层控制器类：分层控制器是不能够被URL访问直接调用到的，只能在访问控制器、模型类的内部，或者视图模板文件中进行调用
+其实这个分层控制器也可以使用命名空间来用的。
+比如在index模块下新建了分层控制器文件event（或别的），我们定义Blog事件控制器如下：
+<?php
+namespace app\index\event;
+class Blog 
+{
+  public function add()
+  {
+    return 'insert';
+  }
+
+  public function edit($id)
+  {
+    return 'update:'.$id;
+  }
+
+  public function delete($id)
+  {
+    return 'delete:'.$id;
+  }
+}
+
+在index模块的控制器下的 Index.php调用它
+<?php
+namespace app\index\controller;
+use app\index\event\Blog; // 这里use
+
+class Index
+{
+  public function index()
+  {
+    $event = new Blog();
+    //echo $event->add() . '<br>'; //直接输出
+    $this->assign('event', $event); // 可以赋值给视图
+    return $this->fetch();
+  }
+}
+
+视图文件中也可以直接使用它 ，如：
+{$event->edit(5)}
+
+不过有助手函数action() 和 widget() 就省去了实例化这个步骤了
+
+可以用下面的方式实例化并调用方法
+$event = \think\Loader::controller('Blog', 'event'); //省去了引用和实例化步骤
+echo $event->edit(5); // 输出 update:5
+echo $event->delete(5); // 输出 delete:
+
+还可以使用助手函数直接调用分层控制器中的方法
+echo action('Blog/edit', ['id' => 5], 'event'); // 输出 update:5
+
+在模板视图中使用：
+{:action('Blog/add', '', 'event')}
+
+框架提供了widget函数用于简化Widget控制器的调用，
+可以直接使用助手函数widget (在widget分层控制器下)
+{:widget('Blog/add')}
+{:widget('Blog/edit', ['id' => '8'])}
