@@ -1,0 +1,9 @@
+如果还没有安装 Composer，你可以按 Composer安装 中的方法安装。
+在 Linux 和 Mac OS X 中可以运行如下命令：
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+在 Windows 中，你需要下载并运行 Composer-Setup.exe
+
+composer安装5.0版本  composer create-project topthink/think=5.0.* tp5.0 --prefer-dist
+composer安装5.1版本  composer create-project topthink/think=5.1.* tp5.1 --prefer-dist
+以上都是表示安装的最新稳定版本
