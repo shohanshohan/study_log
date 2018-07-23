@@ -1,0 +1,66 @@
+1）一对多关联查询
+比如：member表一对多关联member_login_log表，定义模型关联
+<?php
+namespace app\front\model;
+use think\Model;
+
+class Member extends Model
+{
+  protected $resultSetType = 'collection'; //定义返回结果类型，在查询二维数据信息时可直接->toArray()转换成数据
+  
+  public function loginLogs()
+  {
+      return $this->hasMany('MemberLoginLog','mid'); //定义一对多关联，参数（MemberLoginLog模型，mid外键）
+      //如果需要指定查询字段，可以使用下面的方式：
+      //return $this->hasMany('MemberLoginLog','mid')->field('id,login_time');
+  }
+}
+
+定义好上面的一对多关联后就可以使用模型 Member 的一对多关联了
+
+如在 Member 控制器中查询
+use app\front\model\Member as MemberModel;
+use app\front\model\MemberLoginLog as MemberLoginLogModel;
+public function index()
+{
+  $member = MemberModel::get(1);
+  print_r($member->loginLogs->toArray());//后面直接使用toArray()时要在MemberLoginLog模型中定义$resultSetType='collection'
+  //还可以对关联数据进行条件搜索
+  // $member->loginLogs()->where('log_type',1)->select()->toArray(); //注意loginLogs()是有括号的
+}
+
+//上面是查询单个用户的多个日志信息，如果要查询多个用户的多个日志
+/*
+首先要在MemberLoginLog模型里定义从属关联
+<?php
+namespace app\front\model;
+use think\Model;
+class MemberLoginLog extends Model
+{
+  protected $resultSetType = 'collection';
+  
+  public function members()
+  {
+    return $this->blongsTo('Member','mid')->field('id,account,phone'); //此处的外键是member_login_log表的字段,指定属性时一定要写上关联主键id
+  }
+}
+
+*/
+public function logs()
+{
+  $logs = MemberLoginLogModel::with('members')->where('log_type',0)->select(); //这里用到预载入with()
+  print_r($logs->toArray());
+  
+}
+
+//根据关联数据表的条件查询主表的数据
+public function members()
+{
+  //查询日志数量超过3条的用户信息
+  $members = MemberModel::has('loginLogs','>',3)->select();
+  //查询今天有日志的用户信息
+  $members = MemberModel::hasWhere('loginLogs',['log_time'=>['>',stritotime('-1 day')]])-selcet();
+  //规定要查询的字段
+  $member = MemberModel::hasWhere('loginLogs' ,['log_time'=>['>',strtotime('-1 day')]], 'account,phone')->select();
+}
+
