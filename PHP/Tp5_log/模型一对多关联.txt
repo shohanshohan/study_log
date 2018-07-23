@@ -48,7 +48,7 @@ class MemberLoginLog extends Model
 */
 public function logs()
 {
-  $logs = MemberLoginLogModel::with('members')->where('log_type',0)->select(); //这里用到预载入with()
+  $logs = MemberLoginLogModel::with('members')->where('log_type',1)->select(); //这里用到预载入with()
   print_r($logs->toArray());
   
 }
@@ -62,5 +62,46 @@ public function members()
   $members = MemberModel::hasWhere('loginLogs',['log_time'=>['>',stritotime('-1 day')]])-selcet();
   //规定要查询的字段
   $member = MemberModel::hasWhere('loginLogs' ,['log_time'=>['>',strtotime('-1 day')]], 'account,phone')->select();
+}
+
+
+2）一对多关联新增、更新、删除
+//关联自动写入：together();
+public function saveMember()
+{
+  $memberInfo = MemberModel::get(1);
+  if(!$memberInfo){ //关联新增
+    $memberInfo = new MemberModel();
+    $memberInfo->account = 'piter';
+    $memberInfo->phone = '13245678901';
+    $memberInfo->create_time = time();
+    $log = new MemberLoginLogModel();
+    $log->log_type = 1;
+    $log->log_time = time();
+    $memberInfo->loginLogs = $log;//指定关联模型
+    $memberInfo->together('loginLogs')->save(); //关联写入
+  }else{ //关联更新
+    $memberInfo->last_login_time = time();
+    $logs = $memberInfo->loginLogs;
+    foreach($logs as &$value){ //多条数据更新
+      $value['log_time'] = time(); 
+    }
+    $memberInfo->save();
+    (new MemberLoginLogModel())->saveAll($logs->toArray()); //注意这里要转换为数据形式
+  }
+}
+
+//关联删除
+public function del()
+{
+    $memberInfo = MemberModel::get(2);
+		if($memberInfo){
+			$mid = [];
+			foreach ($memberInfo->loginLogs as $value) {
+				$mid[] = $value['id']; //注意，这里是日志id，不是mid
+			}
+		  	$memberInfo->delete();
+		  	MemberLoginLogModel::destroy($mid);
+		}
 }
 
