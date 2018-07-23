@@ -87,7 +87,7 @@ public function saveMember()
       $value['log_time'] = time(); 
     }
     $memberInfo->save();
-    (new MemberLoginLogModel())->saveAll($logs->toArray()); //注意这里要转换为数据形式
+    (new MemberLoginLogModel())->saveAll($logs->toArray()); //注意这里要转换为数组形式
   }
 }
 
