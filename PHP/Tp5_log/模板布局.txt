@@ -1,8 +1,11 @@
+方法一：
 首先要配置模板参数：（这个最好在你的对应模块下的config文件配置，而不要在公共配置文件）
 'template'  =>  [
     'layout_on'     =>  true, // 开启布局
     // 这个是布局文件名称（不包含后缀，这个文件目录是默认当前模块的 view 目录）
     'layout_name'   =>  'layout', （如果要在view目录下建一个文件夹来public包含header,footer,layout三个文件,则layout_name 的值为 public/layout）
+    //内容替标签，默认是{__CONTENT__}
+    'layout_item'   =>  '{__REPLACE__}'
 ]
 
 然后是新建对应的layout.html文件，内容如下：
@@ -11,3 +14,16 @@
 {include file="layout/footer" /}
 
 这样子就ok了，如果不需要引入布局文件，则在视图文件开头加入 {__NOLAYOUT__}
+
+
+方法二：模板标签方式 （个人感觉这个方法更灵活一些，可以根据需要选择不同布局，或不使用布局）
+这种布局模板不需要在配置文件中设置任何参数，也不需要开启layout_on，直接在模板文件中指定布局模板即可，相关的布局模板调整也在模板中进行。
+公共模板文件还是像上面一样布置，在模块view目录下，如：admin/view/layout/layout.html,内容同上
+在需要引入布局的模板开关写入：
+{layout name="layout/layout" replace="[__REPLACE__]" /} //后面replace如果采用默认{__CONTENT__}则可以不写
+
+
+方法三：控制器中指定(和方法二一样灵活)
+只需要在控制器中：$this->view->engine->layout('layout/layout','{__REPLACE__}'); //前提是继承了系统Controller
+不需要布局就不用写这个就行了，如果使用了方法一而要单独关闭布局，则：$this->view->engine->layout(false); 关闭布局
+
