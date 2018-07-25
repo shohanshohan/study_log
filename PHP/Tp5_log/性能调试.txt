@@ -1,0 +1,20 @@
+开发过程中，有些时候为了测试性能，经常需要调试某段代码的运行时间或者内存占用开销，
+系统提供了think\Debug类可以很方便的获取某个区间的运行时间和内存占用情况。 
+例如：
+Debug::remark('begin');
+// ...其他代码段
+Debug::remark('end');
+// ...也许这里还有其他代码
+// 进行统计区间
+echo Debug::getRangeTime('begin','end',6).'s'; //默认的统计精度是小数点后4位
+
+
+系统还提供了助手函数debug用于完成相同的作用，上面的代码可以改成：
+debug('begin');
+// ...其他代码段
+debug('end');
+// ...也许这里还有其他代码
+// 进行统计区间
+echo debug('begin','end').'s';
+echo debug('begin','end',6).'s';
+echo debug('begin','end','m').'kb';//第三个参数使用m表示进行内存开销统计，输出的结果可能是：625kb
