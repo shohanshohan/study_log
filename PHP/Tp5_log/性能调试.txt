@@ -17,4 +17,4 @@ debug('end');
 // 进行统计区间
 echo debug('begin','end').'s';
 echo debug('begin','end',6).'s';
-echo debug('begin','end','m').'kb';//第三个参数使用m表示进行内存开销统计，输出的结果可能是：625kb
+echo debug('begin','end','m');//第三个参数使用m表示进行内存开销统计，输出的结果可能是：625kb
