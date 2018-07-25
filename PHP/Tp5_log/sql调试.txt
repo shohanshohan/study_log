@@ -1,0 +1,27 @@
+如果开启了数据库的调试模式的话，可以在日志文件（或者设置的日志输出类型）中看到详细的SQL执行记录以及性能分析。
+
+如果没有开启数据库调试模式的话，也可以对数据库执行的任何SQL操作进行监听，使用如下方法：
+Db::listen(function($sql,$time,$explain){
+    // 记录SQL
+    echo $sql. ' ['.$time.'s]';
+    // 查看性能分析结果
+    dump($explain);
+});
+以上sql信息将被写入日志文件中，打印可能如下：
+[ 2018-07-25T10:32:43+08:00 ] 0.0.0.0 GET /Tp5/demo/public/index/index/index?age=18
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001000s ] mysql:host=127.0.0.1;dbname=sdk;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `cms_sdk_game_user_log` [ RunTime:0.008000s ]
+[ sql ] [ SQL ] SELECT * FROM `cms_sdk_game_user_log` WHERE  `level` > 1 [ RunTime:0.001000s ]
+
+
+调试执行的SQL语句
+在模型操作中 ，为了更好的查明错误，经常需要查看下最近使用的SQL语句，我们可以用getLastsql方法来输出上次执行的sql语句。例如：
+User::get(1);
+echo User::getLastSql(); 
+也可以使用fetchSql方法直接返回当前的查询SQL而不执行，
+例如：
+echo User::fetchSql()->find(1);
+//注意，如果是Db查询请使用->fetchSql()->find();//fetchSql用于直接返回SQL而不是执行查询
+
+如果要查看多个查询语句，建议使用SQL监听的方法，打印到日志中
+
