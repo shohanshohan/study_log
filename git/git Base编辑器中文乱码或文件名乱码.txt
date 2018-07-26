@@ -1,0 +1,15 @@
+1，对于中文乱码
+在git bash下，右键 (不要在编辑区点击，在边框右击)，选择options-》Text 
+选择Character set下拉选择UTF-8,Local下拉选择zh_CN,点击apply,save
+这样中文就不会乱码了
+
+
+
+
+
+2，对于文件名乱码，如提交了一个中文命名的文件，查看提交时，git status -s
+出现一堆类似的乱码：
+sepg\344\274\232\350\256\256\346\200\273\347\273
+解决方案：
+git config core.quotepath false
+core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常
