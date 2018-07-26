@@ -1,0 +1,27 @@
+1）新建一个本地仓库，在你的项目目录下: git init
+
+2）创建git用户名和邮箱
+git config user.name 'yourgitname'
+git config user.email 'yourregemail'
+
+3）连接远程仓库
+git remote add testpro https:://github.com/you/testpro (其中testpro是仓库简写，后面是你的仓库地址)
+查看远程仓库：git remote -v
+
+4）生成sshkey与github关联
+ssh-keygen -t rsa -C 'yourgithub_email' (一直回车键就可以了)
+windows用户生成的.ssh文件夹在当前个人用户的文件夹下，打开目录下的id_rsa.pub,复制里面的内容
+
+5）登录你的github账户，从settings->SSH and GPG keys->New SSH key
+添加新的ssh key ,起个标题，把id_rsa.pub里的内容粘贴到文本框，保存
+
+6）这样就会和github关联了
+从远程仓库拉取：git fetch testpro master
+合并：git merge master testpro/master
+码代码.....
+提交更新
+git add 
+git commit -m ''
+上传代码：git push testpro master
+这里会弹出一个框要求输入github用户名和密码
+
