@@ -12,4 +12,6 @@ git merge testpro/master
 fatal: refusing to merge unrelated histories
 原因是在本地的文件夹为NewRepo，与远程仓库名称不一样
 解决方案:
-pull时添加 –allow-unrelated-histories
+git merge master testpro/master --allow-unrelated-histories
+或
+pull时添加 –-allow-unrelated-histories
