@@ -1,0 +1,15 @@
+ git fetch：相当于是从远程获取最新版本到本地，不会自动merge
+git fetch testpro master
+git log -p master testpro/master
+git merge testpro/master
+以上命令的含义：
+首先从远程的origin的master主分支下载最新的版本到origin/master分支上
+然后比较本地的master分支和origin/master分支的差别
+最后进行合并
+
+合并时出现错误提示如下
+ * branch            master     -> FETCH_HEAD
+fatal: refusing to merge unrelated histories
+原因是在本地的文件夹为NewRepo，与远程仓库名称不一样
+解决方案:
+pull时添加 –allow-unrelated-histories
