@@ -1,0 +1,74 @@
+假如我们在服务器新增一个用户git
+sudo adduser git
+服务器会要求为该用户设置一个密码（输入两次）
+设置详细信息（如果不想设置直接回车）
+Is the information correct? 选择 Y 回车
+这样就生成了一个新用户，并在/home目录下面生成一个这个用户的文件夹git/
+
+切换到该用户下（或直接登录），su git
+配置ssh
+ssh-keygen -t rsa -C 'email_url'
+这个ssh配置可以用来github账户上的关联（详细参考ssh生成）
+如果不需要关联github账户，直接ssh-keygen就可以了（一直回车就可以）
+
+我们现在是要配置多用户的ssh公钥，方便其他用户访问git用户的项目仓库
+进入 .ssh目录：
+cd ~/.ssh （一般这个目录是隐藏的，ls看不到，要用ls -a）
+如果没有就新建一个：
+cd ~ ; mkdir .ssh && chmod 700 .ssh （注：先要进入该用户的目录下cd ~）
+我们将使用 authorized_keys 方法来对用户进行认证:
+touch .ssh/authorized_keys && chmod 600 .ssh/authorized_keys
+
+接着，我们需要为系统用户 git 的 authorized_keys 文件添加一些开发者 SSH 公钥
+这个公钥就是系统用户ssh生成的公钥，（ssh-keygen），看起来也是这样的
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
+ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4k
+O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
+dAv8JggJICUvax2T9va5 gsg-keypair
+复制需要授权者的公钥（可多个），将这些公钥加入系统用户git 的 .ssh目录下authorized_keys 文件的末尾：
+比如我们在git用户的目录下新建tem目录用来存放多个公钥
+mkdir tmp （cd ~）;
+vi id_rsa.shohan.pub （把shohan用户的公钥内容写入这个文件）
+vi id_rsa.ubuntu.pub（把ubuntu用户的公钥内容写入这个文件）
+.........
+将这些公钥加入系统用户 git 的 .ssh 目录下 authorized_keys 文件的末尾:
+cat tmp/id_rsa.shohan.pub >> .ssh/authorized_keys
+cat tmp/id_rsa.ubuntu.pub >> .ssh/authorized_keys
+.........
+
+
+现在我们来为开发者新建一个空仓库。（或者也可以从github账户clone一个）
+可以借助带 --bare 选项的 git init 命令来做到这一点，该命令在初始化仓库时不会创建工作目录：
+$ cd /home/git/testpro
+$ mkdir project.git
+$ cd project.git
+$ git init --bare
+Initialized empty Git repository in /opt/git/project.git/
+
+
+接着，shohan、ubuntu、......中的任意一人可以将他们项目的最初版本推送到这个仓库中，
+他只需将此仓库设置为项目的远程仓库并向其推送分支。
+比如在shohan用户下：（前提是已安装git应用）
+mkdir testpro
+git init （或直接克隆服务器仓库 git clone --bare ssh://git@192.168.0.86:/home/git/testpro/testpro.git）
+git config --global user.name 'shohan'
+git config --global user.email 'shohan.email'
+git add *
+git commit -m 'shohan file'
+git remote add testpro git@192.168.0.86:/home/git/testpro/testpro.git
+git push testpro master （推送到服务器仓库）
+
+
+这时如果在ubuntu用户下克隆仓库：
+git clone git@192.168.0.86:/home/git/testpro/testpro.git
+就能看到shohan提交的内容了
+同理ubuntu提交了新内容后，shohan用户pull后也能看到ubuntu提交的新内容
+
+
+
+
+
+
+
+
+
