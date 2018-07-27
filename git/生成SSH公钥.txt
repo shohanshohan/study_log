@@ -1,0 +1,28 @@
+查找到公钥并复制：
+为了向 Git 服务器提供 SSH 公钥，如果某系统用户尚未拥有密钥，必须事先为其生成一份
+默认情况下，用户的 SSH 密钥存储在其 ~/.ssh 目录下。
+进入该目录并列出其中内容，你便可以快速确认自己是否已拥有密钥：
+$ cd ~/.ssh
+$ ls
+authorized_keys2  id_dsa       known_hosts
+config            id_dsa.pub
+我们需要寻找一对以 id_dsa 或 id_rsa 命名的文件，其中一个带有 .pub 扩展名。.pub 文件是你的公钥，另一个则是私钥
+如果找不到这样的文件（或者根本没有 .ssh 目录），你可以通过运行 ssh-keygen 程序来创建它们
+ssh-keygen -t rsa -C 'your_email'
+首先 ssh-keygen 会确认密钥的存储位置（默认是 '/home/ubuntu/.ssh），然后它会要求你输入两次密钥口令。
+如果你不想在使用密钥时输入口令，将其留空即可。
+公钥看起来是这样的：
+$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
+GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
+Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
+t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
+mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
+NrRFi9wrf+M7Q== schacon@mylaptop.local
+复制这个内容，粘贴到你的github账户上项目的settings->Deploy keys
+
+如果是windows下的话，这个文件一般在当前用户的.ssh目录下，如adminstroter/.ssh
+如果没有这个文件的话，要打开命令行工具，生成sshkey
+ssh-keygen -t rsa -C 'yourgithub_email' （一直回车就可以了）
+把id_rsa.pub文件的内容复制粘贴到github账户的SSH and GPG keys里就关联了，这个SSH and GPG keys是最高级的keys
+允许操作所有项目，如果只是配置单个项目的操作，就只在单个项目仓库的Deploy keys配置就可以了。
