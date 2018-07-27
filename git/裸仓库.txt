@@ -1,0 +1,15 @@
+裸仓库就是以.git结尾的项目仓库目录，不要工作目录，只有git仓库自身
+有两种取得 Git 项目仓库的方法。
+第一种是在现有项目或目录下导入所有文件到 Git 中：git init （该命令生成 .git 仓库目录）
+第二种是从一个服务器克隆一个现有的 Git 仓库：git clone --bare your_pro 
+为了通过克隆你的仓库来创建一个新的裸仓库，你需要在克隆命令后加上 --bare选项按照惯例，裸仓库目录名以 .git 结尾
+上面第二种方法将生成一个your_pro.git的仓库目录，也就是裸仓库，如果要自定义仓库名：git clone --bare pro_url myname.git
+
+
+从远程仓库克隆一个裸仓库：git clone --bare remote_url （如果要生成名为.git仓库：git clone --bare remote_url .git）
+如果不是开放的库，需要部署keys到github账户的项目Deploy keys下才有权限（参考生成ssh公钥）
+
+把裸仓库放到服务器上：
+复制一个裸仓库来创建一个新仓库（假设一个git.example.com的服务器已经架设好，并可以通过SSH连接）
+在服务器中输入命令：scp -r my_pro.git user@git.example.com:/opt/git （放在/opt/git目录下）
+
