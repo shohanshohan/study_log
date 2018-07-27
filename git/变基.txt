@@ -1,0 +1,16 @@
+变基原则：不要对在你的仓库外有副本的分支执行变基（在从未推送至共用仓库的提交上执行变基命令）
+变基就是整合分支时生成一个新的快照来合并操作历史：git rebase branch_name
+
+变基过后就可以进行一次快进合并，看起来就像一条直线提交，没有多余的分叉，如：
+git checkout branch_1
+git rebase master
+git checkout master
+git merge branch_1
+git branch -d branch_1 （合并之后删除branch_1）
+
+（branch2是在branch1扩展出去的，合并branch2的所有修改但不包括branch1的单独修改到master分支）
+git rebase --onto master branch1 branch2
+
+
+总的原则是，只对尚未推送或分享给别人的本地修改执行变基操作清理历史，从不对已推送至别处的提交执行变基操作，
+这样，你才能享受到两种方式带来的便利。
