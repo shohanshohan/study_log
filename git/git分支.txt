@@ -1,3 +1,31 @@
+1）分支创建：git branch branch_name
+
+2) 分支切换：git checkout another_branch
+分支切换会改变你工作目录中的文件
+在切换分支时，一定要注意你工作目录里的文件会被改变。
+如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的样子
+
+3）新建一个分支并同时切换到那个分支上：git checkout -b new_branch （带 -b 参数，它是上面两条命令的简写）
+
+4) 查看所有分支：git branch （前面带*号的表示当前检出的分支）
+查看每一个分支的最后一次提交：git branch -v
+查看哪些分支已经合并到当前分支：git branch --merged
+查看所有包含未合并工作的分支：git branch --no-merged
+查看各分支当前所指的对象：git log --oneline --decorate
+查看分叉历史：git log --oneline --decorate --graph --all
+查看远程分支的更多信息：git remote show remote_name 
+显示地获得远程引用的完整列表：git ls-remote remote_name
+
+5）删除分支：git branch -d branch_name
+强制删除：git branch -D branch_name
+
+6）合并分支：git merge another_branch
+
+
+
+
+
+
 创建分支 git branch branch_name
  git branch 命令仅仅 创建 一个新分支，并不会自动切换到新分支中去。
 新建一个分支并同时切换到那个分支上:  git checkout -b branch_name
