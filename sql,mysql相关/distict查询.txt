@@ -1,1 +1,8 @@
-
+distict查询用来去字段重复值
+如：
+select distict city from town;
+注意，distict 后面跟的字段都会进入去重查询，通常取符合所选字段的所有不同值查询
+如：select distict channel,subchannel form channels;
+上面查询中，channel有多个（1,2,3），subchannel是子渠道，更多（1,2,3,4,5）结果会例出所有不同的子渠道和主渠道，
+如果一个主渠道有多个子渠道的话，主渠道会有重复
+distict 查询字段只能放在开头，不能插入中间查询，如：select username,distict sex from user;这样是错误的
