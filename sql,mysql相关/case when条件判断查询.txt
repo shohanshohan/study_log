@@ -1,0 +1,7 @@
+条件判断用来根据判断输出不同的值很有用
+如：select username,class_room,grade,(case when score>=80 then '优秀' when score<60 then '不及格' else '良好') as level from user;
+level字段的值将根据得分的不同输出不同的评语
+
+有时候要根据多个字段的值来条件查询
+如：select username,class_room from user where (chinese+math+english)>360; //查询语数外平均分超过120的学生
+
