@@ -1,0 +1,7 @@
+concat查询用来合并几个字段值的时候很有用，或int类型字段值的数学运算
+如：
+select username,phone,concat(channel,'/',subchannel) as channel_sub from user;
+查出来的结果，channel_sub字段类似 1/2
+又如：
+select username,class_room,concat(math+english+chanese) as all_score from user;
+查出来的all_score字段值就是math+english+chanese这三个字段值相加的和
