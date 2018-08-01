@@ -1,1 +1,0 @@
-sqlĞŞ¸Ä×Ö¶ÎÀàĞÍ£º alter table table_name modify column column_name chart(10) not null default '0';
