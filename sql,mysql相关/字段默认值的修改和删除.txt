@@ -1,0 +1,7 @@
+如果建表时忘记为字段添加默认值，可以如下操作添加：
+alter table table_name alter column_name default 'some word'; //这个语句也适用于修改默认值
+
+删除字段默认值：alter table table_name alter column_name drop default;
+
+也可以通过修改字段的整个属性来操作：alter table table_name modify column column_name varchar(20) not null default 'some word' comment '';
+如果只是修改添加默认值的话用这个语句显的太麻烦
