@@ -1,0 +1,33 @@
+求平均值：avg()
+select avg(column_name) from table_name;
+
+求和：sum()
+select sum(column_name)  form table_name;
+
+记录统计：count()
+select count(*) from table_name;
+
+找出最大值：max()
+select max(column_name) from table_name;
+
+找出最小值：min()
+select min(column_name) from table_name;
+
+having()条件
+在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与聚合函数一起使用。
+HAVING 子句可以让我们筛选分组后的各组数据
+select sum(cash),avg(cash) from accounts_info GROUP BY mainplat HAVING sum(cash)>0; //不查询sum(cash)为0的渠道记录
+
+将字段的值转换为大写：ucase()
+select ucase(login_name) from table_name;
+
+将字段的值转换为小写：lcase()
+select lcase(column_name) from table_name;
+
+从文本字段中提取字符: mid(column_name,start,length) //注：起始值是 1
+select mid(column_name,start,length) from table_name;
+
+返回文本字段中值的长度: length()
+select length(column_name) from table_name
+
+
