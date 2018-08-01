@@ -36,7 +36,13 @@ select round(column_name,decimals) from table_name
 函数返回当前系统的日期和时间: now()
 select now(),columns... from table_name; 返回的时间格式如：2018-08-01 14:27:45
 
-格式化字段的显示方式：format()
+时间截转换成日期显示：date_format(from_unixtime(time_column),'%Y-%m-%d %H:%i:%s')
+select date_format(from_unixtime(time_column),'%Y-%m-%d %H:%i:%s') as `date` from table_name;
+
+只保留日期不要时间：cast(date_time as date)
+select cast(now() as date) as `date` from table_name; //注：日期字段格式为datetime类型
+
+
 
 
 
