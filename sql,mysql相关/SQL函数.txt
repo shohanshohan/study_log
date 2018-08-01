@@ -30,4 +30,15 @@ select mid(column_name,start,length) from table_name;
 返回文本字段中值的长度: length()
 select length(column_name) from table_name
 
+将数字字段舍入为指定的小数位数: round(column_name,decimals)
+select round(column_name,decimals) from table_name
+
+函数返回当前系统的日期和时间: now()
+select now(),columns... from table_name; 返回的时间格式如：2018-08-01 14:27:45
+
+格式化字段的显示方式：format()
+
+
+
+
 
