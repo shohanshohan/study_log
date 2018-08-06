@@ -1,0 +1,21 @@
+mysql 查看当前使用的配置文件my.cnf的方法
+使用locate my.cnf命令可以列出所有的my.cnf文件
+命令
+locate my.cnf
+
+1、查看是否使用了指定目录的my.cnf
+启动mysql后，我们查看mysql的进程，看看是否有设置使用指定目录的my.cnf文件，如果有则表示mysql启动时是加载了这个配置文件。
+命令
+ps aux|grep mysql|grep 'my.cnf'
+
+如果上面的命令没有输出，表示没有设置使用指定目录的my.cnf。
+2、查看mysql默认读取my.cnf的目录
+如果没有设置使用指定目录的my.cnf，mysql启动时会读取安装目录根目录及默认目录下的my.cnf文件。
+查看mysql启动时读取配置文件的默认目录
+命令
+mysql --help|grep 'my.cnf'
+
+这些就是mysql默认会搜寻my.cnf的目录，顺序排前的优先。
+如果没有设置使用指定目录my.cnf文件及默认读取目录没有my.cnf文件，表示mysql启动时并没有加载配置文件，而是使用默认配置。
+需要修改配置，可以在mysql默认读取的目录中，创建一个my.cnf文件(例如:/etc/my.cnf)，把需要修改的配置内容写入，重启mysql后即可生效。
+sudo service mysql restart
