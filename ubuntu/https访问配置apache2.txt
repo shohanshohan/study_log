@@ -1,0 +1,46 @@
+https访问入口配置，找到 /usr/local/apache2/conf/extra/httpd-ssl.conf 或 /etc/apache2/conf/extra/httpd-ssl.conf 配置文件
+下面是一个配置文件示例：
+
+Listen 443
+
+AddType application/x-x509-ca-cert .crt
+AddType application/x-pkcs7-crl    .crl
+SSLPassPhraseDialog  builtin
+SSLSessionCache        "shmcb:/usr/local/apache2/logs/ssl_scache(512000)"
+SSLSessionCacheTimeout  300
+SSLMutex  "file:/usr/local/apache2/logs/ssl_mutex"
+
+
+<VirtualHost _default_:443> 
+DocumentRoot "/mydata/www/smallgame_api/public"
+ServerName dzgame.src.46you.cn
+ServerAdmin you@example.com
+ErrorLog "/usr/local/apache2/logs/error_log"
+TransferLog "/usr/local/apache2/logs/access_log"
+
+
+SSLEngine on
+
+SSLProtocol all -SSLv2
+SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+
+SSLCertificateFile "/usr/local/apache2/conf/sslkey/2_dzgame.src.46you.cn.crt"
+
+SSLCertificateKeyFile "/usr/local/apache2/conf/sslkey/3_dzgame.src.46you.cn.key"
+
+SSLCertificateChainFile "/usr/local/apache2/conf/sslkey/1_root_bundle.crt"
+
+<FilesMatch "\.(cgi|shtml|phtml|php)$">
+    SSLOptions +StdEnvVars
+</FilesMatch>
+<Directory "/usr/local/apache2/cgi-bin">
+    SSLOptions +StdEnvVars
+</Directory>
+
+BrowserMatch "MSIE [2-5]" \
+         nokeepalive ssl-unclean-shutdown \
+         downgrade-1.0 force-response-1.0
+CustomLog "/usr/local/apache2/logs/ssl_request_log" \
+          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+
+</VirtualHost>                                  
