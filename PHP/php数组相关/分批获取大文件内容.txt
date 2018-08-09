@@ -1,0 +1,30 @@
+有时候一个文件的内容太多，而要获取内容处理每一行文本数据时，直接用while循环一一处理太消耗时间，因为超时而不能完成。
+下面是一个实例：要求读取文件的每一行数据并区分，把得到的每一行数据都添加到 Mysql 数据表中
+function ipdress()
+    {
+        set_time_limit(0);
+        $f = fopen('ipv2i.utf8','r'); //将近十万条数据量
+        $line = count(file('ipv2i.utf8')); //计算总行数，即总条数
+        $dataAll = [];
+        while (!feof($f)) {
+            $str = fgets($f);
+            $data = explode('|', $str);
+            $ipData = [
+                'ipint_start' => $data[2],
+                'ipint_end' => $data[3],
+                'country' => $data[4],
+                'province' => $data[5],
+                'city' => $data[6],
+                'area' => $data[7],
+                'ips' => $data[8]
+            ];
+            $dataAll[] = $ipData;
+        }
+        fclose($f);
+        $page = ceil($line/100);
+        for($i=0;$i<$page;$i++){
+            $start = $i * 100;
+            $saveData = array_slice($dataAll,$start,100);
+            Db::name('ip_address')->insertAll($saveData);
+        }
+    }
