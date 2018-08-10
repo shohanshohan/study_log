@@ -5,7 +5,7 @@ function ipdress()
         set_time_limit(0);
         $f = fopen('ipv2i.utf8','r'); //将近十万条数据量
         $line = count(file('ipv2i.utf8')); //计算总行数，即总条数
-        $dataAll = [];
+        $dataAll = [];//先循环保存到这个变量数组里面
         while (!feof($f)) {
             $str = fgets($f);
             $data = explode('|', $str);
@@ -22,9 +22,10 @@ function ipdress()
         }
         fclose($f);
         $page = ceil($line/100);
+        //通过得到的数组，每次100条导入数据库，这样就大大减少数据库访问
         for($i=0;$i<$page;$i++){
             $start = $i * 100;
-            $saveData = array_slice($dataAll,$start,100);
+            $saveData = array_slice($dataAll,$start,100);//批量获取数组内容
             Db::name('ip_address')->insertAll($saveData);
         }
     }
