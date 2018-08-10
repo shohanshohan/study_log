@@ -1,0 +1,29 @@
+通过提交区间可以查看这个分支还有哪些提交尚未合并到主分支
+
+双点查看：git log develope..master （在master分支中而不在develope分支中的提交）
+git log origin/master..HEAD （在当前分支中而不在远程分支master中的提交）
+
+
+多点查看：git log A B ^C （所有被A或B包含但是不被C包含的提交）
+或者：git log A B --not C （和上面等效）
+
+
+三点查看：git log master...develope （master或develope包含的但不是两者共有的提交，也就是交集的反结果）
+三点查看时加上 --left-right 参数，会显示每个提交的指向
+git log --left-right master...develope  （箭头指向对应的master和develope）
+< A
+> B
+
+
+查看祖先提交：在引用的尾部加上一个 ^ 符号即为该引用的上一个提交，加 ~整数为第几个父提交
+git show HEAD^ （查看上一个提交）
+git show HEAD~ （与上面同效）
+git show HEAD~3 （查年上上上个提交）
+
+
+
+查看选定分支昨天的提交
+git show master@{yesterday}
+
+
+
