@@ -1,0 +1,8 @@
+进入任务配置文件：crontab -e
+常规任务：* * * * * command > log （注：分 时 日 月 周 任务脚本 > 保存日志地址，如：*/5 * * * * /var/www/test.sh > /tmp/test.txt）
+如果不需要保存日志则后面：> /dev/null 就行了。
+
+php脚本执行：首先要确定php的安装启动位置，如 /usr/bin/php 或 /usr/local/php5/bin/php 根据你安装php时的目录不同而有路径区别
+执行php脚本任务：0 * * * * usr/local/php5/bin/php /var/www/test.php > dev/null &  （注：每天0点执行脚本test.php）
+
+thinkphp5 的 crontab 任务配置
