@@ -1,0 +1,11 @@
+创建数据库时出现这种错误，一般是mysql用户没有目录权限的问题
+sudo chown -R mysql:mysql /mydata/mysql/data
+注：其中/mydata/mysql/data为mysql的数据库存储的所在目录，根据实际情况不同位置，如/var/lib/mysql，主要看你mysql的安装配置
+
+如果不知道存储目录，可以 find / -name "*.sql*" 来查找一下，再进行确认
+ ls -ld 查看data目录权限， data是存放数据文件的文件夹
+ ls -ld /mydata/mysql/data
+ 如果显示：
+drwxr-xr-x 6 root root 4096 Dec 11 08:57 /mydata/mysql/data
+则说明mysql用户没有操作权限，需要用chown指令授权：
+chown -R mysql:mysql  /mydata/mysql/data
