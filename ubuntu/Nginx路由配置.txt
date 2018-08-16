@@ -1,0 +1,19 @@
+内容样式如下：
+server {
+        listen 8899; #端口号
+        server_name 112.74.180.123;
+        root   /data/www/wwwroot/btadmin/app/web;
+        index index.php;
+
+        location / {
+             try_files $uri $uri/ /index.php?$args;
+        }
+
+        location ~ .*\.php {
+                include cors.conf;
+                fastcgi_pass unix:/tmp/php-fcgi.sock;
+                fastcgi_index index.php;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+}
