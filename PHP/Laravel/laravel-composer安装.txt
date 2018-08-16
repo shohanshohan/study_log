@@ -1,0 +1,18 @@
+首先要确定是否安装composer : composer -V 
+安装laravel 5.5版本时要注意环境要求：如果之前的环境是php7以下的则不合要求
+即使php升级到php7.0以上版本，但composer是关联php7以下的，这里用composer时没效，
+需要重新安装 composer,关联php7的php.exe,如：D:\phpstudy\php\php-7.0.12-nts\php.exe
+
+安装 laravel 5.5
+环境要求：
+PHP >= 7.0.0
+PHP OpenSSL 扩展
+PHP PDO 扩展
+PHP Mbstring 扩展
+PHP Tokenizer 扩展
+PHP XML 扩展
+符合以上环境就可以在命令窗口执行以下命令安装了：
+composer create-project --prefer-dist laravel/laravel my_laravel 5.5.*
+
+如果想安装 5.4
+composer create-project --prefer-dist laravel/laravel blog 5.4.*
