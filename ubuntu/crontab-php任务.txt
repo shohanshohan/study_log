@@ -5,4 +5,95 @@
 php脚本执行：首先要确定php的安装启动位置，如 /usr/bin/php 或 /usr/local/php5/bin/php 根据你安装php时的目录不同而有路径区别
 执行php脚本任务：0 * * * * usr/local/php5/bin/php /var/www/test.php > dev/null &  （注：每天0点执行脚本test.php）
 
-thinkphp5 的 crontab 任务配置
+（1）thinkphp5 的 crontab 任务配置
+在tp框架的根目录下有一个think文件（和application同级），这个就是命令行运行入口文件
+如下实例：
+在index模块下新建一个文件夹command,新建Index.php文件，内容如
+<?php
+namespace app\index\command;
+use think\console\Command;
+use think\console\Input;
+use think\console\Output;
+use think\Log;
+/**
+* 任务测试类
+*/
+class Index extends Command
+{
+	
+	protected function configure(){
+        $this->setName('Index')->setDescription("计划任务 Test");
+    }
+
+    protected function execute(Input $input, Output $output){
+        $output->writeln('Date Crontab job start...');
+        /*** 这里写计划任务列表集 START ***/
+
+        $this->test();
+
+        /*** 这里写计划任务列表集 END ***/
+        $output->writeln('Date Crontab job end...');
+    }
+
+    private function test(){
+        Log::record('tp-admin-task-test','task-info');
+        echo 'tp-command-task-test<br>';
+	}
+}
+
+
+在command.php文件（在application目录下，没有就创建一个）配置信息
+<?php
+
+return [
+	'app\index\command\Index'
+];
+
+这样就可以了，在命令行运行 think
+如： /usr/local/php5/bin/php /var/www/wwwroot/smallgame/admintask/think
+注：前面为php的命令目录，根据情况会有不同位置，后面为脚本位置
+会看到如下内容：
+Think Console version 0.1
+
+Usage:
+  command [options] [arguments]
+
+Options:
+  -h, --help            Display this help message
+  -V, --version         Display this console version
+  -q, --quiet           Do not output any message
+      --ansi            Force ANSI output
+      --no-ansi         Disable ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Available commands:
+  Index              计划任务 Test
+  build              Build Application Dirs
+  clear              Clear runtime file
+  help               Displays help for a command
+  list               Lists commands
+ make
+  make:controller    Create a new resource controller class
+  make:model         Create a new model class
+ optimize
+  optimize:autoload  Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production.
+  optimize:config    Build config and common file cache.
+  optimize:route     Build route cache.
+  optimize:schema    Build database schema cache.
+  
+  在commands列表出现你定义的Index 计划任务，说明配置成功，运行脚本：/usr/local/php5/bin/php /var/www/wwwroot/smallgame/admintask/think Index
+  配置crontab任务
+  crontab -e
+  1 0 * * * /usr/local/php5/bin/php /var/www/wwwroot/smallgame/admintask/think Index > /dev/null &
+  
+  
+  （2）Yii 的crontab 任务配置
+  1 0 * * * /usr/bin/php5.6 /mydata/www/btadmin/src/console/yii stat/players >/dev/null &
+  Yii有一个控制台命令可以用来配置任务
+  在根目录的console/yii 文件就是命令启动文件入口
+  console目录下也有config配置目录，记住里面的数据库等配置要填写正确，执行方法写在console/controller控制器里面就可以了
+  上面那条命令就是执行console/controller/StatController/players方法
+  
+
+
