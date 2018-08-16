@@ -1,0 +1,6 @@
+有时想切换成nginx环境，但用了apache后切换不了，一直不能启动
+这时，查看nginx的日志文件：D:\phpstudy\nginx\logs\error.log
+出现如下报错时说明缺少文件夹位置
+CreateDirectory() "D:\phpstudy\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+在D:\phpstudy\nginx目录下新建文件夹 temp 
+再次启动，ok啦
