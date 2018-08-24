@@ -3,7 +3,7 @@
 如果不需要保存日志则后面：> /dev/null 就行了。
 
 php脚本执行：首先要确定php的安装启动位置，如 /usr/bin/php 或 /usr/local/php5/bin/php 根据你安装php时的目录不同而有路径区别
-执行php脚本任务：0 * * * * usr/local/php5/bin/php /var/www/test.php > dev/null &  （注：每天0点执行脚本test.php）
+执行php脚本任务：0 0 * * * usr/local/php5/bin/php /var/www/test.php > dev/null &  （注：每天0点执行脚本test.php）
 
 （1）thinkphp5 的 crontab 任务配置
 在tp框架的根目录下有一个think文件（和application同级），这个就是命令行运行入口文件
