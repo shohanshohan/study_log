@@ -1,0 +1,9 @@
+php类型共有 8 大类型
+1 字符串 string
+2 整型 int
+3 浮点型 float
+4 数组 array
+5 对象 obj
+6 布尔 bool
+7 null值
+8 资源类型 resource 如数据库连接
