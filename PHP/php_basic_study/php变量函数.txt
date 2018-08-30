@@ -1,0 +1,75 @@
+（1）boolval() 返回变量的布尔值(PHP 5 >= 5.5.0)。
+变量值为空、0,0.0...,null、false都返回false，否则返回true. $a='null'; echo boolval($a); // 1
+
+（2）floatval() — 获取变量的浮点值(PHP 4 >= 4.2.0)
+变量值为空、字符串，0，0.0...，null、false都返回 0，否则返回浮点数. $a='0.03'; echo floatval($a); // 0.03
+
+（3）intval($var, $base=10) — 获取变量的整数值，注：这个函数不能用于对象，否则报错
+可以通过使用指定的进制 base 转换（默认是十进制），
+提示:
+如果 base 是 0，通过检测 var 的格式来决定使用的进制：
+如果字符串包括了 "0x" (或 "0X") 的前缀，使用 16 进制 (hex)；
+如果字符串以 "0" 开始，使用 8 进制(octal)；
+否则，将使用 10 进制 (decimal)。
+变量值为空、字符串，0，0.0...，null、false都返回 0，否则返回整数，去小数部分. $a='8.83'; echo intval($a); // 8
+
+（4）empty() — 检查一个变量是否为空，注：在 PHP 5.5 之前，empty() 仅支持变量
+变量未定义、变量值为空，0，0.0...，null、false都返回 true，否则返回false. $a=null; echo empty($a); // 1
+
+（5）is_bool() — 检测变量是否是布尔型,如果是返回true,否则false，其它类型判断同理，如下：
+ is_array()、is_float()、is_int()、is_string() 和 is_object()、is_null()、is_numeric()（ 检测变量是否为数字或数字字符串）。
+ 注意浮点型判断，is_float(0.00);返回true,只要后面跟了小数点。 is_float(0);返回false
+ 
+（6） is_callable($name,$boll,$callable_name) — 检测参数是否为合法的可调用结构，如果 name 可调用则返回 TRUE，否则返回 FALSE。
+function someFunction() {}
+$functionVariable = 'someFunction';
+var_dump(is_callable($functionVariable, false, $callable_name));  // bool(true)
+echo $callable_name, "\n";  // someFunction
+
+（7）get_defined_vars() — 返回由所有已定义变量所组成的数组，这些变量包括环境变量、服务器变量和用户定义的变量
+如：$b = 2;
+print_r(get_defined_vars()); //注：在调用这个函数之前定义的变量才会包括
+Array
+(
+    [_GET] => Array
+        (
+        )
+
+    [_POST] => Array
+        (
+        )
+
+    [_COOKIE] => Array
+        (
+            [Phpstorm-cff2eedf] => 1344d683-780a-48fc-8bda-960908ee8dff
+            [pgv_pvi] => 3297795072
+        )
+
+    [_FILES] => Array
+        (
+        )
+    [b] => 2
+ )
+ // 打印变量数组的所有可用键值，print_r(array_keys(get_defined_vars()));
+ 
+ （8）is_scalar() — 检测变量是否是一个标量
+ 标量变量是指那些包含了 integer、float、string 或 boolean的变量，而 array、object 和 resource 则不是标量。
+ var_dump(is_scalar(2)); // true
+ var_dump(is_scalar([1=>'a'])); // false
+ 
+ （9）isset() — 检测变量是否已设置并且非 NULL
+ 
+ （10）serialize() — 产生一个可存储的值的表示，也就是序列化,这有利于存储或传递PHP的值，同时不丢失其类型和结构。 对应的反序列化 unserialize()
+ 
+ （11）unset() — 释放给定的变量，也就是删除。如果您想在函数中 unset() 一个全局变量，可使用 $GLOBALS 数组来实现：unset($GLOBALS['bar']);
+ unset($GLOBALS['_GET']);
+ print_r(array_keys(get_defined_vars)); //会发现全局变量 _GET 已删除
+ 
+ 
+ 
+
+
+
+
+
+
