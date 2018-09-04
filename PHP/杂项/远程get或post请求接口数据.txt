@@ -33,22 +33,6 @@ function post($postUrl='', $post_data = '', $timeout = 15){
 	    curl_close($ch);
 	    return $file_contents;
   }
-  
-  
-  //get请求
-  function getRequest($url, $data){
-    	$getdata = http_build_query($data);
-    	$opts = array('http' =>
-           array(
-             'method' => 'GET',
-             'header' => 'Content-type: application/x-www-form-urlencoded',
-             'content' => $getdata
-           )
-    	);
-    	$context = stream_context_create($opts);
-    	$result = file_get_contents($url, false, $context);
-    	return json_decode($result,true);
-  	}
     
     
   //get请求接口
@@ -66,3 +50,16 @@ function post($postUrl='', $post_data = '', $timeout = 15){
 	}
   
   
+  获取一个页面并发送 POST/GET 数据, 还有更方便的方法，用套拼字HTTP context 选项，如下：
+  function remoteHttp($url,$data,$method='GET')
+  {
+  	$opts = ['http' =>
+		[
+			'method'  => $method,
+			'header'  => 'Content-type: application/x-www-form-urlencoded',
+			'content' => $data
+	    	]
+	];
+	$context = stream_context_create($opts); //创建套接字连接
+	turn file_get_contents($url, false, $context);
+  }
