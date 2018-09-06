@@ -95,5 +95,16 @@ Available commands:
   console目录下也有config配置目录，记住里面的数据库等配置要填写正确，执行方法写在console/controller控制器里面就可以了
   上面那条命令就是执行console/controller/StatController/players方法
   
+  
+  上面的计划任务每次执行一个脚本都要指定一下php的解释器命令 /usr/local/php5/bin/php
+  如果明确一个 php 脚本为服务器后台任务脚本，则可以在脚本的首行声明这个脚本的解释器，就像写 shell 脚本那样！
+  如：
+  #!/usr/local/php5/bin/php
+  <?php
+  /*--------------------------------
+  //执行程序
+  --------------------------------*/
+  这样就不必在任务器中重复写解释器路径啦！
+  
 
 
