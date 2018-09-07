@@ -1,0 +1,40 @@
+Expect是一个免费的编程工具语言，用来实现自动和交互式任务进行通信，而无需人的干预.
+以下安装包统一放在 /var/tmp/目录下了
+expect是建立在tcl基础上的一个工具,因为expect是基于tcl的，所以需要你的系统中安装有tcl
+$ whereis tcl    
+tcl: /usr/lib/tcl8.4 /usr/share/tcl8.4
+如果看不到结果，请先安装tcl, tcl安装包下载地址:
+https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/tcl8.6/8.6.8+dfsg-4/tcl8.6_8.6.8+dfsg.orig.tar.gz
+解压：$ tar xfvz tcl8.6_8.6.8+dfsg.orig.tar.gz
+$ cd tcl8.6.8/unix
+$ ./configure --prefix=/usr/tcl --enable-shared
+报错：no accecptable C compiler found in $PATH (未安装GCC)
+$ sudo apt-get install gcc
+继续上面步骤
+$ make
+报错：command 'make' not found (未安装 make)
+$ sudo apt-get install make
+继续上面步骤
+$ make install
+子目录unix下面的tclUnixPort.h 复制到generic中
+$ cp tclUnixPort.h /var/tmp/tcl8.6.8/generic/
+
+
+
+expect安装
+安装包下载地址：https://sourceforge.net/projects/expect/files/Expect/5.45.3/expect5.45.3.tar.gz/download
+解压：$ tar xfvz expect5.45.3.tar.gz
+$ cd expect5.45.3
+$ ./configure --prefix=/usr/expect --with-tcl=/usr/tcl/lib --with-tclinclude=../tcl8.6.8/generic
+$ make
+$ make install
+创建连接符：
+  $ ln -s /usr/tcl/bin/expect /usr/expect/bin/expect
+  $ ln -s /usr/expect/bin/expect /usr/bin/expect
+查看连接符：$ ls -l /usr/bin/expect （这个连接符会在脚本中用到，shell脚本头部：#!/usr/bin/expect）
+$ expect
+expect1.1> 安装成功
+
+上面是源码解压安装，如果ubuntu系统自带安装包则可用 apt-get install tcl 和 apt-get install expect
+
+
