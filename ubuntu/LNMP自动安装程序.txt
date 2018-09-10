@@ -1,0 +1,10 @@
+一键安装包下载地址：https://lnmp.org/download.html
+这是国产开发的一款 lnmp自动安装程序，可支持centos 和 ubuntu
+不过安装过程稍慢！用了28 minutes
+具体安装步骤参照：https://lnmp.org/install.html
+还能支持 LAMP 和 LNMP选择，不过这些选择都要通过在安装前的输入参数来指定，
+wget http://soft.vpser.net/lnmp/lnmp1.5.tar.gz -cO lnmp1.5.tar.gz && tar zxf lnmp1.5.tar.gz && cd lnmp1.5 && ./install.sh lnmp
+如需要安装LNMPA或LAMP，将./install.sh 后面的参数lnmp替换为lnmpa或lamp即可
+安装更多php扩展，在 lnmp1.5目录下有一个addons.sh 文件，执行它并指定要安装的扩展，如：
+sudo ./addons.sh install redis
+安装速度慢了些，不过还是很方便！
