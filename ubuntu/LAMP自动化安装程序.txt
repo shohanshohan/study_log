@@ -1,0 +1,3 @@
+在github上找到一个很好用的 LAMP 安装程序，全程自由选择安装版本，可升级可卸载，安装后即可用，各配置文件和目录均有明确说明，很方便！
+连接地址：https://github.com/teddysun/lamp
+该程序支持cenos 和ubuntu ，具体方法参见上面网页
