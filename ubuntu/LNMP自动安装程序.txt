@@ -8,3 +8,4 @@ wget http://soft.vpser.net/lnmp/lnmp1.5.tar.gz -cO lnmp1.5.tar.gz && tar zxf lnm
 安装更多php扩展，在 lnmp1.5目录下有一个addons.sh 文件，执行它并指定要安装的扩展，如：
 sudo ./addons.sh install redis
 安装速度慢了些，不过还是很方便！
+还可下载完整安装包：http://soft5.vpser.net/lnmp/lnmp1.5-full.tar.gz
