@@ -1,0 +1,49 @@
+HTML 事件是发生在 HTML 元素上的事情。
+当在 HTML 页面中使用 JavaScript 时， JavaScript 可以触发这些事件。
+HTML 事件可以是浏览器行为，也可以是用户行为。
+
+如：
+<button onclick="this.innerHTML=Date()">现在的时间是</button>
+
+事件通常与函数结合使用，函数不会在事件发生前被执行！
+
+常见的HTML事件：
+一：框架/对象（Frame/Object）事件
+（1）onload：onload 事件会在页面或图像加载完成后立即发生
+onload 通常用于 <body> 元素，在页面完全载入后(包括图片、css文件等等。)执行脚本代码。
+如,在 HTML 中：
+<body onload="alert('onload event')">
+....
+</body>
+如在 JavaScript 中:
+<script>
+  window.onload=function(){
+    alert('onload event');
+  }
+</script>
+所有主要浏览器都支持 onload 事件
+以下 HTML 标签支持 onload :
+<body>, <frame>, <frameset>, <iframe>, <img>, <input type="image">, <link>, <script>, <style>
+
+（2）onunload：onunload 事件在用户退出页面时发生。
+onunload 发生于当用户离开页面时发生的事件(通过点击一个连接，提交表单，关闭浏览器窗口等等。)
+用法与onload一样，不过跳转页面可能看不到效果
+以下 HTML 标签支持 onunload :
+<body>, <frameset>
+
+（3）onerror：onerror 事件在加载外部文件（文档或图像）发生错误时触发。
+如：
+<img src="image.gif" onerror="document.getElementById('demo').innerHTML = '无法加载图片'">
+事件逻辑代码多一般使用函数：
+<img src="image.gif" onerror="myFunction()">
+<script>
+  window.onload=function(){
+    document.getElementById('demo').innerHTML = '无法加载图片';
+  }
+</script>
+
+
+
+
+
+
