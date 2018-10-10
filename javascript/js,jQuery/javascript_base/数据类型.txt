@@ -29,7 +29,8 @@ var person={
     return this.firstname + '--' + this.lastname;
   }
 };
-fullname = person.fullName();
+fullname = person.fullName(); //John Doe
+fullname = person.fullName; //不加括号输出函数表达式：function() { return this.firstName + " " + this.lastName; }
 
 可以通过将变量的值设置为 null 来清空变量。
 实例
