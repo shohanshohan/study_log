@@ -35,11 +35,13 @@ onunload 发生于当用户离开页面时发生的事件(通过点击一个连�
 如：
 <img src="image.gif" onerror="document.getElementById('demo').innerHTML = '无法加载图片'">
 事件逻辑代码多一般使用函数：
-<img src="image.gif" onerror="myFunction()">
+<img id="myImg" src="image.gif" onerror="myFunction()">
 <script>
-  window.onload=function(){
+  function myFunction(){
     document.getElementById('demo').innerHTML = '无法加载图片';
   }
+  或者直接指定HTML元素：
+  document.getElementById("myImg").onerror = function() {myFunction()};
 </script>
 
 
