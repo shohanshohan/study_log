@@ -43,6 +43,3 @@ myFunction(); //因为没有用var声明，此时通过函数赋值的变量为�
 alert(carName); // 此处可调用 carName 变量
 
 
-
-
-
