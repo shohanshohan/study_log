@@ -33,3 +33,16 @@ var carname='bmw';
 delete carname; //不可删除
 
 
+如果变量在函数内没有声明（没有使用 var 关键字），该变量为全局变量。
+以下实例中 carName 在函数内，但是为全局变量。
+function myFunction() {
+    carName = "Volvo";
+    // 此处可调用 carName 变量
+}
+myFunction(); //因为没有用var声明，此时通过函数赋值的变量为全局变量
+alert(carName); // 此处可调用 carName 变量
+
+
+
+
+
