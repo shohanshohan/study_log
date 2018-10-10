@@ -1,0 +1,26 @@
+JavaScript 数据类型
+值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol。
+
+引用数据类型：对象(Object)、数组(Array)、函数(Function)。
+
+注：Symbol 是 ES6 引入了一种新的原始数据类型，表示独一无二的值。
+
+数组：
+var cars=new Array();
+cars[0]="Saab";
+cars[1]="Volvo";
+cars[2]="BMW";
+或者 :
+var cars=new Array("Saab","Volvo","BMW");
+或者 :
+var cars=["Saab","Volvo","BMW"];
+
+对象：
+var person={firstname:"John", lastname:"Doe", id:5566};
+name=person.lastname;
+或者
+name=person["lastname"];
+
+可以通过将变量的值设置为 null 来清空变量。
+实例
+person=null;
