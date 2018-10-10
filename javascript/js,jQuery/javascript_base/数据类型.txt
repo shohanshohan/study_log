@@ -20,6 +20,16 @@ var person={firstname:"John", lastname:"Doe", id:5566};
 name=person.lastname;
 或者
 name=person["lastname"];
+对象中函数：
+var person={
+  firstname:"John", 
+  lastname:"Doe", 
+  id:5566,
+  fullName: function(){
+    return this.firstname + '--' + this.lastname;
+  }
+};
+fullname = person.fullName();
 
 可以通过将变量的值设置为 null 来清空变量。
 实例
