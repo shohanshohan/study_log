@@ -1,1 +1,13 @@
 
+声明变量 用关键字 var
+var test; (未使用值来声明的变量，其值实际上是 undefined。)
+var test = 'test';
+
+一条语句，多个变量: var test1='one', test2='two', test3='three';
+
+声明也可横跨多行：
+var lastname="Doe",
+age=30,
+job="carpenter";
+
+
