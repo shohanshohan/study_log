@@ -110,6 +110,7 @@ onpagehide 事件有时可以替代 onunload 事件，但 onunload 事件触发�
   
   
   
+  
   二：鼠标事件（点击，双击，右击，移动到元素，移开元素，按下鼠标，松开鼠标）
   
   （1）onclick：onclick 事件会在元素被点击时发生
@@ -150,6 +151,7 @@ onclick 属性可以使用与所有 HTML 元素，除了 ：<base>, <bdo>, <br>,
 
 
 
+
 三：键盘事件（按下键，按下并松开，松开键）
 
 （1）onkeydown 事件会在用户按下一个键盘（任一键）按键时发生。
@@ -183,10 +185,102 @@ document.onkeydown=function(event){
 	......
     }
 }; 
-键盘事件对应的键码来请查看，js键盘事件对应的键码.txt
+键盘事件对应的键码请查看，js键盘事件对应的键码.txt
+如果不记得对应的 keyCode 码，把上面代码改一下即可打印出任一键的 keyCode 了
+document.onkeydown = function(event){
+   alert(event.keyCode);
+}
 
 
 
+
+四：表单事件（获得焦点，失去焦点，内容改变，表单重置，表单提交，搜索事件，选中文本）
+
+（1）onfocus 事件在对象获得焦点时发生。onfocus 通常用于 <input>, <select>, 和<a>.
+<input type="text" onfocus="myFunction(this)">
+<script>
+  function myFunction(obj)
+  {
+     obj.setAttribute("placeholder",'请输入账号');
+  } 
+</script>
+
+（2）onblur 事件会在对象失去焦点时发生, 经常用于Javascript验证代码，一般用于表单输入框
+如：
+<input type="text" onblur="myFunction(this)">
+<script>
+	function myFunction(obj)
+	{
+		if(obj.value==''){
+			document.getElementById('demo').innerHTML = '请输入';
+		}else{
+			document.getElementById('demo').innerHTML = '';
+			obj.value = obj.value.toUpperCase();
+		}
+	} 
+</script>
+
+（3）onchange 事件会在域的内容改变时发生，onchange 事件也可用于单选框与复选框改变后触发的事件
+<input type="text" onchange="myFunction()">
+<script>
+	function myFunction()
+	{
+		alert('内容改变了');
+	} 
+</script>
+onchange 属性可以使用于： <input>, <select>, 和 <textarea>。
+
+（4）onfocusin 事件在一个元素即将获得焦点时触发。
+ onfocusin 事件类似于 onfocus 事件。主要的区别是 onfocus 事件不支持冒泡。因此，如果想知道元素或者其子元素是否获取焦点，需要使用 onfocusin 事件。
+ 用法同上
+ 对应的 onfocusout 事件在元素即将失去焦点时触发
+ 
+ （5）oninput 事件在用户输入时触发。
+ 如：
+<div id="demo"></div>
+<input type="text" oninput="myFunction(this)">
+<script>
+	function myFunction(obj)
+	{
+		document.getElementById('demo').innerHTML = obj.value;
+	} 
+</script>
+持的 HTML 标签:<input type="password">, <input type="search">, <input type="text"> 和 <textarea>
+该事件类似于 onchange 事件。不同之处在于 oninput 事件在元素值发生变化时立即触发， onchange 在元素失去焦点时触发。
+另外一点不同是 onchange 事件也可以作用于 <keygen> 和 <select> 元素。
+
+（6）onreset 事件在表单被重置后触发。
+如：
+<form onreset="myFunction()">
+	<input type="text">
+	<input type="reset"> <!--重置按钮-->
+</form>
+<script>
+	function myFunction()
+	{
+		document.getElementById('demo').innerHTML = '表单已重置';
+	} 
+</script>
+支持的 HTML 标签: <form>, <keygen>
+
+（7）onsearch 事件在用户按下"ENTER（回车）" 按键或点击 type="search" 的 <input> 元素的 "x(搜索)" 按钮时触发
+用法同 oninput ，只用于type="search"
+支持的 HTML 标签:	<input type="search">
+
+（8）onselect 事件会在文本框中的文本被选中时发生
+在input框输入内容，并用鼠标点击拖选一些文本时触发该事件
+onselect 属性可用于: <input type="file">, <input type="password">, <input type="text">, <input type="search">, <keygen>, 和 <textarea>.
+
+（9）onsubmit 事件在表单提交时触发。
+提交按钮<input type="submit" value="提交">， 用法同 onreset 事件
+支持的 HTML 标签: <form>, <keygen>
+
+
+
+
+五：剪贴板事件
+
+（1）
 
 
 
