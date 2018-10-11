@@ -1,0 +1,137 @@
+字符串索引， var text='abcdefg'; var indexText = text[2];//c
+字符串长度：text.length; // 7
+
+特殊字符的转义：
+以下列举了在字符串中可以使用转义字符转义的特殊字符：
+代码	输出
+\'	单引号
+\"	双引号
+\\	反斜杠
+\n	换行
+\r	回车
+\t	tab(制表符)
+\b	退格符
+\f	换页符
+
+
+以下是一些字符串方法：（对象方法 和 HTML包装方法）
+
+一：String 对象方法
+（1）charAt() 方法可返回指定位置的字符。位置从0开始索引
+var str='hello';   var s=str.charAt(1); // e
+
+（2）charCodeAt() 方法可返回指定位置的字符的 Unicode 编码。位置从0开始索引
+var str='hello';   var s=str.charCodeAt(0); // 72
+
+（3）concat() 方法用于连接两个或多个字符串。
+var h = 'hello ';
+var w = 'world ';
+var p = '!';
+var txt = h.concat(w,p); // hello world !
+
+（4）fromCharCode() 可接受一个指定的 Unicode 值，然后返回一个字符串。
+该方法是 String 的静态方法，字符串中的每个字符都由单独的 Unicode 数字编码指定。使用语法： String.fromCharCode()。
+var key = String.fromCharCode(72); // H 
+
+（5）indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的索引位置。从0开始计
+如果没有找到匹配的字符串则返回 -1。
+注意： indexOf() 方法区分大小写。
+var txt = 'hello world'; alert(txt.indexOf('o')); // 4
+
+（6）lastIndexOf() 方法可返回一个指定的字符串值最后出现的位置，如果指定第二个参数 start，则在一个字符串中的指定位置从后向前搜索。
+注意： 该方法将从后向前检索字符串，但返回是从起始位置 (0) 开始计算子字符串最后出现的位置，lastIndexOf() 方法是区分大小写的！
+开始检索的位置在字符串的 start 处或字符串的结尾（没有指定 start 时）。
+如果没有找到匹配字符串则返回 -1 。
+
+（7）match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配
+如果没有找到任何匹配的文本， match() 将返回 null。否则，它将返回一个数组，其中存放了与它找到的匹配文本有关的信息。
+var txt='hello world';  console.log(txt.match(/or/i));
+
+（8）replace() 方法用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+var txt='hello ha ha ha';
+console.log(txt.replace('ha','world')); //查找第一个 ha 并用 world 替换，txt='hello world ha ha';
+console.log(txt.replace(/ha/g,'world')); //正则查找第所有 ha 并用 world 替换，txt='hello world world world';
+
+（9）search() 方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。
+返回检索的位置，从0开始计，如果没有找到任何匹配的子串，则返回 -1。
+类似于 indexOf() 方法，不同的是可以使用正则
+
+（10）slice(start, end) 方法可提取字符串的某个部分，并以新的字符串返回被提取的部分（切片）。
+参数说明：
+start: 必须. 要抽取的片断的起始下标。第一个字符位置为 0.如果是负数，则该参数规定的是从字符串的尾部开始算起的位置
+end: 可选。 紧接着要截取的片段结尾的下标。若未指定此参数，则要提取的子串包括 start 到原字符串结尾的字符串
+如果该参数是负数，那么它规定的是从字符串的尾部开始算起的位置。
+注：end 参数所指的下标是从1开始计数的！
+var h = 'hello world'; 
+alert(h.slice(1,4));// ell    
+alert(h.slice(1,-2)); // ello wor
+
+（11）split(separator,limit) 方法用于把一个字符串分割成字符串数组。
+split() 方法不改变原始字符串。
+参数说明：
+separator	可选。字符串或正则表达式，从该参数指定的地方分割 string Object。不填默认是空格分割
+limit	可选。该参数可指定返回的数组的最大长度。如果设置了该参数，返回的子串不会多于这个参数指定的数组。
+如果没有设置该参数，整个字符串都会被分割，不考虑它的长度
+var h = 'hello world';
+h.split(' '); // hello,world
+h.split(' ', 1); // hello
+h.split(''); // H,e,l,l,o, ,w,o,r,l,d
+
+（12）substr(start,length) 方法可在字符串中抽取从 开始 下标开始的指定数目的字符。
+此方法不要与 slice(start, end) 搞混了，截取的参数意义不同，substr是指定长度，slice是指定位置
+参数说明：
+start	必需。要抽取的子串的起始下标（第一个字符位置为 0）。必须是数值。如果是负数，那么该参数声明从字符串的尾部开始算起的位置。
+length	可选。子串中的字符数。必须是数值。如果省略了该参数，那么返回从 stringObject 的开始位置到结尾的字串。
+var h = 'hello world';
+h.substr(1,3); // ell
+
+（13）substring(from, to) 方法用于提取字符串中介于两个指定下标之间的字符。
+此方法与 slice()方法一样效果，不同的是此参数值必须是非负整数，就是说按正序查找
+
+（14）toLowerCase() 方法用于把字符串转换为小写。相应的 toUpperCase() 方法用于把字符串转换为大写。
+newStr = str.toLowerCase();  不用传参，newStr = str.toUpperCase();
+
+（15）trim() 方法用于去除字符串两边的空白
+
+（16）valueOf() 方法可返回 String 对象的原始值。
+
+
+
+二：String HTML 包装方法
+（1）anchor() 方法用于创建 HTML 锚。就是创建<a>标签书签
+var txt="Chapter 10";
+txt.anchor("chap10");
+alert(txt.anchor("chap10")); //<a name="chap10">Chapter 10</a>
+
+（2）big() 方法用于把字符串显示为大号字体。该方法返回加了 <big> 标签的字符串, 如:<big>string</big>
+相应的，small() 方法用于把字符串显示为小号字体。该方法返回加了 <small> 标签的字符串, 如:<small>string</small>
+var txt = 'hello world';
+document.write(txt.big());
+document.write(txt.small());
+
+（3）bold() 方法用于把字符串显示为粗体。该方法返回加了 <b> 标签的字符串, 如:<b>string</b>
+
+（4）italics() 方法用于把字符串显示为斜体。该方法返回加了 <i> 标签的字符串, 如:<i>string</i>
+
+（5）fixed() 方法用于把字符串显示为打字机字体。该方法返回加了 <tt> 标签的字符串, 如:<tt>string</tt>
+
+（6）fontcolor(color) 方法用于按照指定的颜色来显示字符串。该方法返回加了 <font> 标签的字符串, 如:<font color="colorvalue">string</font>
+参数	描述
+color	必需。为字符串规定 font-color。该值必须是颜色名(red)、RGB 值(rgb(255,0,0))或者十六进制数(#FF0000)。
+str.fontcolor('blue');
+
+（7）fontsize(size) 方法用于按照指定的尺寸来显示字符串。该方法返回加了 <font> 标签的字符串, 如：<font size="size">string</font>
+参数	描述
+size	必须. size 参数必须是从 1 至 7 的数字。
+str.fontsize(5);
+
+（8）link(url) 方法用于把字符串显示为超链接。该方法返回加了 <a> 标签的字符串, 如:<a href="url">string</a>
+var text = '百度';
+document.write(text.link('http://www.baidu.com')); //<a href="http://www.baidu.com">百度</a>
+
+（9）strike() 方法用于显示加删除线的字符串。该方法返回加了 <strike> 标签的字符串, 如:<strike>string</strike>
+
+（10）sub() 方法用于把字符串显示为下标。该方法返回加入 <sub> 标签的字符串，如：<sub>string</sub>
+相应的，sup() 方法用于把字符串显示为下标。该方法返回加入 <sup> 标签的字符串，如：<sup>string</sup>
+
+
