@@ -8,7 +8,9 @@ HTML 事件可以是浏览器行为，也可以是用户行为。
 事件通常与函数结合使用，函数不会在事件发生前被执行！
 
 常见的HTML事件：
+
 一：框架/对象（Frame/Object）事件
+
 （1）onload：onload 事件会在页面或图像加载完成后立即发生
 onload 通常用于 <body> 元素，在页面完全载入后(包括图片、css文件等等。)执行脚本代码。
 如,在 HTML 中：
@@ -43,6 +45,142 @@ onunload 发生于当用户离开页面时发生的事件(通过点击一个连�
   或者直接指定HTML元素：
   document.getElementById("myImg").onerror = function() {myFunction()};
 </script>
+onerror支持的 HTML 标签:	<img>, <input type="image">, <object>, <script>, <style>
+
+（3）onpageshow：onpageshow 事件在用户浏览网页时触发
+onpageshow 事件类似于 onload 事件，onload 事件在页面第一次加载时触发， onpageshow 事件在每次加载页面时触发，
+即 onload 事件在页面从浏览器缓存中读取时不触发。
+用法同onload。支持的 HTML 标签:	<body>
+可以使用 对象的 persisted 属性来判断页面是直接从服务器上载入还是从缓存中读取
+<body onpageshow="myFunction(event)">
+.......
+</body>
+<script>
+function myFunction(event) { 
+    alert("页面是否从浏览器缓存中加载? " + event.persisted); // event.persisted返回bool值
+}
+或者不在<body>标签中指定，通过window属性指定（效果一样）：
+window.onpageshow = function(){
+  myFunction(event);
+}
+</script>
+
+（4）onpagehide：onpagehide 事件在用户离开网页时触发。
+离开网页有多种方式。如点击一个链接，刷新页面，提交表单，关闭浏览器等。
+onpagehide 事件有时可以替代 onunload 事件，但 onunload 事件触发后无法缓存页面。
+用法同 onpageshow，支持的 HTML 标签:	<body>
+
+（5）onresize：onresize 事件会在窗口或框架被调整大小时发生。
+如：
+<script>
+  function myFunction(){
+    var w = window.outerWidth;
+    var h = window.outerHeight;
+    var txt = '窗口大小（像素）：宽=' + w + ', 高=' + h;
+    document.getElementById('demo').innerHTML = txt
+  }
+  window.onresize = function(){
+    myFunction();
+  }
+</script>
+以下 HTMl 标签支持 onresize事件:
+<a>, <address>, <b>, <big>, <blockquote>, <body>, <button>, <cite>, <code>, <dd>, <dfn>, <div>, <dl>, <dt>, <em>, <fieldset>, <form>, <frame>, <h1> to <h6>, <hr>, <i>, <img>, <input>, <kbd>, <label>, <legend>, <li>, <object>, <ol>, <p>, <pre>, <samp>, <select>, <small>, <span>, <strong>, <sub>, <sup>, <table>, <textarea>, <tt>, <ul>, <var>
+
+（6）onscroll：onscroll 事件在元素滚动条在滚动时触发
+注：这个是HTML元素滚动条滚动时触发，不是浏览器页面滚动
+如：
+<div style="border: 1px solid red;width:10px;height:100px;overflow: scroll;" onscroll="myFunction()">
+		<p>demo</p>
+		<p>demo</p>
+		<p>demo</p>
+		<p>demo</p>
+		<p>demo</p>
+	</div>
+	<div id="demo"></div>
+  <script>
+    var x = 0;
+    function myFunction(){
+      document.getElementById('demo').innerHTML = x += 1;
+    }
+  </script>
+ 支持的 HTML 标签:	<address>, <blockquote>, <body>, <caption>, <center>, <dd>, <dir>, <div>, <dl>, <dt>, <fieldset>, <form>, <h1> - <h6>, <html>, <li>, <menu>, <object>, <ol>, <p>, <pre>, <select>, <tbody>, <textarea>, <tfoot>, <thead>, <ul>
+  
+  
+  
+  二：鼠标事件（点击，双击，右击，移动到元素，移开元素，按下鼠标，松开鼠标）
+  
+  （1）onclick：onclick 事件会在元素被点击时发生
+如：
+<body>
+	<button id='btn'>点我</button>
+	<div id="demo"></div>
+</body>
+<script>
+	function myFunction()
+	{
+		document.getElementById('demo').innerHTML = '你点击了按钮';
+	} 
+	document.getElementById('btn').onclick = function(){ //也可以在标签中指定更方便：<div id='demo' onclick="myFunction()"></div>
+		myFunction();
+	}
+</script>
+onclick 属性可以使用与所有 HTML 元素，除了 ：<base>, <bdo>, <br>, <head>, <html>, <iframe>, <meta>, <param>, <script>, <style>, 和 <title>.
+
+（2）oncontextmenu：oncontextmenu 事件在元素中用户右击鼠标时触发
+用法同 onclick 一样，支持的 HTML 标签:	所有 HTML 元素
+
+（3）ondblclick：ondblclick 事件会在元素被双击时发生
+用法和支持的HTML标签都和 onclick 一样。
+
+（4）onmousedown 事件会在鼠标按键被按下时发生，相反的，onmouseup 事件会在鼠标按键被松开时发生
+用法和支持的HTML标签都和 onclick 一样。
+与 onmousedown 事件相关连得事件发生次序（ 鼠标左侧/中间 按钮）：
+1，onmousedown
+2，onmouseup
+3，onclick
+
+（5）onmouseenter 事件在鼠标指针移动到元素上时触发，相反的，onmouseleave 事件在鼠标移开元素时触发
+  用法和支持的HTML标签都和 onclick 一样。
+  
+（6）onmousemove 事件会在鼠标指针移到指定的对象时发生，相反的，onmouseout 事件在鼠标移开元素时触发
+这一对事件和 onmouseenter/onmouseleave 事件效果一样的，使用方法也一样，onmousemove 还可以用 onmouseover代替，效果一样
+
+
+
+三：键盘事件（按下键，按下并松开，松开键）
+
+（1）onkeydown 事件会在用户按下一个键盘（任一键）按键时发生。
+当被选中的元素监听该事件时触发
+如：
+<input type="text" onkeydown="document.getElementById('demo').innerHTML = '你按了键盘键'">
+onkeydown 属性可用于所有的 HTML 元素，除了：<base>, <bdo>, <br>, <head>, <html>, <iframe>, <meta>, <param>, <script>, <style>, 和 <title>.
+
+（2）onkeypress 事件会在键盘按键被按下并释放一个键时发生
+用法同上
+
+（3）onkeyup 事件会在键盘按键被松开时发生
+用法同上
+与onkeyup 事件相关的事件发生次序：
+onkeydown
+onkeypress
+onkeyup
+
+要获取具体的键盘指定键，可用指定键的数字索引区分
+document.onkeydown=function(event){
+            if(e && e.keyCode==27){ // 按 Esc 
+                //要做的事情
+              }
+            if(e && e.keyCode==113){ // 按 F2 
+                 //要做的事情
+               }            
+             if(e && e.keyCode==13){ // enter 键
+                 //要做的事情
+            }
+        }; 
+
+
+
+
 
 
 
