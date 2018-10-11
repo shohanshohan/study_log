@@ -84,7 +84,9 @@ onpagehide 事件有时可以替代 onunload 事件，但 onunload 事件触发�
   }
 </script>
 以下 HTMl 标签支持 onresize事件:
-<a>, <address>, <b>, <big>, <blockquote>, <body>, <button>, <cite>, <code>, <dd>, <dfn>, <div>, <dl>, <dt>, <em>, <fieldset>, <form>, <frame>, <h1> to <h6>, <hr>, <i>, <img>, <input>, <kbd>, <label>, <legend>, <li>, <object>, <ol>, <p>, <pre>, <samp>, <select>, <small>, <span>, <strong>, <sub>, <sup>, <table>, <textarea>, <tt>, <ul>, <var>
+<a>, <address>, <b>, <big>, <blockquote>, <body>, <button>, <cite>, <code>, <dd>, <dfn>, <div>, <dl>, <dt>, <em>, <fieldset>, 
+<form>, <frame>, <h1> to <h6>, <hr>, <i>, <img>, <input>, <kbd>, <label>, <legend>, <li>, <object>, <ol>, <p>, <pre>, 
+<samp>, <select>, <small>, <span>, <strong>, <sub>, <sup>, <table>, <textarea>, <tt>, <ul>, <var>
 
 （6）onscroll：onscroll 事件在元素滚动条在滚动时触发
 注：这个是HTML元素滚动条滚动时触发，不是浏览器页面滚动
@@ -103,7 +105,8 @@ onpagehide 事件有时可以替代 onunload 事件，但 onunload 事件触发�
       document.getElementById('demo').innerHTML = x += 1;
     }
   </script>
- 支持的 HTML 标签:	<address>, <blockquote>, <body>, <caption>, <center>, <dd>, <dir>, <div>, <dl>, <dt>, <fieldset>, <form>, <h1> - <h6>, <html>, <li>, <menu>, <object>, <ol>, <p>, <pre>, <select>, <tbody>, <textarea>, <tfoot>, <thead>, <ul>
+ 支持的 HTML 标签:	<address>, <blockquote>, <body>, <caption>, <center>, <dd>, <dir>, <div>, <dl>, <dt>, <fieldset>, <form>, 
+ <h1> - <h6>, <html>, <li>, <menu>, <object>, <ol>, <p>, <pre>, <select>, <tbody>, <textarea>, <tfoot>, <thead>, <ul>
   
   
   
@@ -165,18 +168,22 @@ onkeydown
 onkeypress
 onkeyup
 
-要获取具体的键盘指定键，可用指定键的数字索引区分
+要获取具体的键盘指定键，可用指定键的数字索引区分，用switch语句来判断
 document.onkeydown=function(event){
-            if(e && e.keyCode==27){ // 按 Esc 
-                //要做的事情
-              }
-            if(e && e.keyCode==113){ // 按 F2 
-                 //要做的事情
-               }            
-             if(e && e.keyCode==13){ // enter 键
-                 //要做的事情
-            }
-        }; 
+     switch(event.keyCode){
+	case 27:
+		alert('这是Esc按键');
+		break;
+	case 113:
+		alert('F2按键');
+		break;
+	case 13:
+		alert('Enter按键');
+		break;
+	......
+    }
+}; 
+键盘事件对应的键码来请查看，js键盘事件对应的键码.txt
 
 
 
