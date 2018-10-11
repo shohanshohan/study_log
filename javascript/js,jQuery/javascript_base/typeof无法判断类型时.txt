@@ -1,0 +1,18 @@
+使用 typeof 操作符来查看 JavaScript 变量的数据类型。
+但有的类型是重复的，如：数组，null,对象，日期 都显示为 object, 这时就不能用 typeof 来判断了
+
+constructor 属性
+constructor 属性返回所有 JavaScript 变量的构造函数。
+可以使用 constructor 属性来查看对象是否为数组 (包含字符串 "Array")
+function isArray(myArray) {
+    return myArray.constructor.toString().indexOf("Array") > -1;
+}
+
+实例
+"John".constructor                 // 返回函数 String()  { [native code] }
+(3.14).constructor                 // 返回函数 Number()  { [native code] }
+false.constructor                  // 返回函数 Boolean() { [native code] }
+[1,2,3,4].constructor              // 返回函数 Array()   { [native code] }
+{name:'John', age:34}.constructor  // 返回函数 Object()  { [native code] }
+new Date().constructor             // 返回函数 Date()    { [native code] }
+function () {}.constructor         // 返回函数 Function(){ [native code] }
