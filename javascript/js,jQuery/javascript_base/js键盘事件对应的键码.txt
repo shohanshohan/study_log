@@ -16,11 +16,11 @@ I	73	  R	82	  0	48	  9	57
 数字键盘上的键的键码值(keyCode)，   	功能键键码值(keyCode)
 按键	键码	                        按键	键码
 0	96	  8	104	                      F1	112	  F7	118
-1	97	  9	105   	                  F2	113	  F8	119
+1	97	  9	105   	                   F2	113	  F8	119
 2	98	  *	106	                      F3	114	  F9	120
 3	99	  +	107	                      F4	115	  F10	121
-4	100	  Enter	108	                  F5	116	  F11	122
-5	101	  -	109	                      F6	117	  F12	123
+4	100	  Enter	108	                 F5	116	  F11	122
+5	101	  -	109	                     F6	117	  F12	123
 6	102	  .	110	 	 	 	 
 7	103	  /	111 	 	 
  
@@ -28,12 +28,12 @@ I	73	  R	82	  0	48	  9	57
 控制键键码值(keyCode)
 按键	键码	按键	键码	按键	键码	按键	键码
 BackSpace	8	    Esc	27	          Right Arrow	39	       -_	189
-Tab	9	          Spacebar	32	    Down Arrow	40	      .>	190
-Clear	12	      Page Up	33	      Insert	45	          /?	191
-Enter	13	      Page Down	34	    Delete	46	          `~	192
-Shift	16	      End	35	          Num Lock	144	        [{	219
-Control	17	    Home	36	        ;:	186	              /|	220
-Alt	18	        Left Arrow	37	  =+	187	              ]}	221
+Tab	9	          Spacebar	32	     Down Arrow	40	       .>	190
+Clear	12	      Page Up	33	       Insert	45	           /?	191
+Enter	13	      Page Down	34	     Delete	46	           `~	192
+Shift	16	      End	35	           Num Lock	144	        [{	219
+Control	17	    Home	36	         ;:	186	               /|	220
+Alt	18	        Left Arrow	37	   =+	187	               ]}	221
 Caps Lock	20	  Up Arrow  38
 
 
