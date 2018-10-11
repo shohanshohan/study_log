@@ -1,5 +1,14 @@
+不需要去记这些，如果不记得对应的 keyCode 码，打印出任一键的 keyCode
+<script>
+document.onkeydown = function(event){
+   alert(event.keyCode);
+}
+</script>
+上面js代码，按任一键都会弹出该键的 keyCode
+
+
 键盘按钮keyCode大全
- 
+
 字母和数字键的键码值(keyCode)
 按键	键码	按键	键码	按键	键码	按键	键码
 A	65	  J	74	  S	83	  1	49
