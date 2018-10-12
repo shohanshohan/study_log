@@ -21,4 +21,11 @@ function isArray(arr){
   return false;
 }
 
+转换为字符串： String(var); 或 var.toString();
+toFixed(); 把数字转换为字符串，结果的小数点后有指定位数的数字。
+
+转换为数字： Number(str); 不是数字返回 NaN, 空字符串返回 0。布尔值转换为数字 true 1, false 0
+
+
+
 
