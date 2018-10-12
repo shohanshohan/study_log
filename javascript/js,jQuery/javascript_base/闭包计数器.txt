@@ -1,0 +1,16 @@
+<body>
+<button id='btn' onclick="myFunction()">点我计数</button>
+<div id="demo"></div>
+</body>
+
+<script>
+var add = (function () {
+    	var counter = 0;
+	    return function () {return counter += 1;}
+	})();
+
+function myFunction()
+{
+  document.getElementById('demo').innerHTML = add();
+}
+</script>
