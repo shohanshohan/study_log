@@ -1,0 +1,21 @@
+可以使用 typeof 操作符来查看 JavaScript 变量的数据类型。
+实例
+typeof "John"                 // 返回 string 
+typeof 3.14                   // 返回 number
+typeof NaN                    // 返回 number
+typeof false                  // 返回 boolean
+typeof [1,2,3,4]              // 返回 object
+typeof {name:'John', age:34}  // 返回 object
+typeof new Date()             // 返回 object
+typeof function () {}         // 返回 function
+typeof myCar                  // 返回 undefined (如果 myCar 没有声明)
+typeof null                   // 返回 object
+
+对象、数组、null、Date()用 typeof 判断时都返回 object
+判断是null就用 if(value===null){}
+判断array类型
+function isArray(arr){
+  if(arr != null && typeof arr == 'object'){ //null 没有constructor属性
+    return arr.constructor.toString().indexOf('Array') > -1;
+  }
+}
