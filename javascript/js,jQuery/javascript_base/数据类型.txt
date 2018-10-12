@@ -32,6 +32,13 @@ var person={
 fullname = person.fullName(); //John Doe
 fullname = person.fullName; //不加括号输出函数表达式：function() { return this.firstName + " " + this.lastName; }
 
-可以通过将变量的值设置为 null 来清空变量。
+可以通过将变量的值设置为 undefined 来清空变量或对象。
 实例
-person=null;
+person=undefined;
+
+对象和数组可以通过 for in 来循环
+如：
+for (x in person) { //x即为索引或对象元素名
+  console.log(x + ': ' + person.x);
+}
+
