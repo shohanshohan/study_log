@@ -15,7 +15,10 @@ typeof null                   // 返回 object
 判断是null就用 if(value===null){}
 判断array类型
 function isArray(arr){
-  if(arr != null && typeof arr == 'object'){ //null 没有constructor属性
+  if(typeof arr == 'object' && arr != null){ //null 没有constructor属性
     return arr.constructor.toString().indexOf('Array') > -1;
   }
+  return false;
 }
+
+
