@@ -61,7 +61,7 @@ console.log(txt.replace(/ha/g,'world')); //正则查找第所有 ha 并用 world
 start: 必须. 要抽取的片断的起始下标。第一个字符位置为 0.如果是负数，则该参数规定的是从字符串的尾部开始算起的位置
 end: 可选。 紧接着要截取的片段结尾的下标。若未指定此参数，则要提取的子串包括 start 到原字符串结尾的字符串
 如果该参数是负数，那么它规定的是从字符串的尾部开始算起的位置。
-注：end 参数所指的下标是从1开始计数的！
+注：end 参数所指的下标是从1开始计数的！可以理解为 end-1 的索引位置
 var h = 'hello world'; 
 alert(h.slice(1,4));// ell    
 alert(h.slice(1,-2)); // ello wor
@@ -73,12 +73,12 @@ separator	可选。字符串或正则表达式，从该参数指定的地方分�
 limit	可选。该参数可指定返回的数组的最大长度。如果设置了该参数，返回的子串不会多于这个参数指定的数组。
 如果没有设置该参数，整个字符串都会被分割，不考虑它的长度
 var h = 'hello world';
-h.split(' '); // hello,world
+h.split(' ');或 h.split(); // hello,world
 h.split(' ', 1); // hello
 h.split(''); // H,e,l,l,o, ,w,o,r,l,d
 
 （12）substr(start,length) 方法可在字符串中抽取从 开始 下标开始的指定数目的字符。
-此方法不要与 slice(start, end) 搞混了，截取的参数意义不同，substr是指定长度，slice是指定位置
+此方法不要与 slice(start, end) 搞混了，截取的参数意义不同，substr是指定长度，slice是指定索引位置
 参数说明：
 start	必需。要抽取的子串的起始下标（第一个字符位置为 0）。必须是数值。如果是负数，那么该参数声明从字符串的尾部开始算起的位置。
 length	可选。子串中的字符数。必须是数值。如果省略了该参数，那么返回从 stringObject 的开始位置到结尾的字串。
