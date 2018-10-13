@@ -10,6 +10,15 @@ function isArray(arr) {
     }
     return false;
 }
+其实还有一个简单的方法来判断，用数组方法 Array.isArray(obj); 以上可以简化一下
+function isArray(arr)
+{
+    if(typeof arr == 'object' && Array.isArray(arr)){
+        return true;
+    }
+    return false;
+}
+
 
 实例
 "John".constructor                 // 返回函数 String()  { [native code] }
