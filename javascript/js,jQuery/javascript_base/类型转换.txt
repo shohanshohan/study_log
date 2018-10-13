@@ -23,8 +23,28 @@ function isArray(arr){
 
 转换为字符串： String(var); 或 var.toString();
 toFixed(); 把数字转换为字符串，结果的小数点后有指定位数的数字。
+数字类型可以使用 toString() 方法 输出16进制、8进制、2进制。
+number.toString(2); // 转成二进制
 
 转换为数字： Number(str); 不是数字返回 NaN, 空字符串返回 0。布尔值转换为数字 true 1, false 0
+NaN 表示为非数字值，isNaN(var) 用来判断是否为非数字，是数字false, 注意：空字符串也判断为数字类型 0
+判断为正整数：
+用正则方便些，/^[1-9]\d*$/.test(number);
+function isInt(num){
+  if(!isNaN(num))){
+    return /^[1-9]\d*$/.test(num);
+  }
+  return false;
+}
+附判断数字、浮点的正则表达：
+/^\d\d+$/       非负整数（正整数 + 0）
+/^[1-9]\d*$/   正整数
+/^-[1-9]\d*$/   负整数
+/^(-?\d)\d*$/   整数
+/^\d+\.\d+$/   非负浮点数（正浮点数 + 0）
+/^(-?\d+)\.\d+$/    浮点数
+
+
 
 
 
