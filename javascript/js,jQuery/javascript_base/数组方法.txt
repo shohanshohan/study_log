@@ -47,5 +47,86 @@ ages.indexOf(19); //2
 （9）Array.isArray(obj) 方法用于判断一个对象是否为数组。如果对象是数组返回 true，否则返回 false。
 Array.isArray(ages); // true
 
+（10）join() 方法用于把数组中的所有元素转换一个字符串。元素是通过指定的分隔符进行分隔的（默认','）。
+ages.join(); // 18,16,19,20
+ages.join('-'); // 18-16-19-20
+ages.join(' next '); //18 next 16 next 19 next 20
 
+（11）keys() 方法用于从数组创建一个包含数组键的可迭代对象, 注：只包含索引. 包含键值用 entries()
+ages.keys().next().value;  // 0
+ages.keys().next().value;  // 1
+
+（12）map() 方法按照原始数组元素顺序依次处理元素，并返回处理后的值。注： map() 不会对空数组进行检测。map() 不会改变原始数组。
+var ages = [18,16,19,20];
+function newNum(num)
+{
+	return num - 1;
+}
+document.write(ages.map(newNum)); // 17,15,18,19
+
+（13）pop() 方法用于删除数组的最后一个元素并返回删除的元素。
+ages.pop(); // 20
+
+（14）shift() 方法用于把数组的第一个元素从其中删除，并返回删除的元素。
+ages.shift(); // 18
+
+（15）push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。
+ages.push(25); //5
+document.write(ages); // 18,16,19,20,25
+
+（16）unshift() 方法可向数组的开头添加一个或更多元素，并返回新的长度。
+ages.unshift(25,26); // 6
+document.write(ages); // 25,26,18,16,19,20
+
+（17）reduce() 将数组元素计算为一个值（从左到右）。reduceRight()将数组元素计算为一个值（从右到左）。
+注：reduceRight() 方法的功能和 reduce() 功能是一样的
+var nums = [1,2,3,4];
+function getSum(total, num)
+{
+	return total + num;
+}
+document.write(nums.reduce(getSum)); // 计算的结果为 10
+document.write(nums.reduce(function(total, num){return total * num;}); // 计算的结果为 24
+
+（18）reverse() 方法用于颠倒数组中元素的顺序。
+var arr = [1,2,3,4];
+document.write(arr.reverse()); // 4,3,2,1
+
+（19）slice(start,end) 方法可从已有的数组中返回选定的元素。与字符串 slice()方法一样的效果,注：end位置索引为 end-1
+var arr = [1,2,3,4];
+document.write(arr.slice(1,3)); // 2,3
+
+（20）some() 方法用于检测数组中的元素是否满足指定条件（函数提供）。与 every()方法一样的
+
+（21）sort() 方法用于对数组的元素进行排序（按字典）。排序顺序可以是字母或数字，并按升序或降序。默认排序顺序为按字母升序。
+var arr1 = ['a','c','b'];
+arr1.sort(); 
+console.log(arr1); // ['a','b','c','d']
+console.log(arr1.reverse()); //['d','c','b','a']
+按数字排序要注意：不会按数字大小来排，而是按ASCII编码字典排序！
+var arr2 = [1,10,5,30];
+arr2.sort();
+console.log(arr2); // [1,10,30,5] 这不是我们要的结果！
+正确的做法是：
+arr2.sort(function(a,b){ return a-b; }); //升序
+console.log(arr2);// [1,5,10,30]
+arr2.sort(function(a,b){ return b-a; }); //降序
+console.log(arr2); // [30,10,5,1]
+
+（22）splice(index,num,members) 方法用于插入、删除或替换数组的元素。
+index: 必须，要插入或删除的开始位置,从0开始索引
+num: 必须，要删除的元素数量,0表示不删除
+members: 可选，新的添加元素
+var arr = ['a','b','c'];
+插入元素：
+arr.splice(1,0,'o','p'); //从索引位置1插入两个元素
+console.log(arr); // ['a','o','p','b','c']
+替换元素：
+arr.splice(1,2,'o','p');
+console.log(arr);// ["a", "o", "p"]
+删除元素：
+arr.splice(1,2);
+console.log(arr); // ['a']
+
+（23）toString() 方法可把数组转换为字符串，并返回结果。注： 数组中的元素之间用逗号分隔。
 
