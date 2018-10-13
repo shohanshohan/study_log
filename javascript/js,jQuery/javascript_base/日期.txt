@@ -21,6 +21,61 @@ d.getMinutes(); //获取当前的分钟数，0~59
 
 d.getSeconds(); //获取当前的秒数，0~59
 
+Date.parse(); //parse() 方法可解析一个日期时间字符串，并返回 1970/1/1 午夜距离该日期时间的毫秒数。
+如：Date.parse('2018-10-01 10:00:00'); //返回1970/1/1 午夜距离2018-10-15 10:00:00的毫秒数
+
+
+function zhDateTime()
+	{
+		var d = new Date();
+		var D;
+		switch(d.getDay()){
+			case 0:
+				D = ' 星期日';
+				break;
+			case 1:
+				D = ' 星期一';
+				break;
+			case 2:
+				D = ' 星期二';
+				break;
+			case 3:
+				D = ' 星期三';
+				break;
+			case 4:
+				D = ' 星期四';
+				break;
+			case 5:
+				D = ' 星期五';
+				break;
+			case 6:
+				D = ' 星期六';
+				break;
+		}
+		return '今天的具体时间是：' + d.getFullYear() + ' 年 ' + (d.getMonth()+1) + ' 月 ' + d.getDate() + ' 日 ' + d.getHours() + ' 时 ' + d.getMinutes() + ' 分 ' + d.getSeconds() + ' 秒 &nbsp;&nbsp;&nbsp;&nbsp;' +  D;
+	}
+  
+  实时显示当前时间：
+  function timeNow(){
+		var today = new Date();
+		var m = checkTime(today.getMinutes());
+		var s = checkTime(today.getSeconds());
+		function checkTime(i){
+			if(i<10){
+				i = "0" + i;
+			}
+			return i;
+		}
+		var html = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate() + '&nbsp;&nbsp;&nbsp;&nbsp;' + today.getHours() + ':' + m + ':' + s;
+		document.getElementById('demo').innerHTML = html;
+		setTimeout(function(){timeNow()}, 500);
+	}
+	//document.write(zhDateTime() + '<br>')
+	window.onload = function(){
+		timeNow();
+	}
+
+
 
 
 
