@@ -1,1 +1,17 @@
-setInterval() 间隔指定的毫秒数不停地执行指定的代码
+（1）setInterval() 间隔指定的毫秒数不停地执行指定的代码
+function nowTime()
+{
+  var d = new Date();
+  document.getElementById('demo').innerHTML = d.toLocaleTimeString();
+}
+var thisTime = setInterval(function(){nowTime()}, 1000); //每秒显示当前时钟
+
+
+（2）clearInterval() 方法用于停止 setInterval() 方法执行的函数代码
+clearInterval(thisTime);
+
+（3）setTimeout() 方法，从当前起多少毫秒后执行第一个参数
+var thisTime = setTimeout(nowTime(), 1000); //一秒后执行一次，注：不是循环
+
+（4）clearTimeout() 方法用于停止执行setTimeout()方法的函数代码。
+clearTimeout(thisTime);
