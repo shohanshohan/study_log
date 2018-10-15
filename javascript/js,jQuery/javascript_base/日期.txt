@@ -76,6 +76,13 @@ function zhDateTime()
 	}
 
 
+显示时钟：
+function nowTime()
+{
+	var d = new Date();
+	document.getElementById('demo').innerHTML = d.toLocaleTimeString();
+}
+setInterval(function(){nowTime()}, 1000); //每隔1000毫秒执行一次 nowTime();
 
 
 
