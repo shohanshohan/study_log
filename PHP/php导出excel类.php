@@ -16,8 +16,9 @@ class ExcelExport
 	public function excel($data=[])
 	{
 	    header("Content-type:application/vnd.ms-excel");
-	    header("Content-Disposition:attachment;filename=" . date('Y-m-d') . $this->filename . ".xls");
-		header("Content-type: application/octet-stream;charset=utf-8");
+	    $filename = $this->filename ?: date('Y-m-d');
+	    header("Content-Disposition:attachment;filename=" . $filename . ".csv");
+	    header("Content-type: application/octet-stream;charset=utf-8");
 
 		if($data && is_array($data)){
 			$filter = $this->filter;
@@ -51,6 +52,64 @@ class ExcelExport
 			echo implode("\t", $title) . "\n";
 			echo $excel;	
 			exit();
+		}else{
+			$this->show_error('暂无数据！');
+		}
+	}
+	
+	//上面导出方法还有一个可以用fopen(), fputcsv()来做方便些
+	/*
+	* 导出excel数据表
+	* @param array $data 要导出的数据
+	*/
+	public function export_excel($data=[]) 
+	{       
+	    header("Content-type:application/vnd.ms-excel");
+	    $filename = $this->filename ?: date('Y-m-d');
+	    header("Content-Disposition:attachment;filename=" . $filename . ".csv");
+	    header("Content-type: application/octet-stream;charset=utf-8");
+ 		if($data && is_array($data)){
+			$filter = $this->filter;
+			$fp = fopen('php://output', 'a');
+			if(isset($data[0]) && is_array($data[0])){
+				fputcsv($fp, $this->titleColumn(array_keys($data[0])));
+				foreach ($data as $key => $row) {
+					foreach ($row as $k => &$v) {
+						if(isset($filter[$k])){
+							if($filter[$k]=='datetime'){
+								$v = date("Y-m-d H:i:s",$v);
+							}
+							if($filter[$k]=='date'){
+								$v = date("Y-m-d",$v);
+							}
+							if(is_array($filter[$k])){
+								$v = isset($filter[$k][$v]) ? $filter[$k][$v] : $v;
+							}
+						}
+					}
+					fputcsv($fp, $row);
+					unset($data[$key]);
+					ob_flush();
+					flush();
+				}
+			}else{
+				fputcsv($fp, $this->titleColumn(array_keys($data)));
+				foreach ($data as $k => &$v) {
+					if(isset($filter[$k])){
+						if($filter[$k]=='datetime'){
+							$v = date("Y-m-d H:i:s",$v);
+						}
+						if($filter[$k]=='date'){
+							$v = date("Y-m-d",$v);
+						}
+						if(is_array($filter[$k])){
+							$v = isset($filter[$k][$v]) ? $filter[$k][$v] : $v;
+						}
+					}
+				}
+				fputcsv($fp, $data);
+			}
+			fclose($fp);
 		}else{
 			$this->show_error('暂无数据！');
 		}
