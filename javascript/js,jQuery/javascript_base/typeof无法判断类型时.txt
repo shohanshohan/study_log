@@ -5,7 +5,7 @@ constructor 属性
 constructor 属性返回所有 JavaScript 变量的构造函数。
 可以使用 constructor 属性来查看对象是否为数组 (包含字符串 "Array")
 function isArray(arr) {
-    iftypeof arr == 'object' && arr != null){ //null 没有constructor属性
+    if(typeof arr == 'object' && arr != null){ //null 没有constructor属性
         return arr.constructor.toString().indexOf('Array') > -1;
     }
     return false;
