@@ -1,0 +1,11 @@
+很多事件是javascript事件去了on字符，并且在jquery下都是函数方法而不是对象属性
+
+on()	向元素添加事件处理程序
+$('div h3').on('click', function(){...});
+上面等同于：$('div').on('click','h3',function(){...}); 也可以用具体的函数代替function(){...},如：$('div h3').on('click',test);
+
+off()	移除通过 on() 方法添加的事件处理程序
+移除所有 <p> 元素上的 click 事件：
+$("p").off("click");
+
+one()	向被选元素添加一个或多个事件处理程序。该处理程序只能被每个元素触发一次
