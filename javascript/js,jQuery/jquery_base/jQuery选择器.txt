@@ -1,20 +1,20 @@
-（一）基本选择器：
+（一）基本选择器
 $("*")              //所有元素
 $("#id")            //ID选择器
 $("div")            //元素选择器
 $(".classname")     //类选择器
-$(".classname,.classname1,#id1")     //组合选择器，'，'分割的意思是 或。类名为 classname 或 classname1 或 id为id1的所有元素
+$(".classname,.classname1,#id1") //组合选择器，'，'分割的意思是 或。类名为 classname 或 classname1 或 id为id1的所有元素
 $("p,h2")  //所有p元素和h2元素
 
-过滤查找选择器
-表单选择器
-DOM层次选择器
-状态过滤选择器
-
+（二）按位置顺序或索引选择器
 $("p:first")	//第一个 <p> 元素
+
 $("p:last")	  //最后一个 <p> 元素
+
 $("tr:even")	//所有偶数 <tr> 元素，索引值从 0 开始，第一个元素是偶数 (0)，第二个元素是奇数 (1)，以此类推。
+
 $("tr:odd")	  //所有奇数 <tr> 元素，索引值从 0 开始，第一个元素是偶数 (0)，第二个元素是奇数 (1)，以此类推。
+
 $("p:first-child")	//属于其父元素的第一个子元素的所有 <p> 元素, 即<p>做为第一个子元素的地方
 注意：这个第一个子元素是有继承关系的，如：
 <body>
@@ -25,7 +25,9 @@ $("p:first-child")	//属于其父元素的第一个子元素的所有 <p> 元素
   <p>body-p1</p>
 </body>
 上面用 $("p:first-child");选择的是内容为 div1-p1 的标签，它即是div的第一个p元素也是body的第一个p元素, 内容为body-p1的标签并不会选中！
-$("p:last-child")	 //属于其父元素的最后一个子元素的所有 <p> 元素, 原理同上
+
+$("p:last-child")	 //属于其父元素的最后一个子元素的所有 <p> 元素, 原理同 $("p:first-child")
+
 $("p:first-of-type")	//属于其父元素的第一个 <p> 元素的所有 <p> 元素, 这个意思就是不包含继承关系
 <body>
   <div>
@@ -35,3 +37,153 @@ $("p:first-of-type")	//属于其父元素的第一个 <p> 元素的所有 <p> �
   <p>body-p1</p>
 </body>
 用 $("p:first-of-type"); 会选择内容为 div1-p1 和内容为 body-p1 的两个标签
+
+$("p:last-of-type")	属于其父元素的最后一个 <p> 元素的所有 <p> 元素，原理同 $("p:first-of-type")
+
+$("p:nth-child(n)")	属于其父元素的第n个子元素的所有 <p> 元素，注：这里的子元素是父元素的所有标签子元素而不限于选定的 p 元素
+如：
+<body>
+  <div>
+    <p>div1-p1</p>
+    <h3>div1-h3</h3>
+    <p>div1-p2</p>
+  </div>
+  <p>body-p1</p>
+</body>
+用 $("p:nth-child(2)"); 会选中内容为body-p1的元素，而在 div 中没有排在第二位的p元素
+
+$("p:nth-last-child(n)")	属于其父元素的第n个子元素的所有 <p> 元素，从最后一个子元素开始计数
+
+$("p:nth-of-type(n)") 属于其父元素的第n个 <p> 元素的所有 <p> 元素, 这个与 $("p:nth-child(n)") 不同之处在于所选的子元素只限定在指定的p元素
+如：
+<body>
+  <div>
+    <p>div1-p1</p>
+    <h3>div1-h3</h3>
+    <p>div1-p2</p>
+  </div>
+  <p>body-p1</p>
+</body>
+用 $("p:nth-of-type(2)"); 会选中内容为 div1-p2 的元素
+
+$("p:nth-last-of-type(n)")	属于其父元素的第n个 <p> 元素的所有 <p> 元素，从最后一个子元素开始计数, 原理同 $("p:nth-of-type(n)")
+
+$("p:only-child")	属于其父元素的唯一子元素的所有 <p> 元素
+如：
+<body>
+  <div>
+    <p>div1-p1</p>
+    <h3>div1-h3</h3>
+    <p>div1-p2</p>
+  </div>
+  <p>body-p1</p>
+  <div><p>div2-p-only</p></div>
+</body>
+用 $("p:only-child"); 会选中只有一个子元素p 内容为 div2-p-only
+
+$("p:only-of-type")	属于其父元素的特定类型的唯一子元素的所有 <p> 元素，也就是不管是否存在其它元素，只要被指定的元素是唯一的子元素
+如：
+<body>
+  <div>
+    <p>div1-p1</p>
+    <h3>div1-h3</h3>
+  </div>
+  <p>body-p1</p>
+  <div><p>div2-p-only</p></div>
+</body>
+用 $("p:only-of-type"); 会选中上面所有的p元素，因为在所有父级标签下都是唯一的不重复
+
+$("div > p")	<div> 元素的直接子元素的所有 <p> 元素
+如：
+<body>
+  <div>
+    <p>div1-p1</p>
+    <h3>div1-h3</h3>
+    <p>div1-p2</p>
+  	<h3>
+  		<p>div2-p-only</p>
+  	</h3>
+  </div>
+  <p>body-p1</p>
+</body>
+用 $("div > p"); 会选中内容为 div1-p1 和 div1-p2的元素
+用 $("div p");  会选中div下所有的 p 元素
+
+$("div p")	<div> 元素的后代的所有 <p> 元素
+
+$("div + p")	每个 <div> 元素相邻的下一个 <p> 元素，即紧接着在 <div> 的下一个p元素
+
+$("div ~ p")	<div> 元素同级的所有 <p> 元素，注：位于div前边的 p 元素不会被选中，只选同级后面的
+
+$("ul li:eq(3)")	列表中的第四个元素（index 值从 0 开始），$("div p:eq(1)") <div>标签下的第二个p元素
+
+$("ul li:gt(3)")	列举 index （index 值从 0 开始）大于 3 的元素，$("div p:gt(3)") 选取div下p元素中大于索引3的所有p元素
+
+$("ul li:lt(3)")	列举 index 小于 3 的元素，$("div p:lt(3)") 选取div下p元素中小于索引3的所有p元素
+
+（三）过滤选择器
+$("p:not(.intro)") 选取除了 class="intro" 元素以外的所有 <p> 元素
+
+$(":header")	所有标题元素 <h1>, <h2> ...<h6>
+
+$(":animated")	所有动画元素
+
+$(":contains('Hello')")	所有包含文本 "Hello" 的元素, $(p:contains('world')); 所有包含文本world的<p>元素
+
+$("div:has(p)")	所有包含有 <p> 元素在其内的 <div> 元素，即拥有后代元素<p>的所有<div>元素
+
+$(":empty")	所有空元素，空元素指的是不包含子元素及文本内容的元素
+
+$(":parent")	匹配所有含有子元素或者文本的父元素。与$(":empty");相反。选取所有带有子元素或包含文本的 <td> 元素：$("td:parent")
+
+$("p:hidden")	所有隐藏的 <p> 元素
+
+$("p:visible") 选取所有可见的 <p> 元素(display不为none)
+
+$(":root")	文档的根元素, 在 HTML 中，根元素总是 <html> 元素。
+
+$(":enabled")	所有启用的元素，不为 disabled
+
+$(":disabled")	所有禁用的元素, 指定为 disabled
+
+（四）属性选择器
+$("[href]")	所有带有 href 属性的元素
+
+$("[href='default.htm']")	所有带有 href 属性且值等于 "default.htm" 的元素
+
+$("[href!='default.htm']")	所有带有 href 属性且值不等于 "default.htm" 的元素
+
+$("[href$='.jpg']")	所有带有 href 属性且值以 ".jpg" 结尾的元素
+  
+$("[title|='Tomorrow']")	所有带有 title 属性且值等于 'Tomorrow' 或者以 'Tomorrow' 后跟连接符'-'作为开头的字符串
+
+$("[title^='Tom']")	所有带有 title 属性且值以 "Tom" 开头的元素, 相应的 $("[title$='Tom']")所有带有属性title且值以'Tom'结尾的元素
+
+$("[title~='hello']")	所有带有 title 属性且值包含单词 "hello" 的元素，单词指的是独立的单词而不是拼接的
+
+$("[title*='hello']")	所有带有 title 属性且值包含字符串 "hello" 的元素
+
+$( "input[id][name$='man']" )	带有 id 属性，并且name属性以man结尾的输入框，$("input[name='user']")带有name属性并属性值等于user的input元素
+
+（五）表单选择器
+$(":focus")	当前具有焦点的元素
+
+$(":input")	所有 input 元素
+
+$(":text")	所有带有 type="text" 的 input 元素
+
+$(":password")	所有带有 type="password" 的 input 元素
+
+$(":radio")	所有带有 type="radio" 的 input 元素
+
+$(":checkbox")	所有带有 type="checkbox" 的 input 元素
+
+$(":submit")	所有带有 type="submit" 的 input 元素
+
+$(":reset")	所有带有 type="reset" 的 input 元素
+
+$(":button")	所有带有 type="button" 的 input 元素
+
+$(":image")	所有带有 type="image" 的 input 元素
+
+$(":file")	所有带有 type="file" 的 input 元素
