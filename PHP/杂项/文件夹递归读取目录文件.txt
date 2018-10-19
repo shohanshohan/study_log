@@ -10,7 +10,7 @@ function showDir($dirs=__DIR__)
 			if (is_dir($file)) {
 				showDir($file);
 			}else{
-				echo '文件名：'.$file.'<br />';
+				echo '鏂囦欢鍚嶏細'.$file.'<br />';
 			}
 		}
 	}
@@ -27,8 +27,8 @@ function showDir2($dirs = __DIR__)
 		if(!in_array($f,['.','..'])){
 			$filename = $dirs.'/'.$f;
 			if(is_file($filename)){
-				$filename = '文件名：'.$dirs.'/'.$f;
-				echo '文件名：'.$filename.'<br />';
+				$filename = '鏂囦欢鍚嶏細'.$dirs.'/'.$f;
+				echo '鏂囦欢鍚嶏細'.$filename.'<br />';
 			}else{
 				showDir2($filename);
 			}
@@ -56,9 +56,9 @@ function getfiles($path){
 
 
 function getfiles2($path=__DIR__){ 
-	foreach(glob($path) as $afile){ 
+	foreach(glob($path . '/*') as $afile){ 
 		if(is_dir($afile)) { 
-			getfiles($afile.'/*'); 
+			getfiles($afile); 
 		} else {
 			echo $afile.'<br />';
 		} 
