@@ -54,7 +54,9 @@ function getfiles($path){
 	} 
 }
 
-
+/**
+ 递归显示文件夹下的所有文件
+*/
 function getfiles2($path=__DIR__){ 
 	foreach(glob($path . '/*') as $afile){ 
 		if(is_dir($afile)) { 
@@ -64,3 +66,22 @@ function getfiles2($path=__DIR__){
 		} 
 	} 
 }
+
+/**
+ 删除指定文件夹下所有内容及自身
+*/
+function deldir($path)
+{
+    if(is_dir($path)){
+        foreach(glob($path . '/*') as $file){ 
+            if(is_dir($file)) { 
+                deldir($file); 
+                @rmdir($file);
+            } else {
+                unlink($file);
+            } 
+        }
+       @rmdir($path); //如果不需要删除自身文件夹，则去掉这行代码
+    }
+}
+
