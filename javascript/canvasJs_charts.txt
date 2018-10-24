@@ -1,0 +1,2 @@
+canvasJs 是一个图表应用扩展，官网地址：https://canvasjs.com/
+文档地址：https://canvasjs.com/docs/charts
