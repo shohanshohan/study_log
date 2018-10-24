@@ -1,0 +1,140 @@
+jQuery 拥有可操作 HTML 元素和属性的强大方法
+
+（一）获得内容 
+text()、html() 以及 val()
+text() - 设置或返回所选元素的文本内容
+html() - 设置或返回所选元素的内容（包括 HTML 标记）
+val() - 设置或返回表单字段的值
+如：$('#input').val('设置值');  $('#input').val();//获取值
+
+
+
+（二）元素属性操作
+（1）attr()
+返回属性的值：
+$(selector).attr(attribute)
+设置属性和值：
+$(selector).attr(attribute,value)
+设置多个属性和值：
+$(selector).attr({attribute:value, attribute:value,...})
+使用函数设置属性和值：
+$(selector).attr(attribute,function(index,currentvalue))
+
+（2）removeAttr() 
+removeAttr() 方法从被选元素移除一个或多个属性。
+移除所有P元素的id和类属性：$("p").removeAttr("id class");
+
+（3）prop()，removeProp()
+prop() 设置或返回被选元素的属性/值, 用法和 attr()一样，不同的是这两个的返回值不同
+$("input").attr('checked')返回 'checked' 而$("input").prop('checked')返回true
+removeProp() 移除通过 prop() 方法设置的属性
+
+
+
+（三）插入内容（元素或文本）
+（1）after()，before()
+after() 方法在被选元素后插入指定的内容，（包括 HTML 标记）。
+在每个 <p> 元素后插入内容：
+$("button").click(function(){
+    $("p").after("<p>Hello world!</p>");
+});
+使用函数：
+$("p").after(function(n,v){
+  return "<div>上面的P元素下标是 " + n + ",内容是："+ v +"</div>";
+});
+如需在被选元素前插入内容，请使用 before() 方法。用法一样
+
+（2）append(), prepend()
+append() 方法在被选元素的结尾插入指定内容,prepend() 方法在被选元素的开头插入指定内容,（包括 HTML 标记）
+注意，与after()和before() 不同的是这是在元素内部插入
+用法同after()一样
+
+（3）appendTo(), prependTo()
+appendTo() 方法在被选元素的结尾插入 HTML 元素。prependTo()在被选元素的开头插入 HTML 元素
+在每个 <p> 元素的结尾插入 <span> 元素：
+$("button").click(function(){
+    $("<span>Hello World!</span>").appendTo("p");
+});
+注意：一定是 html 标签元素，直接插入文本无效！其实只要用append()和prepend()就够了，感觉这两个多余
+
+（4）insertAfter()，insertBefore(）
+insertAfter()	在被选元素后插入 HTML 元素
+insertBefore()	在被选元素前插入 HTML 元素
+其实这两个也有点多余，用 after()和before()就可以了
+
+
+
+
+（四）包裹、替换或移除、克隆元素
+（1）wrap(), wrapAll(), unwrap()
+wrap() 方法使用指定的 HTML 元素来包裹每个被选元素。
+wrapAll()方法使用指定的 HTML 元素来包裹所有被选元素
+$("p").wrapAll("<div></div>");会把所有的p元素包含进div元素中
+unwrap() 方法移除被选元素的父元素。$("p").unwrap();
+
+（2）detach(), remove(),  empty()
+detach() 方法移除被选元素，包括所有的文本和子节点。然后它会保留数据和事件。该方法会保留移除元素的副本，允许它们在以后被重新插入。$("p").detach();
+remove() 移除元素及它的数据和事件。$("p").remove();
+empty() 方法从被选元素所有子节点和内容，该方法不会移除元素本身，或它的属性。
+
+（3）clone() 
+clone() 方法生成被选元素的副本，包含子节点、文本和属性。
+克隆所有的 <p> 元素，并插入到 <body> 元素的结尾：$("p").clone().appendTo("body");
+
+（4）replaceAll()， replaceWith()
+replaceAll() 方法把被选元素替换为新的 HTML 元素。（必须包含 HTML 标签）
+把最后一个 <p> 元素替换为 <span> 元素：$("<span>Hello world!</span>").replaceAll("p:last");
+replaceWith() 方法把被选元素替换为新的内容。（可包含 HTML 标签）
+把第一个 <p> 元素替换为新的文本：$("p:first").replaceWith("Hello world!");
+
+
+
+(五)元素类属性和样式 addClass(), removeClass(), toggleClass(), hasClass(), css()
+（1）addClass() 方法向被选元素添加一个或多个类名,该方法不会移除已存在的 class 属性，仅仅添加一个或多个类名到 class 属性
+$("p:first").addClass("intro");添加多个类名用空格分开 $("p:first").addClass("intro first");
+通过函数来添加类
+$("p").addClass(function(n){
+  return "par_" + n;
+});
+
+（2）removeClass() 方法从被选元素移除一个或多个类，用法同上。注意：如果没有规定参数，则该方法将从被选元素中删除所有类。
+
+（3）toggleClass() 方法对添加和移除被选元素的一个或多个类进行切换。
+
+（4）hasClass(className) 方法检查被选元素是否包含指定的类名称，如果被选元素包含指定的类，该方法返回 "true"。
+
+（5）css() 方法为被选元素设置或返回一个或多个样式属性。用法和 attr()一样样的
+返回 CSS 属性值：
+$(selector).css(property)
+设置 CSS 属性和值：
+$(selector).css(property,value)
+使用函数设置 CSS 属性和值：
+$(selector).css(property,function(index,currentvalue))
+设置多个属性和值：
+$(selector).css({属性：value, 属性：value, ...})
+
+（六）元素大小，位置信息
+（1）宽度、高度
+width() - 设置或返回元素的宽度（不包含padding和border）
+height() - 设置或返回被选元素的高度（不包含padding和border）
+innerWidth() - 返回元素的宽度（包含 padding）
+innerHeight() - 返回元素的高度（包含 padding）
+outerWidth() - 返回元素的宽度（包含 padding 和 border）
+outerHeight() - 返回元素的高度（包含 padding 和 border）
+注意：当该方法用于返回时， 则返回第一个匹配元素的高度或宽度。当该用于设置时，则设置所有匹配元素的高度或宽度。
+
+（2）元素位置
+position() 方法返回第一个匹配元素的位置（相对于它的父元素）。该方法返回一个带有两个属性（以像素为单位的 top 和 left 位置）的对象
+x=$("p").position();  alert("顶部位置: " + x.top + "左部位置: " + x.left);
+
+（3）滚动条位置
+scrollLeft() 方法设置或返回被选元素的水平滚动条位置。
+提示：当滚动条位于最左侧时，位置是 0。
+当用于返回位置时：该方法返回第一个匹配元素的滚动条的水平位置。
+当用于设置位置时：该方法设置所有匹配元素的滚动条的水平位置。
+scrollTop() 方法设置或返回被选元素的垂直滚动条位置。定义同上
+
+
+
+
+
