@@ -1,0 +1,95 @@
+淡入淡出，透明渐变，隐藏显示，上滑下滑，以及动画
+
+（1）fadeIn(), fadeOut()，fadeToggle()
+上面两个方法是淡入淡出效果，具体用法如：
+$('.btn1').click(function(event){
+   $('#demo').fadeIn(1000, 'linear', function(){alert('fadeIn');});
+});
+
+$('.btn2').click(function(event){
+   $('#demo').fadeOut(1000, 'linear', function(){alert('fadeOut')});
+});
+其中第一个参数是淡入淡出速度，单位是毫秒，也可用字符串‘slow’或‘fast’
+第二个参数是淡入淡出效果呈现，默认是 "swing" - 在开头/结尾移动慢，在中间移动快,"linear" 为 匀速移动
+第三个参数是完成效果后的执行函数
+使用 fadeToggle() 方法自动切换 fadeIn() 和 fadeOut()
+$('#demo').fadeToggle(1000, 'linear', function(){});
+
+
+（2）fadeTo()
+fadeTo() 方法逐渐改变被选元素的不透明度为指定的值（褪色效果）
+这个方法有四个参数，其中第二个参数是透明度，值为 0.1-1，其它几个参数原理同上
+$('#demo').fadeTo(1000, 0.5, 'linear', function(){alert('fadeTo');});
+
+
+（3）hide(), show(), toggle()
+隐藏或显示被选元素，这与 CSS 属性 display:none 类似。
+使用方法和 fadeIn() 一样的
+用 toggle()方法自动切换 hide()和show()
+
+
+（4）slideDown(), slideUp(), slideToggle()
+以滑动方式显示或隐藏被选元素，上滑和下滑
+注意：slideDown() 适用于通过 jQuery 方法隐藏的元素，或在 CSS 中声明 display:none 隐藏的元素（不适用于通过 visibility:hidden 隐藏的元素）。
+使用方法和 fadeIn() 一样
+使用 slideToggle() 方法自动切换 slideDown() 和 slideUp()
+$('#demo').slideToggle(1000, 'linear', function(){});
+
+
+（5）animate()
+animate() 方法执行 CSS 属性集的自定义动画
+$('#demo').animate({styles}, speed, easing, callback);
+其中第一个参数为规定产生动画效果的一个或多个 CSS 属性/值，如：$("#box").animate({height:'300px',width:'500px'});
+注意：属性名称必须是驼峰写法：必须使用 paddingLeft 代替 padding-left依此类推，并且用‘，’分开
+只有数字值可创建动画（比如 "margin:30px"）。字符串值无法创建动画（比如 "background-color:red"）。
+操作多个属性：
+$("div").animate({
+    left:'250px',
+    opacity:'0.5',
+    height:'150px',
+    width:'150px'
+});
+也可以定义相对值（该值相对于元素的当前值）。需要在值的前面加上 += 或 -=：
+实例
+$("button").click(function(){
+  $("div").animate({
+    left:'250px',
+    height:'+=150px',
+    width:'+=150px'
+  });
+});
+其它参数原理和 fadeIn() 一样
+
+
+（6）stop()
+stop() 方法为被选元素停止当前正在运行的动画。
+有两个可选参数，都为布尔值，$(selector).stop(stopAll,goToEnd)
+第一个参数 规定是否停止被选元素的所有加入队列的动画。默认是 false
+第二个参数 规定是否立即完成当前的动画。默认是 false。
+animate() - 使用队列功能
+默认地，jQuery 提供针对动画的队列功能。
+实例
+$("button").click(function(){
+  var div=$("div");
+  div.animate({height:'300px',opacity:'0.4'},"slow");
+  div.animate({width:'300px',opacity:'0.8'},"slow");
+  div.animate({height:'100px',opacity:'0.4'},"slow");
+  div.animate({width:'100px',opacity:'0.8'},"slow");
+});
+
+
+（7）clearQueue()，queue(), dequeue()
+clearQueue() 方法从尚未运行的队列中移除所有项目。请注意当函数开始运行时，它会一直运行直到完成，也就是说从下一个队列函数开始停止
+与 stop() 方法（只适用于动画）不同的是，clearQueue() 方法移除任何排队的函数。
+queue() 方法显示被选元素上要执行的函数队列。队列是一个或多个等待运行的函数。
+queue() 方法通常与 dequeue() 方法一起使用。dequeue() 方法从队列中移除下一个函数，然后执行函数
+一个元素可以有若干队列。大部分通常只有一个，"fx" 队列，即默认的 jQuery 队列。
+
+
+（8）delay()
+delay() 方法对队列中的下一项的执行设置延迟。
+$("#div1").delay("slow").fadeIn();
+第一个参数为延迟的速度，可以是‘slow'或’fast‘,或是 毫秒
+
+（9）finish()
+finish() 方法停止当前运行的动画，移除所有排队的动画，并为被选元素完成所有动画。就是一步到位，不演示过程
