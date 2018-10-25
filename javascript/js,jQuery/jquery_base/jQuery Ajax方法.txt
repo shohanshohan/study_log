@@ -1,0 +1,18 @@
+AJAX 是一种与服务器交换数据的技术，可以在不重新载入整个页面的情况下更新网页的一部分。
+以下是 jQuery 的 ajax 具体使用方法：
+
+（1）ajax()
+ajax() 方法用于执行 AJAX（异步 HTTP）请求
+所有的 jQuery AJAX 方法都基于使用 ajax() 方法。该方法通常用于其他方法不能完成的请求。
+一个简单的请求示例：
+$.ajax({
+  url:"demo_test.txt",
+  success:function(result){
+        $("#div1").html(result);
+  }
+});
+下面列出了该方法可能的名称/值：
+$.ajax({
+  async: true,	//布尔值，表示请求是否异步处理。默认是 true。
+  beforeSend: function(){},	//发送请求前运行的函数。
+});
