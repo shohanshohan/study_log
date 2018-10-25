@@ -1,0 +1,64 @@
+（一）第一和最后
+first(), last()
+（1）first() 方法返回被选元素的第一个元素。 $("p").css('background-color','yellow'); 设置第一个p元素的背景色
+（2）last() 方法返回被选元素的最后一个元素。$('div p').last().css('background-color','red');设置最后一个div的最后一个p元素的背景色
+
+
+（二）同级元素（兄弟元素）
+next(), nextAll(), nextUntil(), prev(), prevAll(), prevUntil()，siblings()
+（1）next() 方法返回被选元素的后一个同级元素。注意：该方法只返回一个元素
+（2）nextAll() 方法返回被选元素之后的所有同级元素,同级元素是共享相同父元素的元素。$("li.start").nextAll().css("color","red");
+（3）nextUntil() 方法返回 selector 与 stop 之间的每个元素之后的所有同级元素.$("li.start").nextUntil("li.stop").css("color","red");
+缩小范围，$("li.start").nextUntil("li.stop",".1").css("color","red"); 返回在类名为“star”和类名为“stop”的li元素之间类名为“1”的所有兄弟元素
+返回多个同级元素，$("h2").nextUntil("h5",".1,.2,.3").css("color","red");返回“h2”和"h5"之间类名为“1“、”2“、”3”的所有兄弟元素
+（4）prev() 方法返回被选元素的前一个同级元素。用法同 next()
+（5）prevAll() 方法返回被选元素之前的所有同级元素。用法同 nextAll()
+（6）prevUntil() 方法返回 selector 与 stop 之间的每个元素之前的所有同级元素。用法同 nextUntil()
+注意：prevUntil()与nextUntil()都能返回选定的两个元素之间的所选兄弟元素，不同在于，返回的元素集排列顺序是不一样的，nextUntil正序排，prevUntil倒序排
+（7）siblings() 方法返回被选元素的所有同级元素，$('.li').siblings('.red');返回类名为li的兄弟元素中类名为red的所有兄弟元素
+
+（三）子祖关系
+children(), find(), contents(), parent(), parents(), parentsUntil(), closest(), offsetParent()
+（1）children() 方法返回被选元素的所有直接子元素，该方法不会返回文本节点。直接子元素即是第一层子元素
+（2）contents() 方法返回所有直接子元素的文本和注释节点。
+$('div').contents().filter('p:first').wrap('<b/>');查找到所有div元素内第一个p元素的文本节点，并且使用b元素包裹它们
+（3）find() 方法返回被选元素的后代元素。后代是子、孙、曾孙，依此类推。
+注意：find(filter) 有一个必须选择器参数，即指定具体的后代，如需返回所有的后代元素，请使用 "*" 选择器，$('div').find('*');
+（4）parent() 方法返回被选元素的直接父元素。$("span").parent("li.1"); 查找到span的直接父元素类名为1的li元素，不带参数则表示所有直接父元素
+（5）parents() 方法返回被选元素的所有祖先元素。祖先是父、祖父、曾祖父，依此类推。用法同上
+（6）closest() 方法返回被选元素的第一个祖先元素。该方法也有一个必须选择器参数，即指定具体的祖先元素 $('li').closest('ul');
+该方法与 parents() 类似，都是向上遍历 DOM 树，不同点是：
+closest()从当前元素开始,沿 DOM 树向上遍历，并返回匹配所传递的表达式的第一个单一祖先,返回包含零个或一个元素的 jQuery 对象
+parents(),从父元素开始,沿 DOM 树向上遍历，并返回匹配所传递的表达式的所有祖先,返回包含零个、一个或多个元素的 jQuery 对象
+（7）parentsUntil() 方法返回介于 selector 与 stop 之间的所有祖先元素。
+返回介于 <span> 和 <div> 之间的所有祖先元素：$("span").parentsUntil("div")，即属于span的祖先元素，div的子孙元素
+（8）offsetParent() 方法返回第一个被定位的父元素，定位即是通过 CSS 的 position 属性（relative、absolute 或 fixed）来定位。
+
+
+（四）元素组合器和过滤器
+add(), filter(), not()，eq()，has()，is()
+（1）add() 方法把元素添加到已存在的元素组合中，该方法把元素添加到整个文档上
+$("h1").add("p").add("span").css("background-color","yellow"); 等同于 $("h1 p span").css("background-color","yellow");
+（2）filter() 方法返回符合一定条件的元素。该方法通常用于缩小在被选元素组合中搜索元素的范围
+（2）not() 方法返回不符合一定条件的元素。与 filter()方法是相对的
+（3）eq() 方法返回带有被选元素的指定索引号的元素，索引号从 0 开头，所以第一个元素的索引号是 0（不是 1）。
+选取第二个 <p> 元素（索引号为 1）：$('p').eq(1);
+（4）has() 方法返回拥有匹配指定选择器的一个或多个元素在其内的所有元素。它有一个必须选择器参数，用来指定元素
+返回拥有一个 <span> 元素在其内的所有 <p> 元素：$("p").has("span")
+选择内部有span或者b元素的所有p元素：$("p").has("span,b"); 注意是用‘,’隔开并且是或的关系不是且的关系
+（5）is() 方法用于查看选择的元素是否匹配选择器。有一个必须选择器参数，如果存在至少一个匹配元素，则返回 true，否则返回 false
+if($("p").parent().is("div")){ alert('is event'); }
+（6）slice(start, stop) 方法选取基于索引的元素的子集，子集是一个属于大的集合中的一部分的集合，索引从0开始. 第一个参数必须
+从索引位置2的p元素开始选择p元素：$("p").slice(2);
+从索引位置1的p元素开始到下标3之前: $("p").slice(1,3); 注意 stop 参数索引的位置元素不包含
+
+
+
+（五）遍历选择的元素集
+each() 方法为每个匹配元素规定要运行的函数，参数为函数，必须
+输出每个 <li> 元素的文本：
+$("button").click(function(){
+    $("li").each(function(i, e){ //这里的参数 i 表示选择器的索引位置，e 表示当前的元素（也可使用 "this" 选择器）
+        alert($(this).text()); //或 alert($(e).text());
+    });
+});
