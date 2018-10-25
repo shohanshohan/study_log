@@ -121,6 +121,8 @@ innerWidth() - 返回元素的宽度（包含 padding）
 innerHeight() - 返回元素的高度（包含 padding）
 outerWidth() - 返回元素的宽度（包含 padding 和 border）
 outerHeight() - 返回元素的高度（包含 padding 和 border）
+outerWidth(true) - 返回元素的宽度（包含 padding，border 和 margin）
+outerHeight(true) - 返回元素的高度（包含 padding，border 和 margin）
 注意：当该方法用于返回时， 则返回第一个匹配元素的高度或宽度。当该用于设置时，则设置所有匹配元素的高度或宽度。
 
 （2）元素位置
