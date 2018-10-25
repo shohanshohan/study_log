@@ -13,6 +13,88 @@ $.ajax({
 });
 下面列出了该方法可能的名称/值：
 $.ajax({
-  async: true,	//布尔值，表示请求是否异步处理。默认是 true。
-  beforeSend: function(){},	//发送请求前运行的函数。
+  async: true,	                 //布尔值，表示请求是否异步处理。默认是 true。
+  beforeSend: function(xhr){},	 //发送请求前运行的函数。
+  cache: true,	                 //布尔值，表示浏览器是否缓存被请求页面。默认是 true。
+  complete: function(xhr,status){},	 //请求完成时运行的函数（在请求成功或失败之后均调用，即在 success 和 error 函数之后）
+  contentType: "application/x-www-form-urlencoded",	//发送数据到服务器时所使用的内容类型。默认是："application/x-www-form-urlencoded"。
+  context: $('#id'),             //为所有 AJAX 相关的回调函数规定 "this" 值。$(this) 即是指定的元素对象，
+  data: {},	                     //规定要发送到服务器的数据，是一个对象{}, 里面有键值对如{name:"", age:""}
+  dataFilter: function(data,type){},	//用于处理 XMLHttpRequest 原始响应数据data的函数,type是调用jQuery.ajax时提供的dataType参数
+  dataType: '',	//预期的服务器响应的数据类型。
+  /*可用值: 
+    text：返回纯文本字符串。 
+    “xml”: 返回 XML 文档，可用 jQuery 处理。 
+    “html”: 返回纯文本 HTML 信息；包含的script标签会在插入DOM时执行。 
+    “script”: 返回纯文本 JavaScript 代码。不会自动缓存结果。 
+    “json”: 返回 JSON 数据 。JQuery将返回的字符串格式数据自动转化为Javascript对象，
+     若没有指定该选项，即使返回的是JSON格式的字符串，JQuery也不会自动转换。 
+    “jsonp”: JSONP 格式。
+  */
+  error: function(xhr,status,error){},	//如果请求失败要运行的函数。
+  global: true, 	               //布尔值，规定是否为请求触发全局 AJAX 事件处理程序。默认是 true。
+  ifModified: false,	           //布尔值，规定是否仅在最后一次请求以来响应发生改变时才请求成功。默认是 false。
+  jsonp: '',	                   //在一个 jsonp 中重写回调函数的字符串,
+  /*
+  这个值用来替代在 “callback=?” 这种 GET 或 POST 请求中 URL 参数里的 “callback” 部分，
+  比如 {jsonp:’onJsonPLoad’} 会导致将 “onJsonPLoad=?” 传给服务器
+  */
+  jsonpCallback: '',	           //在一个 jsonp 中规定回调函数的名称。
+  username: '',	                 //规定在 HTTP 访问认证请求中使用的用户名。
+  password: '',	                 //规定在 HTTP 访问认证请求中使用的密码
+  timeout: 5000,	               //设置本地的请求超时时间（以毫秒计）。
+  processData: true,	           //布尔值，规定通过请求发送的数据是否转换为查询字符串。默认是 true。
+  scriptCharset: 'utf8',	       //规定请求的字符集。
+  /*只有当请求时 dataType 为 “jsonp” 或 “script”，并且 type 是 “GET” 才会用于强制修改 charset。通常只在本地和远程的内容编码不同时使用。*/
+  success: function(result,status,xhr){},	  //当请求成功时运行的函数
+  traditional: true,	           //布尔值，规定是否使用参数序列化的传统样式。
+  type: 'POST',	                 //规定请求的类型（GET 或 POST）,默认为 “GET”
+  url: 'demo.php',               //规定发送请求的 URL。默认是当前页面
+  xhr: function(){},	           //用于创建 XMLHttpRequest 对象的函数。用于重写或者提供一个增强的 XMLHttpRequest 对象
+});
+有很多是不常用的，常用到的是下面这些：
+$.ajax({
+  type: 'POST',
+  url: '',
+  dataType: '',
+  data: {},
+  success: function(data, status, xhr){},
+  error: function(xhr, status, error){},
+});
+
+
+
+
+（2）load()
+ load() 方法是简单但强大的 AJAX 方法,从服务器加载数据，并把返回的数据放入被选元素中。
+ $(selector).load(URL,data,callback);
+必需的 URL 参数规定您希望加载的 URL。
+可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。
+可选的 callback 参数是 load() 方法完成后所执行的函数名称
+把文件 "demo.txt" 的内容加载到指定的 <div> 元素中：$("#div1").load("demo.txt"); 
+把 "demo.txt" 文件中 id="p1" 的元素的内容，加载到指定的 <div> 元素中：$("#div1").load("demo.txt #p1");
+$("#div1").load("demo.php",{name:''},function(responseTxt,statusTxt,xhr){
+  if(statusTxt=="success")
+    alert("外部内容加载成功!");
+  if(statusTxt=="error")
+    alert("Error: "+xhr.status+": "+xhr.statusText);
+});
+
+
+
+（3） $.get(), $.post()
+get() 和 post() 方法用于通过 HTTP GET 或 POST 请求从服务器请求数据。是$.ajax()的简写方式
+$.get(URL,callback);
+必需的 URL 参数规定您希望请求的 URL。
+可选的 callback 参数是请求成功后所执行的函数名
+$.get("demo.php",function(data,status){ //status状态值为 ‘success’或‘error’
+  alert("数据: " + data + "\n状态: " + status);
+});
+
+$.post(URL,data,callback);
+必需的 URL 参数规定您希望请求的 URL。
+可选的 data 参数规定连同请求发送的数据。
+可选的 callback 参数是请求成功后所执行的函数名
+$.post("demo.php", {name:'someone', age:19}, function(data,status){ //status状态值为 ‘success’或‘error’
+  alert("数据: " + data + "\n状态: " + status);
 });
