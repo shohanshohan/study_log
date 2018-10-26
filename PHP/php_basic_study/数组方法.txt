@@ -1,0 +1,16 @@
+创建数组：$arr = ['key'=>'value','key2'=>'value2'];
+
+（1）array_change_key_case($arr, $case) 
+将数组的所有的键都转换为大写字母或小写字母。返回新数组，键名转换成全部大写或全部小写
+参数说明：
+$arr  必须，需要转换的数组
+$case 可选，选择转换成大写还是小写，CASE_LOWER（小写，默认），CASE_UPPER（大写）
+键名转换为大写：array_change_key_case($arr, CASE_UPPER); 默认为小写
+
+（2）array_chunk($arr, $size, $bool) 
+把一个数组分割为新的数组块。返回一个包含分割数组的二维数组
+参数说明：
+$arr  必须，需要分割的数组
+$size 必须，大于0的整数，分割的元素长度，如果长度超过数组长度则返回整个原数组被一个新数组包围
+$bool 可选，布尔值，true - 保留原始数组中的键名，false - 默认，每个新数组块使用从零开始的索引。
+
