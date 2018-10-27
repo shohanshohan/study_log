@@ -52,7 +52,7 @@ print_r(array_combine($arr, $arr2)); //array(['one'=>'lily','two'=>'piter','thre
 $a=array("A","Cat","Dog","A","Dog");
 print_r(array_count_values($a)); // Array ( [A] => 2 [Cat] => 1 [Dog] => 2 )
 
-（6）array_diff($arr1, $arr2, ...)  比较键值
+（6）array_diff($arr1, $arr2, ...)  比较键值 
 用于比较两个（或更多个）数组的键值，并返回差集数组。
 注意：该方法返回一个差集数组，该数组包括了所有在被比较的数组（array1）中，但是不在任何其他参数数组（array2 或 array3 等等）中的键值。
 所以不要单纯地用这个方法比较几个数组是否相等！！！因为只返回第一个数组的差集，几个数组相同或不相同都有可能返回的是空数组！
@@ -65,14 +65,127 @@ $a2=array("e"=>"red","f"=>"green","g"=>"blue",'cd'=>'ddd');
 或：
 $a1=array("a"=>"red","b"=>"green","c"=>"blue");
 $a2=array("e"=>"red","f"=>"green","g"=>"blue");
+另外：array_intersect() 函数用于比较两个（或更多个）数组的键值，并返回交集
 
 （7）array_diff_assoc($arr1, $arr2, ...) 比较键名和键值
 用于比较两个（或更多个）数组的键名和键值 ，并返回差集。同样只返回第一个数组的差集，同样不能用来作为比较几个数组是否相同
 如果要比较几个数组是否是相同的这样做：
 if( !array_diff_assoc($arr1, $arr2) && !array_diff_assoc($arr1, $arr2)){......}
 即相互比较都不存在差集的情况就是相同了
+另外：array_intersect_assoc()	比较数组，返回两个数组的交集（比较键名和键值）。
 
 （8）array_diff_key($arr1, $arr2, ...) 比较键名
 用于比较两个（或更多个）数组的键名 ，并返回差集。原理同上
+另外：array_intersect_key()	比较数组，返回两个数组的交集（只比较键名）。
+
+（9）array_fill($index, $num, $value)
+用给定的键值生成一个数组
+参数说明：
+$index	必需。规定返回数组的起始索引。必须是整数
+$number	必需。规定填充的元素的数量，其值必须大于 0。
+$value	必需。规定用于填充数组的键值。
+
+（10）array_fill_keys($keys, $value) 
+用给定的指定键名的键值填充数组
+参数说明：
+keys	必需。数组，其值将被用于填充数组的键名。
+value	必需。规定用于填充数组的键值。
+$keys=array("a","b","c","d");
+$a1=array_fill_keys($keys,"blue");
+print_r($a1); //Array ( [a] => blue [b] => blue [c] => blue [d] => blue )
+
+（11）array_filter($arr, "$function", $flag) 
+用回调函数过滤数组中的元素。
+该函数把输入数组中的每个键值传给回调函数。如果回调函数返回 true，则把输入数组中的当前键值返回给结果数组。数组键名保持不变
+参数说明：
+rray	必需。规定要过滤的数组。
+$function	可选。规定要用的回调函数。
+flag	可选。决定回调函数接收的参数形式:ARRAY_FILTER_USE_KEY接受键名作为的唯一参数，ARRAY_FILTER_USE_BOTH同时接受键名和键值,默认是接受键值
+具体实例：
+function test($key, $var)
+{
+    return($key>2 && is_int($var));
+}
+$a1=array("a","b",2,3,4);
+print_r(array_filter($a1,"test", ARRAY_FILTER_USE_BOTH)); //Array ( [3] => 3 [4] => 4 )
+又如：
+function test($var)
+{
+    return(is_int($var));
+}
+$a1=array("a","b",2,3,4);
+print_r(array_filter($a1,"test")); //Array ( [2] => 2 [3] => 3 [4] => 4 )
+
+（12）array_flip($arr) 
+反转/交换数组中的键名和对应关联的键值
+注意：不要传入多唯数组，只识别一唯数组的转换
+
+（13）array_key_exists($key, $arr)
+检查某个数组中是否存在指定的键名，如果键名存在则返回 true，如果键名不存在则返回 false。如果数组没有键名则是数字索引键名从0开始
+
+（14）array_keys($arr) 
+返回包含数组中所有键名的一个新数组。
+相反的：array_values($arr) 返回包含数组中所有键值的一个新数组，即让键名重新按数字索引
+
+（15）array_map($function, $arr, $arr2,...) 
+将用户自定义函数作用到数组中的每个值上，并返回用户自定义函数作用后的带有新的值的数组。
+返回第一个数组的值，键名保持不变
+示例：
+$a=['one'=>1,'two'=>2,'three'=>3];
+print_r(array_map(function($num){ return $num*$num; },$a)); //Array ( [one] => 1 [two] => 4 [three] => 9 )
+又如：
+$a=[1,2,9];
+$b=[6,7,8];
+print_r(array_map(function($num1, $num2){ if($num1>$num2){return $num1*$num2;} }, $a, $b));//Array ( [0] => [1] => [2] => 72 )
+如果第一个参数传入 null 会是什么结果：
+$a=[1,2,9];
+$b=[6,7,8];
+print_r(array_map(null, $a, $b)); //变成了按顺序来合并的二唯数组了
+Array
+(
+    [0] => Array
+        (
+            [0] => 1
+            [1] => 6
+        )
+    [1] => Array
+        (
+            [0] => 2
+            [1] => 7
+        )
+    [2] => Array
+        (
+            [0] => 9
+            [1] => 8
+        )
+)
+
+（16）array_merge($arr1, $arr2, ...) 
+把一个或多个数组合并为一个数组并返回。
+如果两个或更多个数组元素有相同的键名，则最后的元素会覆盖其他元素。如果数组是带整数键名的则会重新索引
+$a1=array("a"=>"red","b"=>"green");
+$a2=array("c"=>"blue","b"=>"yellow");
+print_r(array_merge($a1,$a2)); //Array ( [a] => red [b] => yellow [c] => blue )
+又如：
+$a=array(3=>"red",4=>"green");
+print_r(array_merge($a)); //Array ( [0] => red [1] => green )
+
+（17）array_merge_recursive() 
+用于把一个或多个数组合并为一个数组。
+与 array_merge() 函数之间的不同是在处理两个或更多个数组元素有相同的键名的情况。
+array_merge_recursive() 不会进行键名覆盖，而是将多个相同键名的值递归组成一个数组。
+$a1=array("a"=>"red","b"=>"green");
+$a2=array("c"=>"blue","b"=>"yellow");
+print_r(array_merge_recursive($a1,$a2)); //Array ( [a] => red [b] => Array ( [0] => green [1] => yellow ) [c] => blue )
+
+（18）array_pad(array, size, value) 
+将指定数量的带有指定值的元素插入到数组中。
+参数说明：
+array	必需。规定数组。
+size	必需。规定从函数返回的数组元素个数。
+value	必需。规定从函数返回的数组中新元素的值。
+
+
+
 
 
