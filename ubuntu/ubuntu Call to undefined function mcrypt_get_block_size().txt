@@ -1,0 +1,6 @@
+有时会碰到这个报错，ubuntu Call to undefined function mcrypt_get_block_size()
+说明 mcrypt 扩展没有安装，在ubuntu下运行如下命令：（这里是系统安装）
+apt-get install php5-mcrypt  libmcrypt-dev
+php5enmod mcrypt
+然后重启apache2:  sudo service apache2 restart
+
