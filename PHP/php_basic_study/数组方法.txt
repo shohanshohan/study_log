@@ -14,3 +14,37 @@ $arr  必须，需要分割的数组
 $size 必须，大于0的整数，分割的元素长度，如果长度超过数组长度则返回整个原数组被一个新数组包围
 $bool 可选，布尔值，true - 保留原始数组中的键名，false - 默认，每个新数组块使用从零开始的索引。
 
+（3）array_column($arr, $column_key, $index_key) 
+返回输入数组中某个单一列的值。
+参数说明：
+$arr	  必需。指定要使用的多维数组（记录集）。
+$column_key	必需。需要返回值的列。可以是索引数组的列的整数索引，或者是关联数组的列的字符串键值。
+该参数也可以是 NULL，此时将返回整个数组（配合index_key 参数来重置数组键的时候，非常管用）。
+$index_key	可选。作为返回数组的索引/键的列。如果不指定则为从0开始的数字索引
+$arr = [
+  [
+    'id' => 5698,
+    'first_name' => 'Peter',
+    'last_name' => 'Griffin',
+  ],
+  [
+    'id' => 4767,
+    'first_name' => 'Ben',
+    'last_name' => 'Smith',
+  ],
+  [
+    'id' => 3809,
+    'first_name' => 'Joe',
+    'last_name' => 'Doe',
+  ]
+];
+print_r(array_column($arr, 'first_name', 'id')); //Array ( [5698] => Peter [4767] => Ben [3809] => Joe )
+print_r(array_column($arr, null, 'id')); //返回整个数组，但是索引键不是数字而是指定的id键值了
+
+（4）array_combine($key_arr, $value_arr) 
+通过合并两个数组来创建一个新数组，其中的一个数组元素为键名，另一个数组的元素为键值。注意，两个数组的元素个数必须相同
+$arr = ['one','two','three'];
+$arr2 = ['lily','piter','shohan'];
+print_r(array_combine($arr, $arr2)); //array(['one'=>'lily','two'=>'piter','three'=>'shohan'])
+
+（5）
