@@ -47,4 +47,32 @@ $arr = ['one','two','three'];
 $arr2 = ['lily','piter','shohan'];
 print_r(array_combine($arr, $arr2)); //array(['one'=>'lily','two'=>'piter','three'=>'shohan'])
 
-（5）
+（5）array_count_values($arr) 
+用于统计数组中所有值出现的次数
+$a=array("A","Cat","Dog","A","Dog");
+print_r(array_count_values($a)); // Array ( [A] => 2 [Cat] => 1 [Dog] => 2 )
+
+（6）array_diff($arr1, $arr2, ...)  比较键值
+用于比较两个（或更多个）数组的键值，并返回差集数组。
+注意：该方法返回一个差集数组，该数组包括了所有在被比较的数组（array1）中，但是不在任何其他参数数组（array2 或 array3 等等）中的键值。
+所以不要单纯地用这个方法比较几个数组是否相等！！！因为只返回第一个数组的差集，几个数组相同或不相同都有可能返回的是空数组！
+$a1=array("a"=>"red","b"=>"green","c"=>"blue",'cd'=>'ddd');
+$a2=array("e"=>"red","f"=>"green","g"=>"blue");
+print_r(array_diff($a1,$a2); // Array ( [cd] => ddd )
+以下两种情况都是返回空数组，因为在第一个数组中找不到差集
+$a1=array("a"=>"red","b"=>"green","c"=>"blue");
+$a2=array("e"=>"red","f"=>"green","g"=>"blue",'cd'=>'ddd');
+或：
+$a1=array("a"=>"red","b"=>"green","c"=>"blue");
+$a2=array("e"=>"red","f"=>"green","g"=>"blue");
+
+（7）array_diff_assoc($arr1, $arr2, ...) 比较键名和键值
+用于比较两个（或更多个）数组的键名和键值 ，并返回差集。同样只返回第一个数组的差集，同样不能用来作为比较几个数组是否相同
+如果要比较几个数组是否是相同的这样做：
+if( !array_diff_assoc($arr1, $arr2) && !array_diff_assoc($arr1, $arr2)){......}
+即相互比较都不存在差集的情况就是相同了
+
+（8）array_diff_key($arr1, $arr2, ...) 比较键名
+用于比较两个（或更多个）数组的键名 ，并返回差集。原理同上
+
+
