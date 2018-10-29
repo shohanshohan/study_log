@@ -1,13 +1,13 @@
-在 windows上 安装php_mongodb.dll扩展很简单：
-进入 http://pecl.php.net/package/mongodb/1.5.3/windows
+在 windows上 安装php_mongo.dll扩展很简单：
+进入 http://pecl.php.net/package/mongo
 下载符合自己的php版本和电脑位数的 扩展，如果不知道应该下载哪一个就先打印一下 echo phpinfo()
 查看一下自己的php版本信息：
 Architecture	x86 （虽然你的电脑是64位的，但安装的php仍可能是x86的）
 Loaded Configuration File	D:\phpstudy\php\php-5.6.27-nts\php.ini （你的php版本的配置文件地址）
 
-把下载好的 php_mongodb.dll文件放入你的扩展目录里面，如：D:\phpstudy\php\php-5.6.27-nts\ext\
+把下载好的 php_mongo.dll文件放入你的扩展目录里面，如：D:\phpstudy\php\php-5.6.27-nts\ext\
 然后在 php.ini 文件引入扩展：
 [mongoDb]
-extension=php_mongodb.dll
+extension=php_mongo.dll
 
 重启服务器，查看 phpinfo()
