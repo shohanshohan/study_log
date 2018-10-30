@@ -11,3 +11,10 @@ Loaded Configuration File	D:\phpstudy\php\php-5.6.27-nts\php.ini （你的php版
 extension=php_mongo.dll
 
 重启服务器，查看 phpinfo()
+
+上面是mongo扩展， 要安装mongoDb扩展的话，进入 http://pecl.php.net/package/mongodb 下载扩展文件，方法和上面一样的
+注：最新是mongodb扩展， mongo扩展现已废弃，建议用新的mongodb扩展
+
+
+另外有一个php扩展mongodb实现了和mongo操作一样的方法，github地址：https://github.com/mongodb/mongo-php-library
+文档地址：https://docs.mongodb.com/php-library/current/
