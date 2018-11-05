@@ -1,0 +1,12 @@
+首先要安装nodeJs环境，因为要依赖 npm install 进行下载扩展包和安装
+查看 nodeJs版本： node -v
+
+
+进入项目文件夹或新建项目文件夹进入目录 cd myProfile
+进行初始化：npm init -y    //这一步会生成一个package.json文件
+
+确保在 nodeJs环境后，安装 webpack 最新版本
+npm install --save-dev webpack webpack-cli
+或者安装特定版本：npm install --save-dev webpack@<version> 
+将会创建 package-lock.json文件和 node_modules文件夹，里面包含了必须的插件模板
+
