@@ -1,6 +1,7 @@
 （1）如果要加载css和图片资源，首先要安装扩展
 npm install --save-dev style-loader css-loader  //加载css扩展
-npm install --save-dev file-loader //加载图片文件扩展
+npm install --save-dev file-loader //加载图片文件扩展,加载字体文件也用这个
+npm install --save-dev csv-loader xml-loader //加载数据 excel或xml
 
 （2）安装好插件后，修改配置文件 webpack.config.js
 加入需要运行的模块选项，如：
@@ -39,6 +40,24 @@ const path = require('path');
          test: /\.(png|svg|jpg|gif)$/,
          use: [
            'file-loader'
+         ]
+       }，
+       {
+       	test: /\.(woff|woff2|eot|ttf|otf)$/,
+         use: [
+           'file-loader'
+         ]
+       },
+       {
+         test: /\.(csv|tsv)$/,
+         use: [
+           'csv-loader'
+         ]
+       },
+       {
+         test: /\.xml$/,
+         use: [
+           'xml-loader'
          ]
        }
       ]
