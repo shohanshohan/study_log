@@ -1,0 +1,52 @@
+（1）如果要加载css和图片资源，首先要安装扩展
+npm install --save-dev style-loader css-loader  //加载css扩展
+npm install --save-dev file-loader //加载图片文件扩展
+
+（2）安装好插件后，修改配置文件 webpack.config.js
+加入需要运行的模块选项，如：
+module: {
+  	rules: [
+  		{
+	  		test: /\.css$/,
+	  		use: [
+	  			'style-loader',
+	  			'css-loader'
+	  		]
+	  	}
+  	]
+  }
+上面的意思是：当遇到以.css结尾的文件被引入的时候，运行style-loader和css-loader插件功能，把样式加载到脚本的<head>标签中
+
+整个webpack.config.js文件内容可能是这样的：
+const path = require('path');
+
+  module.exports = {
+    entry: './src/index.js',
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            'css-loader'
+          ]
+        },
+       {
+         test: /\.(png|svg|jpg|gif)$/,
+         use: [
+           'file-loader'
+         ]
+       }
+      ]
+    }
+  };
+  
+  （3）添加好配置后，在你的入口文件（上面配置中是'./src/index.js'）引入相关资源就可以了
+  如：import './style.css';
+  import './demo.jpg';
+  
+  （4）运行构建命令：npm run build（构建命令也可以在package.json中script选项中配置不同的）这样就可以了，index.html中可以应用构建的资源
