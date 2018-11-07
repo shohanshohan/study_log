@@ -5,3 +5,34 @@ webpack's Watch Mode //观察模式
 webpack-dev-server //实时重新加载
 webpack-dev-middleware
 多数场景中，你可能需要使用 webpack-dev-server
+
+（1）观察模式
+在配置文件webpack.json中配置如下：
+"scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
++     "watch": "webpack --watch",
+      "build": "webpack"
+    },
+在命令行中运行 npm run watch，就会看到 webpack 编译代码，然而却不会退出命令行。这是因为 script 脚本还在观察文件。
+唯一的缺点是，为了看到修改后的实际效果，你需要刷新浏览器。
+
+（2）webpack-dev-serve
+webpack-dev-server 为你提供了一个简单的 web 服务器，并且能够实时重新加载(live reloading)。
+安装：npm install --save-dev webpack-dev-server
+修改配置文件，告诉开发服务器(dev server)，在哪里查找文件：
+webpack.config.js
+ devtool: 'inline-source-map',
++   devServer: {
++     contentBase: './dist'
++   },
+以上配置告知 webpack-dev-server，在 localhost:8080 下建立服务，将 dist 目录下的文件，作为可访问文件。
+在webpack.json配置文件中添加脚本：
+ "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "watch": "webpack --watch",
++     "start": "webpack-dev-server --open",
+      "build": "webpack"
+    },
+在命令行中运行 npm start，就会看到浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码。
+
+    
