@@ -1,0 +1,53 @@
+可以管理多个不同脚本作为入口起点，动态生成输出脚本，如：
+在webpack.config.js配置项 entry 添加 src/print.js 作为新的入口起点（print），然后修改 output，以便根据入口起点名称动态生成 bundle 名称
+ entry: {
+     app: './src/index.js',
+     print: './src/print.js'
+   },
+    output: {
+      filename: '[name].bundle.js', //根据不同名称生成以 .bundle.js结尾的脚本文件
+      path: path.resolve(__dirname, 'dist')
+    }
+    
+    然后在 html 文件中引入，如：
+  <!doctype html>
+  <html>
+    <head>
+     <title>Output Management</title>
+    </head>
+    <body>
+     <script src="./print.bundle.js"></script>
+     <script src="./app.bundle.js"></script>
+    </body>
+  </html>
+  执行 npm run build 
+  webpack 生成 print.bundle.js 和 app.bundle.js 文件
+  
+上面的方法可以管理不同的应用输出脚本，但每次更新了脚本名称或添加新的脚本时，要手动去 html 文件修改，用 HtmlWebpackPlugin 来解决这个问题。
+首先安装插件，并且调整 webpack.config.js 文件：
+npm install --save-dev html-webpack-plugin
+webpack.config.js
+  const path = require('path');
++ const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+  module.exports = {
+    entry: {
+      app: './src/index.js',
+      print: './src/print.js'
+    },
++   plugins: [
++     new HtmlWebpackPlugin({
++       title: 'Output Management'
++     })
++   ],
+    output: {
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    }
+  };
+  虽然在 dist/ 文件夹我们已经有 index.html 这个文件，然而 HtmlWebpackPlugin 还是会默认生成 index.html 文件。
+  这就是说，它会用新生成的 index.html 文件，把我们的原来的替换
+  执行 npm run build
+  用编辑器打开 html 文件，会发现脚本已经重写了。所有的 bundle 会自动添加到 html 中。
+  如果要引入新的入口脚本，只需要在 webpack.config.js中配置项 entry 中添加配置就行了，
+  如果是修改了入口文件则不用做其它改动，执行npm run build 就会自动更新
