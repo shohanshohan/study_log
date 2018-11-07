@@ -1,0 +1,12 @@
+通常，在每次构建前清理 /dist 文件夹（或别的需要清理的文件夹），是比较推荐的做法，因此只会生成用到的文件
+clean-webpack-plugin 是一个比较普及的管理插件：npm install clean-webpack-plugin --save-dev
+
+安装好清理插件后，还需要在配置文件webpack.config.js中添加插件配置
+plugins: [
++     new CleanWebpackPlugin(['dist']), //'dist'是需要清理的目录，可以有多个目录
+      new HtmlWebpackPlugin({
+        title: 'Output Management'
+      })
+    ],
+    
+执行 npm run build，再检查 /dist 文件夹。如果一切顺利，现在应该不会再看到旧的文件，只有构建后生成的文件！
