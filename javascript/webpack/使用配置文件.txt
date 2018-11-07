@@ -1,5 +1,6 @@
 在项目根目录下创建一个 webpack.config.js 配置文件
 配置文件具有更多的灵活性，可以通过配置方式指定 loader 规则(loader rules)、插件(plugins)、解析选项(resolve options)，以及许多其他增强功能
+（关于配置文件webpack.config.js中的各种配置选项说明请浏览 https://www.webpackjs.com/configuration/）
 定义输入输出文件：
 const path = require('path'); //这个path模块在安装webpack时就自带的
 
