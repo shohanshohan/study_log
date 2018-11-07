@@ -1,0 +1,7 @@
+每次要编译代码时，手动运行 npm run build 就会变得很麻烦。这个操作太频繁
+
+webpack 中有几个不同的选项，可以帮助你在代码发生变化后自动编译代码：
+webpack's Watch Mode //观察模式
+webpack-dev-server //实时重新加载
+webpack-dev-middleware
+多数场景中，你可能需要使用 webpack-dev-server
