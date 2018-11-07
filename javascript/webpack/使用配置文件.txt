@@ -1,0 +1,51 @@
+在项目根目录下创建一个 webpack.config.js 配置文件
+配置文件具有更多的灵活性，可以通过配置方式指定 loader 规则(loader rules)、插件(plugins)、解析选项(resolve options)，以及许多其他增强功能
+定义输入输出文件：
+const path = require('path'); //这个path模块在安装webpack时就自带的
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  module: { //这个是扩展模块应用，有用到的时候配置
+    rules: [
+      {
+         test: //,
+         use: []
+      },
+      {
+        test: //,
+        use: []
+      }
+    ]
+  }
+};
+
+
+
+执行构建：npx webpack --config webpack.config.js
+
+可以使用 npm run build 命令，来替代上面使用的 npx 命令，具体操作如下：
+在package.json配置文件中自定义一个build
+  {
+    "name": "webpack-demo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
++     "build": "webpack"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "webpack": "^4.0.1",
+      "webpack-cli": "^2.0.9",
+      "lodash": "^4.17.5"
+    }
+  }
+
+现在，可以使用 npm run build 构建配置资源， 效果是一样的
