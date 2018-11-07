@@ -1,0 +1,32 @@
+使用 inline-source-map 选项
+
+当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。
+例如，如果将三个源文件（a.js, b.js 和 c.js）打包到一个 bundle（bundle.js）中，而其中一个源文件包含一个错误，那么堆栈跟踪就会简单地指向到 bundle.js。
+这并通常没有太多帮助，因为你可能需要准确地知道错误来自于哪个源文件。
+
+在配置文件 webpack.config.js 中加入配置：devtool: 'inline-source-map',
+webpack.config.js
+  const path = require('path');
+  const HtmlWebpackPlugin = require('html-webpack-plugin');
+  const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+  module.exports = {
+    entry: {
+      app: './src/index.js',
+      print: './src/print.js'
+    },
++   devtool: 'inline-source-map',
+    plugins: [
+      new CleanWebpackPlugin(['dist']),
+      new HtmlWebpackPlugin({
+        title: 'Development'
+      })
+    ],
+    output: {
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    }
+  };
+  
+  这样如果产生错误的话，打开浏览器控制台就能查询到具体的错误地方
+  devtool: 这个选项还有其它一些选项可用，具体查看: https://www.webpackjs.com/configuration/devtool/
