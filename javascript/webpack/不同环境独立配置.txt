@@ -1,0 +1,85 @@
+开发环境(development)和生产环境(production)的构建目标差异很大
+由于要遵循逻辑分离，通常建议为每个环境编写彼此独立的 webpack 配置
+
+先安装一个webpack 插件，用来合并通用配置，通过“通用”配置，我们不必在环境特定(environment-specific)的配置中重复代码
+npm install --save-dev webpack-merge 
+
+
+在项目目录下新建 配置文件如：
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
+配置文件内容可能如：
+webpack.common.js文件
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+module.exports = {
+  	entry: {
+  		app: './src/index.js'
+  	}, 
+  	plugins: [
+  		new CleanWebpackPlugin(['dist']),
+  		new HtmlWebpackPlugin({
+  			title: 'html-webpack-plugin'
+  		})
+  	],
+  	output: { //webpack如何输出结果的选项
+    	filename: '[name].bundle.js', //根据（entry）入口文件生成的文件模板(出口文件) string
+    	path: path.resolve(__dirname, 'dist'), //所有输出文件的目标路径，必须是绝对路径（使用node.js 的 path 模块）string
+  	},
+  	module: {
+	  	rules: [
+	  		{
+		  		test: /\.css$/,
+		  		use: [
+		  			'style-loader',
+		  			'css-loader'
+		  		]
+		  	},
+		  	{
+		  		test: /\.(png|svg|jpg|gif|jpeg)$/,
+		  		use: [
+		  			'file-loader'
+		  		]
+		  	}
+	  	]
+  }
+};
+
+webpack.dev.js文件
+const merge = require('webpack-merge');
+const common = require('./webpack.common.js');
+const webpack = require('webpack');
+
+module.exports = merge(common, {
+	  mode: "development", //开发模式//这里是应用程序开始执行入口 string | object | array
+  	devtool: 'inline-source-map', //只在开发环境中使用，用来跟踪错误信息在浏览器控制台输出
+  	devServer: {
+  		contentBase: './dist', //告诉开发服务器，在哪里查找文件
+  		hot: true  //开启热更
+  	},
+  	plugins: [
+  		new webpack.NamedModulesPlugin(),
+  		new webpack.HotModuleReplacementPlugin()
+  	]
+});
+
+webpack.prod.js文件
+const merge = require('webpack-merge');
+const common = require('./webpack.common.js');
+
+module.exports = merge(common, {
+	mode: "production", //正式环境
+});
+
+然后，在webpack.json配置文件中 把 scripts 重新指向到新配置。
+我们将 npm start 定义为开发环境脚本，并在其中使用 webpack-dev-server，将 npm run build 定义为生产环境脚本：
+package.json文件修改
+    "scripts": {
+-     "start": "webpack-dev-server --open",
++     "start": "webpack-dev-server --open --config webpack.dev.js",
+-     "build": "webpack"
++     "build": "webpack --config webpack.prod.js"
+    },
+也就是为执行命令指定配置文件
