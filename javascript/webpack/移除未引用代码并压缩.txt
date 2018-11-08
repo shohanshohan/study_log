@@ -1,0 +1,47 @@
+新的 webpack 4 正式版本通过 package.json 的 "sideEffects" 属性作为标记，
+向 compiler 提供提示，表明项目中的哪些文件是 "pure(纯的 ES2015 模块)"，由此可以安全地删除文件中未使用的部分。
+
+将文件标记为无副作用：
+在 webpack.json 文件中配置：
+{
+  "name": "your-project",
+  "sideEffects": false,
+  ......
+}
+如果所有代码都不包含副作用，我们就可以简单地将该属性标记为 false，来告知 webpack，它可以安全地删除未用到的 export 导出。
+如果你的代码确实有一些副作用，那么可以改为提供一个数组：以免在生产模式中无意中将它删除
+{
+  "name": "your-project",
+  "sideEffects": [
+    "./src/some-side-effectful-file.js",
+    "*.css"
+  ]
+}
+还可以显示地表明哪些文件应该应用无副作用，哪些是不需要检测：
+{
+  "sideEffects": {
+    "./x": false,
+    "./y": true
+  }
+}
+也可以在 webpack.config.js 中配置选项module中说明：
+module.rules: [
+  {
+    include: path.resolve("node_modules", "lodash"),
+    sideEffects: false
+  }
+]
+
+压缩输出：
+从 webpack 4 开始，可以通过 "mode" 配置选项轻松切换到压缩输出，只需设置为 "production"。
+webpack.config.js
+module.exports = {
+	mode: "production", //开发模式，production正式环境
+  	entry: {
+  		app: './src/index.js'
+  	}, //这里是应用程序开始执行入口 string | object | array
+    ......
+    
+}
+
+运行：npm run build
