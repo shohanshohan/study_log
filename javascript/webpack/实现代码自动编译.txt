@@ -34,5 +34,5 @@ webpack.config.js
       "build": "webpack"
     },
 在命令行中运行 npm start，就会看到浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码。
-
+webpack-dev-server 带有许多可配置的选项，详情查看https://www.webpackjs.com/configuration/dev-server/
     
