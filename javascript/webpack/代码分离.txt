@@ -1,0 +1,69 @@
+代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。
+代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
+有三种常用的代码分离方法：
+入口起点：使用 entry 配置手动地分离代码。
+防止重复：使用 SplitChunks 去重和分离 chunk。
+动态导入：通过模块的内联函数调用来分离代码。
+
+入口起点：
+最简单、最直观的分离代码的方式。不过，这种方式手动配置较多
+就是在 webpack.config.js 配置文件中配置入口文件：
+entry: {
+    index: './src/index.js',
++   another: './src/another-module.js'
+  },
+如果入口 chunks 之间包含重复的模块，那些重复模块都会被引入到各个 bundle 中。
+这种方法不够灵活，并且不能将核心应用程序逻辑进行动态拆分代码。
+
+
+防止重复：
+SplitChunksPlugin插件可以将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk
+在配置文件 webpack.config.js 中添加配置：
++   optimization: {
++     splitChunks: {
++       chunks: 'all'
++     }
++   }
+入口起点配置还是一样的，不过多个入口文件会做去重处理
+
+
+动态导入：
+不需要在入口指定文件，在代码用到的时候引入：
+如：
+function component(){
+	return import('./math.js').then(math=>{
+		var el = document.createElement('div'), btn = document.createElement('button');
+		el.innerHTML = 'Hello webpack';
+		btn.innerHTML = '5 * 5 * 5 = ?';
+		el.classList.add('hello');
+		btn.onclick = function(){alert('result:' + math.cude(5));}
+		el.appendChild(btn);
+		return el;
+	}).catch(error=>'an error occurred while loading the component');
+}
+component().then(component=>{
+	document.body.appendChild(component);
+});
+在 webpack.config.js 配置文件中output选项添加：
+output: { //webpack如何输出结果的选项
+  filename: '[name].bundle.js', //根据（entry）入口文件生成的文件模板(出口文件) string
+  path: path.resolve(__dirname, 'dist'), //所有输出文件的目标路径，必须是绝对路径（使用node.js 的 path 模块）string
++ chunkFilename: '[name].bundle.js'
+},
+执行命令：npm run build
+会生成新的 0.bundle.js (如果有用到的话)
+上面可以结合 async 函数优化一下：
+async function component(){
+	var el = document.createElement('div'), btn = document.createElement('button');
+	const math = await import('./math.js');
+	el.innerHTML = 'Hello webpack';
+	btn.innerHTML = '5 * 5 * 5 = ?';
+	el.classList.add('hello');
+	btn.onclick = function(){alert('result:' + math.cude(5));}
+	el.appendChild(btn);
+	return el;
+}
+component().then(component=>{
+	document.body.appendChild(component);
+});
+
