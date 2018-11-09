@@ -1,0 +1,5 @@
+在 windows 上操作时，我们会选择用 phpstudy 集成服务来安装环境，这样省事，但也会有一些问题。
+如果要升级 php 的版本很简单：
+下载php的安装版本，地址：https://windows.php.net/download#php-7.0-nts-VC14-x64
+这里有最新版本的压缩包下载，下载好后新建文件夹存放解压下来的所有文件，放在 phpstudy 的php目录下
+退出 phpstudy 重新启动后，会自动加载新的版本切换。
