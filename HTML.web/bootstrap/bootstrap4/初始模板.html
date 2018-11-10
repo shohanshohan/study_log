@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+    <!-- Required meta tags  添加一个 viewport标签让页面正确支持响应式布局 -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,3 +20,18 @@
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
+
+<!--
+上面引入资源标签中有两个新的属性 integrity和 crossorigin, 下面注释说明：
+integrity 属性：
+integrity 属性是子资源完整性新规范的一部分。它允许你为脚本文件将包含的内容内容提供一个hash。
+这意味着可以防止在传输的时候内容丢失或者被恶意修改。
+就算使用了 SSL，这个规范也是有意义的，因为有时候你要加载的资源是你无法控制的站外资源
+
+crossorigin属性:
+anonymous：如果使用这个值的话就会在请求中的header中的带上Origin属性，但请求不会带上cookie和其他的一些认证信息。
+use-credentials：这个就同时会在跨域请求中带上cookie和其他的一些认证信息。
+在使用这两个值时都需要server端在response的header中带上Access-Control-Allow-Credentials属性。
+可以通过server的配置文件来开启这个属性：server开启Access-Control-Allow-Credentials
+除了 script，所有能引入跨域资源的标签包括 link 和 img 之类，都有一样的属性
+-->
