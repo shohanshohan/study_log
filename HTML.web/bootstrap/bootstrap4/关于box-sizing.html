@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>box-sizing!</title>
+    <style>
+      .div {
+        box-sizing:border-box; 
+        width:200px;
+        height:200px;
+        margin:30px auto;
+        border:1px solid red;
+        padding:25px;
+        
+      }
+      .div::after {
+        content:'after afterafter afterafter afterafter afterafter after';
+      }
+      p {
+        width:800px;
+        margin:0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="div">使用 box-sizing 样式属性</div>
+    <p>
+      注意：boostrap4.0盒模型为了在 CSS 中更直观的设置尺寸，将全局的 box-sizing 值从 content-box 修改为 border-box。
+      这就确保了 padding 不会影响元素最终的宽度计算, 就是说最终大小是包括最外层的 border 的，
+      如果增加padding，盒的大小不变，只会挤压内容的空间
+      如果这样设置 box-sizing: content-box; 说明内容空间的大小不变，修改padding会使盒子大小变化。
+      还有一个值：box-sizing: inherit; 规定应从父元素继承 box-sizing 属性的值。
+    </p>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
