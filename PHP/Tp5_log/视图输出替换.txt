@@ -1,0 +1,15 @@
+有时有需要将一些资源路径用固定字符做输出替换方便引入资源
+
+我们一般是全局替换，因为资源路径都是固定的路径
+全局替换的话，可以直接在配置文件中添加：
+'view_replace_str'  =>  [
+  //不管是相对引入还是绝对引入都会出现bug，
+  //所以用\think\Request::instance()->root(true)表示当前的访问根地址，即domain.com/public 位置了！
+    '__BOOTSTRAP__'=> \think\Request::instance()->root(true) . '/static/bootstrap',
+    '__ADMIN__' => \think\Request::instance()->root(true) . '/static/admin',
+    '__FRONT__' => ''
+]
+
+然后就可以在html文件中这样引入
+<link rel="stylesheet" href="__BOOTSTRAP__/css/bootstrap.min.css" crossorigin="anonymous">
+<script src="__BOOTSTRAP__/js/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
