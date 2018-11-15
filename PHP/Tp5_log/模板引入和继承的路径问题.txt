@@ -1,0 +1,22 @@
+模板继承时的路径是相对 模块下的 view 目录的 而 include 引入文件的相对目录是入口文件目录 public/ 这是一个坑！
+如：
+在 admin 模块下view文件夹下有两个文件夹
+index (里面有 index.html)
+layout (里面有 header.html, main.html, base.html, footer.html)
+现在，index->index.html 要继承 layout->base.html
+<{extend name="layout/base" /}> 
+注：模板标签样式可以配置文件里自定义
+// 模板引擎普通标签开始标记
+'tpl_begin'    => '<{',
+// 模板引擎普通标签结束标记
+'tpl_end'      => '}>',
+// 标签库标签开始标记
+'taglib_begin' => '<{',
+// 标签库标签结束标记
+'taglib_end'   => '}>',
+
+而在 layout->base.html 我们要引入 layout->header.html 
+按上面的方式引入，会发现怎么也不能引入模板，一直找不到模板的！
+<{include file="layout/header.html" /}>或<{include file="header.html" /}> 都不行！
+正确的做法是从 public 目录开始寻找文件引入完整路径：
+<{include file="../application/admin/view/layout/header.html" /}>
