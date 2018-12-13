@@ -1,0 +1,6 @@
+邮箱正则：preg_match("/^[\w\-]+\@[\w\-]+\.[a-z]{2,3}$/",$email)
+
+手机号码正则：preg_match("/^1[3456789]\d{9}$/", $phone)
+
+
+url正则：preg_match('/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:.[A-Z0-9][A-Z0-9_-]*)+):?(d+)?\/?/i', $url)
