@@ -1,0 +1,4 @@
+有时候你安装软件时总是不如意，安装失败，比如安装libcurl4-gnutls-dev这个
+用apt-get install libcurl4-gnutls-dev 是无效的
+尝试用一下这个命令：sudo aptitude install libcurl4-gnutls-dev
+它会提供多种安装方法来供选择,会出现Y/n/q，第一个选n, 后面觉得合适的再选Y回车重装就ok了
