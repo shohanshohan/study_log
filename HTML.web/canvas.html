@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body>
+  <canvas id="myCanvas" width="900"></canvas>
+	<canvas id="myCanvas2" width="900"></canvas>
+</body>
+<script>
+  /**
+   *矩形框
+   * 
+   * 创建绘图环境'2d'：.getContext("2d");
+   *
+   * 渐变对象：.createLinearGradient(x,y, x_end, y_end); //建立一个渐变框
+   *
+   * 渐变颜色和配比：.addColorStop(0-1, color);
+   *
+   * 填充颜色：.fillStyle = '';
+   * 
+   * 绘制矩形：.strokeRect(x,y,width,height); //无填充
+   * 绘制矩形：.fillRect(x,y,width,height); //有填充
+   */
+  
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext('2d');
+  ctx.strokeRect(10,10, 300, 100);
+  var my_gradient = ctx.createLinearGradient(320, 0, 620, 0);
+  my_gradient.addColorStop(0, 'red');
+  my_gradient.addColorStop(0.4, 'blue');
+  my_gradient.addColorStop(0.7, 'yellow');
+  my_gradient.addColorStop(1, 'green');
+  ctx.fillStyle = my_gradient;
+  ctx.fillRect(320, 10, 300, 100);
+
+  /**
+   *线条
+   * 开始一条路径：.beginPath() 
+   *
+   * 设置线条末端线帽的样式（lineWidth宽度够大才有效果）： .lineCap  //butt, round, square 默认butt
+   *
+   * 设置或返回当前的线条宽度：.lineWidth
+   * 
+   * 笔触的颜色(默认黑色)：.strokeStyle
+   *
+   * 移动路径到指定点：.moveTo(x, y) //就是路径的起点位置
+   *
+   * 确定路径的终点：lineTo(x, y)
+   *
+   * 设置边角类型（当拐角时）：.lineJoin  //bevel斜角，round圆角，miter尖角（默认）
+   *
+   * 闭合路径：.closePath() //该方法方便于创建三角形或多边形最后的闭合线条
+   *
+   * 绘制已定义的路径：.stroke()
+   */
+  var c2 = document.getElementById('myCanvas2');
+  var ctx2 = ctx3 = ctx4 = c2.getContext('2d');
+  //箭头
+  ctx2.beginPath();
+  ctx2.lineCap = 'round';
+  ctx2.lineWidth = '20';
+  ctx2.strokeStyle = 'red';
+  ctx2.moveTo(10, 10);
+  ctx2.lineTo(10, 100);
+  ctx2.lineTo(100,100);
+  ctx2.moveTo(10, 100);
+  ctx2.lineTo(100,10);
+  ctx2.stroke();
+
+  //叉叉
+  ctx2.moveTo(130, 10);
+  ctx2.lineTo(220,100);
+  ctx2.moveTo(220, 10);
+  ctx2.lineTo(130, 100);;
+  ctx2.stroke();
+
+  //拐弯
+  ctx2.lineJoin = 'bevel';
+  ctx2.moveTo(250, 10);
+  ctx2.lineTo(350, 50);
+  ctx2.lineTo(250, 100);
+  ctx2.stroke();
+
+  //爱心
+  ctx3.beginPath();
+  ctx3.lineJoin = 'miter';
+  ctx3.lineWidth = '50';
+  ctx3.moveTo(380, 30);
+  ctx3.lineTo(400, 50);
+  ctx3.lineTo(420,30);
+  ctx3.stroke();
+
+  //三角形
+  ctx4.beginPath();
+  ctx4.lineCap = 'butt';
+  ctx4.lineWidth = '2';
+  ctx4.moveTo(600, 10);
+  ctx4.lineTo(450, 100);
+  ctx4.lineTo(750,100);
+  ctx4.closePath();
+  ctx4.stroke();
+
+
+</script>
+
+
+</html>
