@@ -43,4 +43,38 @@ BrowserMatch "MSIE [2-5]" \
 CustomLog "/usr/local/apache2/logs/ssl_request_log" \
           "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 
-</VirtualHost>                                  
+</VirtualHost>     
+
+也可以配置多个域名访问不同地址：
+<VirtualHost *:443>
+DocumentRoot "/mydata/www/test"
+#DocumentRoot "/mydata/www/smallgame_api/public"
+ServerName dd.46you.cn
+ServerAdmin you@example.com
+ErrorLog "/usr/local/apache2/logs/error2_log"
+TransferLog "/usr/local/apache2/logs/access2_log"
+SSLEngine on
+SSLProtocol all -SSLv2
+SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+SSLCertificateFile "/usr/local/apache2/conf/sslkey/3/1697859_dd.46you.cn_public.crt"
+SSLCertificateKeyFile "/usr/local/apache2/conf/sslkey/3/1697859_dd.46you.cn.key"
+SSLCertificateChainFile "/usr/local/apache2/conf/sslkey/3/1697859_dd.46you.cn_chain.crt"
+<FilesMatch "\.(cgi|shtml|phtml|php)$">
+    SSLOptions +StdEnvVars
+</FilesMatch>
+#<Directory "/usr/local/apache2/cgi-bin">
+#    SSLOptions +StdEnvVars
+#</Directory>
+<Directory /mydata/www/test>
+     Options -Indexes FollowSymLinks
+     AllowOverride All
+     Order allow,deny
+     Allow from all
+</Directory>
+BrowserMatch "MSIE [2-5]" \
+         nokeepalive ssl-unclean-shutdown \
+         downgrade-1.0 force-response-1.0
+
+CustomLog "/usr/local/apache2/logs/ssl_request_log2" \
+          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+</VirtualHost>
