@@ -1,0 +1,45 @@
+安装Nginx依赖库
+gzip模块需要 zlib 库 
+rewrite模块需要 pcre 库 
+ssl 功能需要openssl库
+
+1.安装gcc g++的依赖库
+Linux系统下的Gcc（GNU C Compiler）是GNU推出的功能强大、性能优越的多平台编译器
+
+apt-get install build-essential
+apt-get install libtool
+
+2
+2.安装 pcre依赖库
+sudo apt-get update
+sudo apt-get install libpcre3 libpcre3-dev
+
+
+3.安装 zlib依赖库
+apt-get install zlib1g-dev
+
+4.安装 ssl依赖库
+apt-get install openssl
+
+5.安装Nginx（http://nginx.org）
+#下载Nginx压缩包：
+wget http://nginx.org/download/nginx-1.6.2.tar.gz
+#解压
+tar -zxvf nginx-1.6.2.tar.gz
+#进入解压目录：
+cd nginx-1.6.2
+#配置：
+./configure --prefix=/usr/local/nginx 
+#编辑nginx：
+make
+#安装nginx：
+sudo make install
+#启动nginx：
+sudo /usr/local/nginx/sbin/nginx
+停止 Nginx
+./sbin/nginx -s stop
+./sbin/nginx -s quit
+Nginx重新加载配置
+./sbin/nginx -s reload
+#查看版本
+./sbin/nginx -v
