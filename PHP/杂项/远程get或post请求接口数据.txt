@@ -63,3 +63,17 @@ function post($postUrl='', $post_data = '', $timeout = 15){
 	$context = stream_context_create($opts); //创建套接字连接
 	turn file_get_contents($url, false, $context);
   }
+  
+  
+POST方式，发送json串：
+$data_string = json_encode($data);
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS,$data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
+
+$result = curl_exec($ch);
