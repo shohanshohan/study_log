@@ -27,9 +27,9 @@ class Login extends Base
           $openid = $result['openid'];
           unset($result['session_key']);
 
-          $con = mysqli_connect('47.107.49.10', "root", "123456");
+          $con = mysqli_connect('127.0.0.1', "root", "123456");
           if(!$con){
-            Log::record('47.107.49.10数据库连接不上！', 'login-openid-mysql');
+            Log::record('数据库连接不上！', 'login-openid-mysql');
             return '数据库连接不上！';
           }
           mysqli_select_db($con,"weixi");
