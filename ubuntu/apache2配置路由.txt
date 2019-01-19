@@ -24,3 +24,19 @@ Listen 40003
       Allow from all
   </Directory>
 </VirtualHost>
+
+
+
+可参考phpstudy的配置：
+
+<VirtualHost *:80>
+   DocumentRoot "D:/phpstudy/WWW/laravel/5.5/blog/public"
+   ServerName www.laravel5.5.com
+   <Directory "D:/phpstudy/WWW/laravel/5.5/blog/public">
+    Options +Indexes +FollowSymLinks +ExecCGI
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  </Directory>
+</VirtualHost>
