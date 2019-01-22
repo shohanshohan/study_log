@@ -1,5 +1,5 @@
 <?php
-
+// PSR0 实现示例
 use test\Test;
 use test\test1\Test1;
 
