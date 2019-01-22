@@ -39,7 +39,7 @@ class Index
 
 
 
-$obj = new Index();
+$obj = new Index(); //这个相当于是入口文件，注册了自动加载后，就可以根据命名空间来引入文件了
 // $test = new \test\Test();
 // $test->index();
 $obj->test();
