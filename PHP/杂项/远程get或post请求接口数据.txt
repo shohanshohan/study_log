@@ -1,4 +1,58 @@
 <?php
+整理如下：
+function curl_get_https($url, $timeout=10)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    //curl_setopt($ch, CURLOPT_HEADER, false); //设置http头信息，默认false,可不填
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($result, true);
+}
+
+function curl_post_https($url, $post_data=[], $timeout=10)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    //curl_setopt($ch, CURLOPT_HEADER, false); //设置http头信息，默认false,可不填
+    curl_setopt($ch, CURLOPT_POST, 1);
+    if(!empty($post_data) && is_array($post_data)){
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+    }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $resutl = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($result, true);
+}
+
+
+function curl_post_json($url, $data=[], $timeout=10)
+{
+    $data_string = json_encode($data);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, [
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data)
+    ]);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+ 
+
+
+
 //post请求
 function post($postUrl='', $post_data = '', $timeout = 15){
 		/*$post_data = [
