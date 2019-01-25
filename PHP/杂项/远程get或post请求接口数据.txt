@@ -39,7 +39,9 @@ function post($postUrl='', $post_data = '', $timeout = 15){
 	function curl_get_https($url){ //参数已做拼接
 	    $curl = curl_init(); // 启动一个CURL会话
 	    curl_setopt($curl, CURLOPT_URL, $url);
-	    curl_setopt($curl, CURLOPT_HEADER, 0);
+	    //curl_setopt($curl, CURLOPT_HEADER, 0);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//绕过ssl验证 https
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	    $tmpInfo = curl_exec($curl);     //返回api的json对象
 	    //关闭URL请求
