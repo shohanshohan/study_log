@@ -11,7 +11,7 @@
 function yuesefu($nums, $step, $stay)
 {
   $check = 0;
-  $list = range(1, $nums+1);
+  $list = range(1, $nums);
   while (count($list) > $stay) {
     foreach ($list as $key => $value) {
       $check += 1;
