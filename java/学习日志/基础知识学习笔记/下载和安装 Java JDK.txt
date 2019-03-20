@@ -1,0 +1,33 @@
+在开发 Java 程序之前，我们要安装并配置 java 开发环境
+下面讲解 windows 上安装 java 开发工具包
+下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index.html
+找到 Java SE Downloads 旁边java图标点击进入下载最新版本
+如：Java SE Development Kit 12
+勾选上 Accept License Agreement
+选择：Windows	158.49 MB  	jdk-12_windows-x64_bin.exe
+下载后解压出来，双击安装
+安装 JDK 的时候也会安装JRE
+安装过程中可以自定义安装目录等信息，例如我们选择安装目录为 F:\java_jdk
+
+如果要下载特定的版本，则往下翻页再选择（如 Java SE 8u201 / Java SE 8u202）
+有三个版本供选择
+JDK
+Server JRE
+JRE
+以下进行说明：
+JDK (Java SE开发工具包)：针对Java开发人员。包括用于开发、调试和监视Java应用程序的完整JRE plus工具。
+Server JRE(服务器Java运行时环境)：用于在服务器上部署Java应用程序
+包括用于JVM监视的工具和服务器应用程序通常需要的工具，但不包括浏览器集成(Java插件)、自动更新和安装程序。
+JRE (Java运行时环境)：满足大多数终端用户的需求。包含在系统上运行Java应用程序所需的所有内容。
+注：JRE 包含java虚拟机JVM,还包含运行java程序的其它环境支持
+如果只是运行 Java 程序，可以只安装 JRE, 无需安装 JDK
+
+配置环境变量：
+右击"我的电脑"，点击"属性"，选择"高级系统设置"，点击环境变量
+新建变量 JAVA_HOME，变量值：F:\java_jdk （即你的安装路径，要根据自己的安装路径配置）
+新建变量 CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;  //记得前面有个"."
+找到变量 path 编辑，添加变量值：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin （记住不同的变量值要用 ; 隔开）
+打开命令行工具
+输入 java -version  出现版本信息则说明安装成功
+
+具体安装步骤也可查看：http://www.runoob.com/java/java-environment-setup.html#win-install
