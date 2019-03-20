@@ -1,0 +1,7 @@
+这是用来方便管理项目和编译项目的插件
+下载apache-maven
+下载地址：http://maven.apache.org/download.cgi
+选择 apache-maven-3.6.0-bin.zip
+下载后解压
+然后加上环境变量：在path环境变量添加 apache-maven-3.6.0/bin 的路径
+或者不加环境变量，直接进入 目录apache-maven-3.6.0/bin下再写需要的命令
