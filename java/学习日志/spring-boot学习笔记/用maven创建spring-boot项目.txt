@@ -1,0 +1,100 @@
+首先进入你的项目根目录，如：project_demo
+创建一个Maven   pom.xml 文件 这是构建Project的配置文件
+添加以下内容：
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>myproject</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.3.RELEASE</version>
+    </parent>
+    <!-- Additional lines to be added here... -->
+</project>
+
+运行命令：mvn package
+完成后可以看到目录下多了个 target 目录， 这个是用来管理项目和放编译文件的目录
+
+添加依赖：编辑pom.xml 在紧接着 </parent>节点后面添加 ：
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+</dependencies>
+
+
+输入命令：mvn dependency:tree
+现在有许多额外的依赖项， 包括Tomcat Web服务器和SpringBoot本身
+
+
+下面编写实例代码
+Maven从src/main/java（目录）下编译源码， 因此需要创建文件夹结构
+在项目目录下创建 src/main/java 目录，src和target目录同级
+进入 src/main/java 目录 创建 Example.java 文件
+编辑文件，添加以下内容：
+import org.springframework.boot.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.web.bind.annotation.*;
+@RestController 
+@EnableAutoConfiguration
+public class Example {
+    @RequestMapping("/")
+    String home() {
+        return "Hello World!";
+    }
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Example.class, args);
+    }
+}
+
+
+注释：@ResController 我们的类是一个Web@Controller, 因此Spring会在处理Web请求时考虑它。
+@RequestMapping注释提供了“路由”信息. 它告诉Spring，任何带有/ path的HTTP请求都应该映射到home方法，你也可以将此方法命名为其它名字如hello()。
+@RestController注释告诉Spring将结果字符串直接呈现回调用者
+@RestController和@RequestMapping注释是Spring MVC注释。
+@EnableAutoConfiguration。这个注释告诉Spring Boot根据所添加的jar依赖项猜测要如何配置Spring。
+由于Spring -boot-starter-web添加了Tomcat和Spring MVC，因此自动配置假定您正在开发一个web应用程序，并相应地设置Spring。
+
+main() 这只是一个标准的方法应用程序入口点的Java约定。
+我们的主方法委托给Spring Boot通过调用run来调用SpringApplication类。
+SpringApplication启动我们的应用程序Spring将启动自动配置的Tomcat web服务器。
+作为run方法的参数，以告诉SpringApplication哪个是主Spring组件。
+还传递args数组来公开任何命令行参数, 
+
+
+
+最后来启动项目：
+输入命令：mvn spring-boot:run
+可以看到带有Spring 的图标和运行信息
+这时候不要关闭cmd工具
+在浏览器输入地址：localhost:8080
+这样就能看到Example类文件输出的信息： Hello World!
+如果编辑了类文件，你需要重新编译文件，再次执行 mvn spring-boot:run 
+这样才会编译并加载最新内容
+
+
+上面并没有结束，我们要创建可执行的 JAR 包文件
+包含了编译的类以及为运行代码所依赖的所有jar包。
+为了创建一个可执行Jar， 我们需要添加spring-boot-maven-plugin到我们的 pom.xml
+在dependencies节点后面，插入下面几行（代码）：
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
+
+
+命令行中运行mvn package
+完成后，在target目录下将会看到一个jar文件：myproject-0.0.1-SNAPSHOT.jar
+下面运行这个 jar 文件
+输入命令：java -jar target/myproject-0.0.1-SNAPSHOT.jar
+浏览器打开：localhost:8080
+将会看到打印的信息
