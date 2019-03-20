@@ -1,0 +1,9 @@
+有时候你只是修改了一下环境变量，其实你安装了几个不同的java  SDK， 
+再次运行程序时就报错了：java -version not open F:\java1.8.0\lib\amd64\jvm.cfg
+无论你把原来的环境变量改回来还是不行！这是因为windows系统盘里面会自动给你生成一个映射路径
+打开系统设置-》环境变量，查看变量 path 中的属性值，其中发现有一段：C:\Program Files (x86)\Common Files\Oracle\Java\javapath;
+上面这个就是那个映射地址：进入C:\Program Files (x86)\Common Files\Oracle\Java\javapath 
+把该目录下的文件 java.exe 、javaw.exe、javaws.exe 都删除
+再次运行：java -version
+这次就正常了！
+如果你的 sdk 是安装在C盘的，那可能这三个文件是在c:/windows/system32/目录下的，我的sdk是装在了F盘
