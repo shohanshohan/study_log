@@ -1,0 +1,11 @@
+下载地址：https://repo.spring.io/release/org/springframework/boot/spring-boot-
+
+cli/2.1.3.RELEASE/spring-boot-cli-2.1.3.RELEASE-bin.zip
+上面是最新版本，如果要下载其它版本，可以进入选择：
+
+https://repo.spring.io/release/org/springframework/boot/spring-boot-cli
+
+下载后解压
+进入目录 spring-2.1.3\bin
+查看版本号：spring --version
+出现：Spring CLI v2.1.3.RELEASE
