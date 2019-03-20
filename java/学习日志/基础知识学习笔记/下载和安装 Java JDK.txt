@@ -26,6 +26,7 @@ JRE (Java运行时环境)：满足大多数终端用户的需求。包含在系�
 右击"我的电脑"，点击"属性"，选择"高级系统设置"，点击环境变量
 新建变量 JAVA_HOME，变量值：F:\java_jdk （即你的安装路径，要根据自己的安装路径配置）
 新建变量 CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;  //记得前面有个"."
+在大于1.4版本的安装时，可以不用设置 CLASSPATH 变量也一样可以，只有早期的版本才需要此项变量设置，当然安装了也没问题
 找到变量 path 编辑，添加变量值：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin （记住不同的变量值要用 ; 隔开）
 打开命令行工具
 输入 java -version  出现版本信息则说明安装成功
