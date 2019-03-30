@@ -1,0 +1,96 @@
+首先要安装java环境和下载Gradle并设置好环境变量，这些环境很简单，这里不多说
+
+用gradle创建项目比用maven还要简便
+
+创建目录结构：比如在我的F盘下建一个项，先创建一个目录F:\gradle-demo
+在目录下创建如下目录结构：
+src\main\java\hello
+其中 src\main\java 是一个固定的结构模式，\hello 是我们自己要放的项目子包目录
+下面就来创建一个简单应用
+进入src\main\java\hello
+创建 HelloController.java 内容如下：
+package hello;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+@RestController
+public class HelloController
+{
+	@RequestMapping("/")
+	public String index()
+	{
+		return "Hello Spring boot start";
+	}
+}
+
+创建 Application.java 内容如下：
+package hello;
+import java.util.Arrays;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+@SpringBootApplication
+public class Application
+{
+	public static void main(String[] args)
+	{
+		SpringApplication.run(Application.class, args);
+	}
+	
+	@Bean
+	public CommandLineRunner commandLineRunner(ApplicationContext ctx)
+	{
+		return args-> {
+			System.out.println("use Bean from springboot");
+			String[] beanNames = ctx.getBeanDefinitionNames();
+			Arrays.sort(beanNames);
+			for(String beanName: beanNames){
+				System.out.println(beanName);
+			}
+		};
+	}
+}
+
+
+进入 F:\gradle-demo 目录（和src同级）， 创建build.gradle配置文件
+简单的Hello World示例是完全独立的，不依赖于任何其他库
+现在我们引入spring框架创建一个web项目，写入如下内容：
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+    }
+}
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+bootJar {
+    baseName = 'gs-spring-boot'
+    version =  '1.0.0'
+}
+repositories {
+    mavenCentral()
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile("junit:junit")
+}
+
+cd F:\gradle-dem
+输入命令：gradle build
+几秒钟后，“BUILD SUCCESSFUL”表示构建已完成
+目录下多了一个build文件目录
+里面又有三个目录 classes  libs  tmp
+
+运行程序： java -jar build\libs\gs-spring-boot-1.0.0.jar
+如果看到打印出Spring图标并没有报错说明程序成功运行
+在浏览器打开地址：localhost:8080
+可看到输出的文字：Hello Spring boot start
+
