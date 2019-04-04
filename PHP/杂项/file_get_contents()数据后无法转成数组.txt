@@ -1,0 +1,9 @@
+file_get_contents()读取后json_decode无法转换成数组
+
+#1.查看源代码如果有html代码可以使用htmlspecialchars(字符串)或strip_tags(字符串)去除html标记
+
+#2.查看源代码如果没有html代码，可是转换不成数组，那就是含有bom头了（$data就是读取到的字符串）
+ #去除BOM头
+ $BOM = chr(239).chr(187).chr(191); 
+ $data=str_replace($BOM,'',$data); 
+ $data=json_decode($data,true);
