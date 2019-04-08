@@ -46,6 +46,9 @@ var app = new Vue({
     //全选切换
     selectAllHandle: function(){
       this.checkedAll = this.checkedAll ? false : true;
+      if(this.checkedAll===false){
+        this.itemCheckedGoods = []; //全部取消选中
+      }
     },
     //单个商品选中切换事件
     itemCheckedHandle: function(index, event){
