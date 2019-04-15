@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Vue 简单的调查问卷Demo</title>
+  <style type="text/css">
+    [v-cloak] {
+      display:none;
+    }
+    .main {
+      margin:50px auto;
+      background:lightgrey;
+      width:300px;
+      height:450px;
+      padding:10px;
+    }
+    .text-center {
+      text-align: center;
+      padding: 5px;
+    }
+    textarea {
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" v-cloak>
+
+    <div class="main">
+      <component :is="currentView" :data="currentData"></component>
+      <btn-component :styles="'background-color:lightblue;'" :com-name="'上一步'" v-if="show" :disabled="disabled1" @cut="changeViewBeforeHandle()"></btn-component>
+      <btn-component :styles="'background-color:green;'" :com-name="'下一步'" :disabled="disabled2"  @cut="changeViewAfterHandle()"></btn-component>
+      <btn-component :styles="'background-color:yellow;'" :com-name="'重置'" @cut="resetHandle()"></btn-component>
+    </div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+  <script type="text/x-template" id="com-0">
+    <div>
+        <h3>1. 请问您的性别是：</h3>
+        <p v-for="gender in data.genders" :key="'gender' + gender.value">
+          <label>
+            <input v-model="data.currentGender" type="radio" name="gender" :value="gender.value"> {{ gender.title }}
+          </label>
+        </p>
+    </div>
+  </script>
+
+  
+  <script type="text/x-template" id="com-1">
+    <div>
+        <h3>2. 请选择您的兴趣爱好：</h3>
+        <p v-for="hobby in data.hobbys" :key="'hobby' + hobby.value">
+          <label>
+            <input type="checkbox" v-model="data.currentHobby" name="hobby" :value="hobby.value"> {{ hobby.title }}
+          </label>
+        </p>
+    </div>
+  </script>
+  
+  <script type="text/x-template" id="com-2">
+    <div>
+        <h3>3. 请介绍一下自己：</h3>
+        <textarea v-model="data.details" name="detail" rows="15" cols="38" placeholder="输入不少于10个字符">
+        {{ data.details }}
+        </textarea>
+    </div>
+  </script>
+
+  <script>
+
+  Vue.component('btn-component', {
+    props: {
+      comName: {
+        type: String,
+        default: '确认'
+      },
+      styles: {
+        type: String,
+        default: function(){
+          return '';
+        }
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
+    },
+   computed: {
+      sstyles: function() {
+        return this.styles + 'width:30%;height:45px;padding:3px;text-align:center;position:relative;bottom:-45px;margin-right:5px;';
+      }
+    },
+    template: '<button :disabled="disabled" :style="sstyles" class="btn" @click="changeComHandle()">{{ comName }}</button>',
+    methods: {
+      changeComHandle: function(){
+        this.$emit('cut');
+      }
+    }
+  });
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      currentView: 'com0',
+      com0: {
+        currentGender: '1',
+        genders: [
+          {title: '男', value: '1'},
+          {title: '女', value: '0'},
+          {title: '保密', value: '2'},
+        ]
+      },
+      com1: {
+        currentHobby: ['reading', 'movie'],
+        hobbys: [
+          {title:'看书', 'value':'reading'},
+          {title:'电影', 'value':'movie'},
+          {title:'音乐', 'value':'music'},
+          {title:'历史', 'value':'history'},
+          {title:'财经', 'value':'finace'},
+          {title:'体育', 'value':'sport'},
+          {title:'旅行', 'value':'journey'},
+          {title:'汽车', 'value':'car'}
+        ]
+      },
+      com2: {
+        details: ''
+      },
+      disabled1: false,
+      show: false,
+      disabled2: false,
+      nextIndex: 0
+    },
+    computed: {
+      currentData: function(){
+        return this[this.currentView];
+      }
+    },
+    methods: {
+      //******下一页按钮******//
+      changeViewAfterHandle: function(){
+        this.nextIndex++;
+
+        //******激活上一步按钮*******//
+        this.show = true; 
+        this.disabled1 = false;
+
+        if(this.nextIndex > 2){
+          this.nextIndex = 2;
+        }
+        if(this.nextIndex === 2){
+          this.disabled2 = true; //如果是最后一项就禁用下一步按钮
+        }
+        this.currentView = 'com' + this.nextIndex;
+      },
+      //******上一页按钮******//
+      changeViewBeforeHandle: function(){
+        this.nextIndex--;
+        this.disabled2 = false; //激活下一步按钮
+        if(this.nextIndex < 0){
+          this.nextIndex = 0;
+        }
+        if(this.nextIndex === 0){
+          this.disabled1 = true;
+        }
+        this.currentView = 'com' + this.nextIndex;
+      },
+      //******重置按钮******//
+      resetHandle: function(){
+        if(this.currentView === 'com0'){
+          this.com0.currentGender = '1';
+        }else if(this.currentView === 'com1'){
+          this.com1.currentHobby = ['reading', 'movie'];
+        }else{
+          this.com2.details = '';
+        }
+      }
+    },
+    components: {
+      com0: {
+        props: ['data'],
+        template: '#com-0'
+      },
+      com1: {
+        props: ['data'],
+        template: '#com-1'
+      },
+      com2: {
+        props: ['data'],
+        template: '#com-2'
+      },
+    }
+  });
+  
+  </script>
+</body>
+</html>
