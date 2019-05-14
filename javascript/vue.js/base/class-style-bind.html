@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>class 与 style 绑定</title>
+		<style>
+			.active {
+				color: red;
+			}
+			.text-lg {
+				font-size: 36px;
+			}
+			.danger {
+				color: darkred;
+			}
+			.weight {
+				font-weight: 900;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--对象语法-->
+			<div v-bind:class="{ active: isActive, 'text-lg': isBig }">Are you ok?</div>
+			<!--数组语法-->
+			<div :class="[danger , weight]">another text</div>
+			<!--数组中使用对象语法-->
+			<div :class="[{'text-lg': isBig}, weight]">array and object</div>
+			<!--绑定内联样式-->
+			<div :style="styleObject">内联样式</div>
+		</div>
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				isActive: false,
+				isBig: false,
+				danger: 'danger',
+				weight: 'weight',
+				styleObject: {
+					color: 'blue',
+					textAlign: 'center'
+				}
+			}
+		});
+		
+		app.isActive = true;
+		app.isBig = true;
+		</script>
+	</body>
+</html>
