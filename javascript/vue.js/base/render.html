@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue渲染函数render</title>
+		<style>
+			[v-cloak] {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<h-heading :level="1">Hello life</h-heading>
+		<h-heading :level="2">Hello life</h-heading>
+		<h-heading :level="3">Hello life</h-heading>
+		<h-heading :level="4">Hello life</h-heading>
+		<h-heading :level="5">Hello life</h-heading>
+		<h-heading :level="1"></h-heading>
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		//Vue推荐在绝大多数情况下使用模板来创建HTML, 但有一些场景用渲染函数更实用
+		//如: 要生成不同的标题标签组件时,我们不想把每一个h标签都重复写一遍
+		Vue.component('h-heading', {
+			props: {
+				level: {
+					type: Number,
+					required: true
+				}
+			},
+			render: function(createElement){
+				return createElement(
+				  'h' + this.level, //标签名称
+					this.$slots.default, //子节点数组
+					'default text' //默认的节点内容
+				);
+			}
+		});
+		/*
+			下面来解释一下 createElement 接受的参数
+			createElement(
+				//{String | Object | Function} 必填，标签名、组件选项对象或匿名函数
+				'div',
+				//{Object} 一个与模板中属性对应的数据对象，可选。这个可以往里写标签属性，类名，样式，事件等
+				{},
+				//{String | Array}子级虚拟节点，可选。由createElement()构建而成 或 使用字符串生成 文本内容
+				[
+					'加入一些文字',
+					createElement('h1', '一句标题'),
+					createElement(MyComponent, {
+						props: {
+							someProp: 'foobar'
+						}
+					})
+				]
+			);
+		*/
+		var app = new Vue({
+			el: '#app',
+			data: {
+				
+			}
+		});
+	</script>
+	</body>
+</html>
