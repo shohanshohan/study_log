@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>router-push</title>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="goHome">Go Home</button>
+			<button @click="goPost">Go Post</button>
+			<button @click="goHistory(-1)">Go back</button> 
+			<button @click="goHistory(1)">Go ahead</button>
+			<router-view/>
+		</div>
+		
+		
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+		<script>
+			const Home = { template: '<div>Home</div>' }
+			const router = new VueRouter({
+				routes: [
+					{ path: '/home', component: Home },
+					{ path: '/post', component: { template: '<div>Post page</div>' }}
+				]
+			})
+			const app = new Vue({
+				router,
+				methods: {
+					goHome() {
+						this.$router.push('/home')
+					},
+					goPost(){
+						this.$router.push('/post') 
+						//this.$router.replace('/post') 
+						//这两种方法效果一样, 不同的是replace()方法不会向history添加新记录,只是替换当前,意味着没有后退操作
+					},
+					goHistory: function(n){
+						this.$router.go(n) // n=-1 在浏览记录中后退一步, n=1 表示前进一步
+					}
+				}
+			}).$mount('#app')
+		</script>
+	</body>
+</html>
