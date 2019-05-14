@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>router-redirect</title>
+	</head>
+	<body>
+		<div id="app">
+			<p>
+				<button><router-link to="/aa">/A</router-link></button>
+				<button><router-link to="/a">/a => /b</router-link></button>
+				<button><router-link to="/b">/b => foo</router-link></button>
+				<button><router-link to="/c">/c => /a</router-link></button>
+				<button><router-link to="/foo">/foo</router-link></button>
+				<button><router-link to="/fb">/fb</router-link></button>
+			</p>
+			<router-view />
+		</div>
+		
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+		<script>
+			const Foo = {
+				template: '<div>Foo Redirect</div>'
+			};
+			const router = new VueRouter({
+				routes: [
+					{ path: '/a', redirect: '/b'}, //重定向到b
+					{ path: '/b', redirect: { name: 'foo'}}, //重定向到一个命名的路由
+					{ path: '/c', redirect: to => {
+						return '/aa';
+					}},
+					{ path: '/foo', name: 'foo', component: Foo },
+					{ path: '/aa', component: { template: '<div>Another A</div>' }},
+					{ path: '/bb', alias: '/fb', component: { template: '<div>bb alias fb</div>'}} //定义别名
+				]
+			});
+			const app = new Vue({
+				router
+			}).$mount('#app')
+		</script>
+	</body>
+</html>
