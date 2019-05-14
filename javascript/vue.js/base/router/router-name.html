@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+			<button @click="findUser(666)">Find User</button>
+			<router-view/>
+		</div>
+		
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+		<script>
+			const router = new VueRouter({
+				routes: [
+					{ 
+						path: '/user/:userId',
+					  name: 'user',
+						component: { template: '<div>User---{{ $route.params.userId }}</div>' }
+					}
+				]
+			})
+			const app = new Vue({
+				router,
+				methods: {
+					findUser: function(uid) {
+						this.$router.push({ name: 'user', params: {userId: uid}})
+					}
+				}
+			}).$mount('#app')
+		</script>
+	</body>
+</html>
