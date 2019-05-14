@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue混入</title>
+		<style>
+			[v-cloak] {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		//定义一个混入对象
+		var myMixin = {
+			created: function(){
+				this.hello();
+			},
+			methods: {
+				hello: function(){
+					console.log('say hello');
+				}
+			}
+		};
+		
+		//定义一个使用对象的数组
+		var Component = Vue.extend({
+			mixins: [myMixin]
+		})
+		
+		Vue.mixin({
+			created: function(){
+				var myOption = this.$options.myOption;
+				if(myOption){
+					console.log(myOption)
+				}
+			}
+		});
+		
+		var component = new Component();
+		
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				
+			},
+			myOption: 'register'
+		});
+	</script>
+	</body>
+</html>
