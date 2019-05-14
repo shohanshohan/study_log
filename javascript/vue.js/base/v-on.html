@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-on事件处理</title>
+		<style>
+			[v-cloak]: {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<button @click="counter += 1">Counter++</button>
+		<p>{{ counter }}</p>
+		<!--一般直接用一个可调用的方法名称，可传参数-->
+		<button @click="countHandle(3)">Counter Add</button>
+		<!--访问原生事件对象-->
+		<button @click="eventHandle($event)">event</button>
+		<!--Vue还定义了好多事件修饰符、按键修饰符、系统修饰符、鼠标按钮修饰符，用来精确控制事件的触发，-->
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				counter: 1
+			},
+			methods: {
+				countHandle: function(num){
+					if(num === undefined){
+						num = 1; //默认为1
+					}
+					this.counter += num;
+				},
+				eventHandle: function(event){
+					alert(event.target.tagName);
+				}
+			}
+		});
+	</script>
+	</body>
+</html>
