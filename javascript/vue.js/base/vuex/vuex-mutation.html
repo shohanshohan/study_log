@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vuex-mutation</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<p>{{ counter }}</p>
+		</div>
+		
+		<script>
+			const store = new Vuex.Store({
+				state: {
+					count: 1
+				},
+				mutations: {
+					increment(state){ //接收第一个参数为state
+						state.count++
+					},
+					incrementStep(state, n){
+						state.count += n
+					}
+				}
+			})
+			
+			//store.commit('increment')
+			store.commit('incrementStep', 5) //传入额外的参数
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					counter: store.state.count
+				}
+				
+			});
+		</script>
+	</body>
+</html>
