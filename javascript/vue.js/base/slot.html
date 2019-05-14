@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue-slot</title>
+		<style>
+			[v-cloak]: {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<!--自定义分发内容，可以包含html-->
+		<com-btn>Save</com-btn>
+		
+		<!--向具名插槽提供内容，在一个<template>元素上用v-slot指令
+		任何没有被包裹在带有 v-slot 的 <template> 中的内容都会被视为默认插槽的内容-->
+		<com-layout>
+			<template v-slot:header>
+				<h1>This is a header title</h1>
+			</template>
+			<div>Main content</div>
+			<!--也可以写成缩写形式#footer-->
+			<template #footer>
+				<p>Footer copyright @ 2019</p>
+			</template>
+		</com-layout>
+		
+		<!--将包含所有插槽 prop 的对象命名为 slotProps，但你也可以使用任意你喜欢的名字。-->
+		<current-user :user="user">
+			<template v-slot:default="slotProps">
+				{{ slotProps.user.firstname }}
+			</template>
+		</current-user>
+		
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		//插槽可以预先指定默认内容,它会在没有提供内容的时候渲染
+		Vue.component('com-btn', {
+			template: '<div><button type="submit"><slot>Submit</slot></button></div>'
+		});
+		
+		//具名插槽, name属性. 一个不带 name 的 <slot> 出口会带有隐含的名字“default”
+		Vue.component('com-layout', {
+			template: '\
+			<div class="container">\
+			  <header>\
+				  <slot name="header"></slot>\
+				</header>\
+				<main>\
+				  <slot></slot>\
+				</main>\
+				<footer>\
+				  <slot name="footer"></slot>\
+				</footer>\
+			</div>'
+		});
+		
+		//插槽prop
+		Vue.component('current-user', {
+			props: ['user'],
+			template: '\
+			<span>\
+			  <slot v-bind:user="user"> {{ user.lastname }} </slot>\
+			</span>'
+		});
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				user: {lastname: 'shohan', firstname: 'xiao'}
+			}
+		});
+	</script>
+	</body>
+</html>
