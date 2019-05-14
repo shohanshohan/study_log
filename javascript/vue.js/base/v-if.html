@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-if条件渲染</title>
+		<style>
+			[v-cloak]: {display: none;}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<h1 v-if="awesome">Vue is awesome!</h1>
+			<h1 v-else>none</h1>
+			
+			<p v-if="type === 'A'">aaaaaaaaaaa</p>
+			<p v-else-if="type === 'B'">bbbbbbbbbbb</p>
+			<p v-else>ccccccccccccc</p>
+			<!--vue会复用相同的元素，如果不要复用，添加一个具有唯一值的key属性-->
+			<template v-if="loginType === 'username'">
+				<label>Username:</label>
+				<input name="username" placeholder="Enter your name" key="username-input" />
+			</template>
+			<template v-else>
+				<label>Email:</label>
+				<input name="email" placeholder="Enter your email address" key="email-input" />
+			</template>
+			<button @click="changeLoginType">Toggle login type</button>
+			<!--另一个用于根据条件展示元素的选项是 v-show 指令 
+			带有 v-show 的元素始终会被渲染并保留在 DOM 中
+			v-show 只是简单地切换元素的 CSS 属性 display-->
+			<!--一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。
+			因此，如果需要非常频繁地切换，则使用 v-show 较好；
+			如果在运行时条件很少改变，则使用 v-if 较好-->
+			<h2 v-show="ok">I am OK</h2> <!--注意！这个元素是一直存在的 只不过是display: none;-->
+			<h3 v-if="ok">Are you ok?</h3> <!--注意！这个元素只有当条件为真时才会渲染到DOM-->
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					awesome: true,
+					type: 'B',
+					loginType: 'username',
+					ok: false
+				},
+				methods: {
+					changeLoginType: function(){
+						this.loginType = (this.loginType === 'username') ? 'email' : 'username';
+						//console.log(this.loginType);
+					}
+				}
+			});
+			
+			app.awesome = true;
+			//app.ok = true;
+		</script>
+	</body>
+</html>
