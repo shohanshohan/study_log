@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>router-props</title>
+		<style>
+			.fade-enter-active, .fade-leave-active {
+				transition: opacity .5s;
+			}
+			.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+				opacity: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button><router-link to="/user/666">User</router-link></button>
+			<button><router-link to="/user2/hello">User2</router-link></button>
+			<button><router-link to="/user2/hello/world">User2</router-link></button>
+			<transition name="fade"> <!--使用过渡动效-->
+			<router-view />
+			</transition>
+		</div>
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+		<script>
+			const User = { //在组件中使用 $route 会使之与其对应路由形成高度耦合
+				template: '<div>User {{ $route.params.id }}</div>'
+			}
+			//通过props解耦
+			const User2 = {
+				props: ['id', 'profile'],
+				template: '<div>User {{ id }} {{ profile }}</div>'
+			}
+			const router = new VueRouter({
+				routes: [
+					{ path: '/user/:id', component: User },
+					//注意这里要添加props选项为true, route.params将会被设置为组件属性
+					{ path: '/user2/:id/:profile?', component: User2, props: true } 
+				]
+			})
+			
+			const app = new Vue({
+				router
+			}).$mount('#app')
+		</script>
+	</body>
+</html>
