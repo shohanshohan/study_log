@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue 组件基础</title>
+		<style>
+			[v-cloak]: {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<!--计数器-->
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+		
+		<!--监听子组件事件-->
+		<div :style="{fontSize: postFontSize + 'em'}">
+			<post
+				v-for="post in posts"
+				:key="post.id"
+				:post="post"
+				@enlarge-text="postFontSize += 0.1"
+			></post>
+	  </div>
+		
+		<!--在组件上使用v-model-->
+		<com-input v-model="searchText"></com-input>
+		<span>searchText is :{{ searchText }}</span>
+		
+		<!--通过插槽分发内容-->
+		<com-slot>分发内容</com-slot>
+		
+		<!--动态组件-->
+		<com-btn @change-tab="changeTab('button-counter')" :title="'button-counter'"></com-btn>
+		<com-btn @change-tab="changeTab('com-slot')" :title="'com-slot'"></com-btn>
+		<com-btn @change-tab="changeTab('com-input')" :title="'com-input'"></com-btn>
+		<div><component :is="currentTabComponent"></component></div>
+		
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		//定义一个组件
+		Vue.component('button-counter', {
+			data: function(){
+				return {
+					count: 0
+				}
+			},
+			template: '<button @click="count++">You clicked me {{ count }} times.</button>'
+		});
+		
+		//监听子组件事件
+		Vue.component('post', {
+			props:['post'],
+			template: '\
+			<div class="blog-post">\
+			  <h3>{{ post.title }}</h3>\
+				<button @click="$emit(\'enlarge-text\')">Enlarge text</button>\
+				<div v-html="post.content"></div>\
+			</div>'
+		});
+		
+		//在组件上使用v-model,绑定value, 触发input事件
+		Vue.component('com-input', {
+			props: ['value'],
+			template: '<input :value="value" @input="$emit(\'input\', $event.target.value)">'
+		});
+		
+		//通过插槽分发内容
+		Vue.component('com-slot', {
+			template: '<div><h2>标题</h2><slot>默认内容</slot></div>'
+		});
+		
+		//按钮组件
+		Vue.component('com-btn', {
+			props: ['title'],
+			template: '<button @click="$emit(\'change-tab\')" style="padding: 3px;">{{ title }}</button>'
+		});
+		
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				posts: [
+					{id:1, title: 'Vue 1', content: 'content One'},
+					{id:2, title: 'Vue 2', content: 'content Two'}
+				],
+				postFontSize: 1,
+				searchText: '',
+				currentTabComponent: 'button-counter'
+			},
+			methods: {
+				changeTab: function(comName){
+					this.currentTabComponent = comName;
+				}
+			}
+		});
+	</script>
+	</body>
+</html>
