@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vuex-module</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<p>moduleA => a: {{ a }}</p>
+			<p>moduleB => count: {{ b }} <button @click="countIn">count+</button></p>
+			<p>moduleB => getter -> doubleCount: {{ bb }} <button @click="countSquare">countSquare</button></p>
+			<p>moduleC => c: {{ c }}</p>
+			<p>moduleC => c -> commit : {{ cc }}</p>
+			<button @click="actionC">actionC</button>
+			<p>moduleC => c -> getter : {{ ccc }}</p>
+		</div>
+		
+		<script>
+			//当应用状态比较多时,集中到一个对象会显的臃肿复杂
+			//Vuex允许将store分割成不同模块,每个模块的属性都有自己的state, mutations, actions, getters 甚至是子嵌套模块
+			const moduleA = {
+				state: {
+					aa: 'aaa'
+				},
+				mutations: {},
+				actions: {},
+				getters: {}
+			}
+			
+			const moduleB = {
+				state: {
+					count: 0
+				},
+				mutations: { //state这里的是模块的局部状态
+					increment(state) {
+						state.count++ 
+					},
+					squareCount(state) {
+						state.count = state.count * state.count
+					}
+				},
+				actions: {
+					squareCount ({commit, state}) {
+						setTimeout(() => {
+							commit('squareCount');
+							console.log(state.count);
+						}, 1000);
+					}
+				},
+				getters: {
+					doubleCount (state) {
+						return state.count * 2
+					}
+				}
+			}
+			
+			const moduleC = {
+				namespaced: true, //添加命名空间
+				state: {
+					cvalue: 'from moduleC'
+				},
+				mutations: {
+					valueC(state) {
+						state.cvalue = state.cvalue + ' mutations'
+					}
+				},
+				actions: {
+					actionValue ({commit, state}) {
+						setTimeout(() => {
+							commit('valueC');
+							console.log(state.cvalue)
+						}, 1500); //1.5秒后触发
+					}
+				},
+				getters: {
+					getC (state, getters, rootState) { //如要在子模块中使用全局内容,则要使用带root的参数如rootState
+						return 'getter from C ' + 'count is ' + rootState.b.count
+					}
+				}
+			}
+			
+			const store = new Vuex.Store({
+				modules: { //注入多个模块
+					a: moduleA,
+					b: moduleB,
+					c: moduleC
+				}
+			})
+			
+			console.log(store.getters.doubleCount);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					a: store.state.a.aa, //直接访问状态属性值
+					c: store.state.c.cvalue ,
+					//带全名空间的模块属性访问,模块内的状态已经是嵌套的了，使用 `namespaced` 属性不会对其产生影响
+					ccc: store.getters['c/getC'] //除状态访问外,带命名空间的都要带要命名路径
+				},
+				computed: {
+					b () {
+						//store.commit('increment');//这里先自增1
+						return store.state.b.count; //直接访问状态属性值
+					},
+					bb () {
+						return store.getters.doubleCount //调用getter属性,相当于prop
+					}, 
+					cc () {
+						store.commit('c/valueC'); //调用带命名空间的mutation
+						return store.state.c.cvalue;
+					}
+				},
+				methods: {
+					countIn () {
+						store.commit('increment'); //调用 mutation 方法
+					},
+					countSquare () {
+						store.dispatch('squareCount'); //分发异步action
+					},
+					actionC () {
+						store.dispatch('c/actionValue'); //分发带命名空间的action
+					}
+				}
+			});
+			
+			
+		</script>
+	</body>
+</html>
