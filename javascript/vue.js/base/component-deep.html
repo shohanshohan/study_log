@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue深入了解组件</title>
+		<style>
+			[v-cloak]: {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<!--局部注册组件-->
+		<com-a></com-a>
+		
+		<!--传递prop-->
+		<com-b title="Html"></com-b><!--静态传递-->
+		<com-b :title="Title"></com-b><!--动态传递-->
+		
+		<com-c :likes="[1,2,3]"></com-c>
+		
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		var componentA = {
+			template: '<div>局部注册组件</div>'
+		};
+		Vue.component('com-b', {
+			props: {
+				title: {
+					type: String,
+					default: 'Vue',
+					required: true,
+					validator: function(title){ //自定义验证函数
+						return ['Vue', 'Js', 'Html'].indexOf(title) !== -1;
+					}
+				}
+			},
+			template: '<h3> {{ title }} </h3>'
+		});
+		Vue.component('com-c', {
+			props: ['likes'],
+			template: '<div><p v-for="item in likes">{{ item }}</p></div>'
+		});
+		var app = new Vue({
+			el: '#app',
+			data: {
+				Title: 'Vue'
+			},
+			components: {
+				'com-a': componentA
+			}
+		});
+	</script>
+	</body>
+</html>
