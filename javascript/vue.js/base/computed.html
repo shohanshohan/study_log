@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>计算属性和侦听器</title>
+	</head>
+	<body>
+		<div id="app">
+			<p>original message: {{ message }}</p>
+			<p>computed reversed message: {{ reversedMessage }}</p>
+			<p>lately firstName is: {{ firstName }}</p>
+			<p>Ask a yes/no question: <input v-model="question"></p>
+			<p>{{ answer }}</p>
+		</div>
+		<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				message: 'Hello',
+				firstName: 'bill',
+				lastName: 'gate',
+				question: '',
+				answer: 'I cannot give you an answer until you ask a question!'
+			},
+			//对于任何复杂逻辑，都应当使用计算属性, 计算属性是基于它们的响应式依赖进行缓存的
+			computed: {
+				reversedMessage: function(){
+					return this.message.split('').reverse().join('');
+				},
+				//计算属性默认只有getter, 在需要时也可以提供一个setter
+				fullName: {
+					// getter
+					get: function () {
+						return this.firstName + ' ' + this.lastName
+					},
+					// setter
+					set: function (newValue) {
+						var names = newValue.split(' ')
+						this.firstName = names[0]
+						this.lastName = names[names.length - 1]
+					}
+				}
+			},
+			methods: {
+				reverseMessage: function(){ //使用函数方法来实现,最终结果是一样的,但这也意味着页面重新渲染时,总会再次执行函数,不管它的依赖属性是否改变
+					return this.message.split('').reverse().join('');
+				}
+			},
+			watch: {
+				//如果 `question` 发生改变,这个函数就会运行
+				question: function(newQuestion, oldQuestion){
+					console.log(newQuestion + '--' + oldQuestion)
+					this.answer = newQuestion + '--' + oldQuestion;
+				}
+			}
+		});
+		
+		//app.fullName = 'jake ma'; //设置属性值,会触发
+	</script>
+	</body>
+</html>
