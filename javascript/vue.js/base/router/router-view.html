@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>router-view</title>
+	</head>
+	<body>
+		<div id="app">
+			<router-view name="header"></router-view>
+			<div style="width:100%;height:400px;border:1px solid #468847;clear: both;">
+				<router-view name="asider"></router-view>
+				<router-view></router-view> <!--如果 router-view 没有设置名字，那么默认为 default-->
+			</div>
+			<router-view name="footer"></router-view>
+		</div>
+		
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+		<script>
+			const Header = {
+				template: '<div style="height:50px;text-align:center;border:1px solid black;"><h2>Header</h2></div>'
+			}
+			const Asider = {
+				template: '<div style="width:100px;height:100%;text-align:center;border:1px solid blue;float:left;"><h2>Asider</h2></div>'
+			}
+			const Footer = {
+				template: '<div style="height:50px;text-align:center;border:1px solid yellow;"><h2>Footer</h2></div>'
+			}
+			const Main = {
+				template: '<div style="height:50px;text-align:center"><h2>main content</h2></div>'
+			}
+			const router = new VueRouter({
+				routes: [
+					{ 
+						path: '/',
+						components: { //注意多个视图渲染多个外组件 components 要带上 's'
+							default: Main,
+							header: Header,
+							asider: Asider,
+							footer: Footer
+						}
+					}
+				]
+			})
+			const app = new Vue({
+				router
+			}).$mount('#app')
+		</script>
+	</body>
+</html>
