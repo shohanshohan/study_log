@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue-animate</title>
+		<style>
+			[v-cloak] {display: none;}
+			
+			/*CSS过渡*/
+			.hello-fade-enter-active {
+				transition: all .5s ease;
+			}
+			.hello-fade-leave-active {
+				transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+			}
+			.hello-fade-enter, .hello-fade-leave-to { transform:translateX(15px); opacity: 0;}
+			
+			/*CSS动画*/
+			.animate-css-enter-active {
+				animation: bounce-in .5s;
+			}
+			.animate-css-leave-active {
+				bounce-in .5s reverse;
+			}
+			@keyframes bounce-in {
+				0% {
+					transform: translateX(10px);
+				}
+				50% {
+					transform: translateX(-10px);
+				}
+				75% {
+					transform: translateY(10px);
+				}
+				100% {
+					transform: translateY(-10px);
+				}
+			}
+		</style>
+		<link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<button @click="show = !show">Toggle hello</button>
+		<transition name="hello-fade"><!--这个name属性值会生成类名 hello-fade-enter 等固定格式的类名-->
+			<!--使用Css过渡-->
+			<p v-if="show">Hello</p>
+		</transition>
+		<transition name="animate-css">
+			<!--使用CSS动画-->
+			<p v-if="show">Animate</p>
+		</transition>
+		
+		<!--自定义过渡的类名
+		enter-class, enter-active-class, enter-to-class, leave-class, leave-active-class, leave-to-class
+		这对于结合第三方CSS库十分有用-->
+		<transition
+		  name="custom-classes"
+			enter-active-class="animated tada"
+			leave-active-class="animated bounceOutRight"
+		>
+		  <p v-if="show">Animate.css</p>
+		</transition>
+		
+		<!--当只用javascript过渡时，在enter和leave中必须使用done进行回调，否则它们将被同步调用
+		添加v-bind:css="false", Vue会跳过css的检测，这可以避免过渡过程中css的影响-->
+		<transition
+		  @before-enter="beforeEnter"
+			@enter="enter"
+			@leave="leave"
+			:css="false"
+		>
+		  <p v-if="show">Velocity</p>
+		</transition>	
+		
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				show: true
+			},
+			methods: {
+				beforeEnter: function(el){
+					el.style.opacity = 0;
+					el.style.transformOrigin = 'left'
+				},
+				enter: function(el, done){
+					Velocity(el, {opacity:1, fontSize:'1.4em'}, {duration:300});
+					Velocity(el, {fontSize:'1em'}, {complete:done})
+				},
+				leave: function(el, done){
+					Velocity(el, {translateX: '15px', rotateZ: '45deg'}, {duration:600});
+					Velocity(el, {rotateZ: '120deg'}, {loop:2});
+					Velocity(el, {rotate:'45deg', translateY:'30px',translateX:'30px',opacity:0}, {complete:done})
+				}
+			}
+		});
+	</script>
+	</body>
+</html>
