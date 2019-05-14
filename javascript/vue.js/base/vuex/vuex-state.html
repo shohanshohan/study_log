@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vuex-state</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<counter />
+		</div>
+		
+		<script>
+			Vue.use(Vuex);
+			const store = new Vuex.Store({
+				state: {
+					count: 1
+				}
+			});
+			const store2 = new Vuex.Store({
+				state: {
+					count: 'another store.state'
+				}
+			})
+			const Counter = {
+				template: '<div>{{ count }}</div>',
+				computed: {
+					count () {
+						return this.$store.state.count
+					}
+				}
+			}
+			const app = new Vue({
+				el: '#app',
+				store: store2, //提供这个选项，将可以自定义引入哪一种store状态,而不是只能依赖全局状态单例
+				components: {
+					Counter
+				}
+			});
+		</script>
+	</body>
+</html>
