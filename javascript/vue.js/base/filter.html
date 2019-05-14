@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue过滤器</title>
+		<style>
+			[v-cloak] {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<!--全局过滤器-->
+		<p>{{ message | reverse }}</p>
+		<!--组件内过滤器-->
+		<p>{{ message | cpl }}</p>
+		<!--过滤器串联-->
+		<p>{{ message | cpl | reverse}}</p>
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		//在Vue实例之前全局定义过滤器
+		Vue.filter('reverse', function(value){
+			if(!value) return '';
+			return value.split('').reverse().join('');
+		});
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				message: 'hello world'
+			},
+			//在组件内部定义过滤器
+			filters: {
+				cpl: function(value){
+					if(!value) return '';
+					value = value.toString();
+					return value.charAt(0).toUpperCase() + value.slice(1)
+				}
+			}
+		});
+	</script>
+	</body>
+</html>
