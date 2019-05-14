@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-model表单输入绑定</title>
+		<style>
+			[v-cloak]: {display: none;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<form>
+			<p>message is : {{ msg }}</p>
+			<!--文本框-->
+			<input type="text" v-model="msg" placeholder="input something" />
+			<br />
+			<!--多行文本-->
+			<textarea v-model="msg" placeholder="add something"></textarea>
+			<br />
+			<!--单选按钮-->
+			<div>
+				<label for="one"><input type="radio" id="one" value="One" v-model="radioSelected" />One</label>
+				<label for="two"><input type="radio" id="two" value="Two" v-model="radioSelected" />Two</label>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span>radioslected: {{ radioSelected }}</span>
+			</div>
+			
+			<!--复选框-->
+			<div>
+				<!--单个复选框 boolean-->
+				<p>
+					<label for="single-checkbox">
+						<input type="checkbox" id="single-checkbox" v-model="singleChecked" />
+					</label>
+					<span>checked: {{ singleChecked }}</span>
+				</p>
+				<!--多个复选框，绑定到同一个数组-->
+				<p>
+					<label for="jack"><input type="checkbox" id="jack" value="Jack" v-model="checkedsName" />Jack</label>&nbsp;&nbsp;
+					<label for="lily"><input type="checkbox" id="lily" value="Lily" v-model="checkedsName" />Lily</label>&nbsp;&nbsp;
+					<label for="piter"><input type="checkbox" id="piter" value="Piter" v-model="checkedsName" />Piter</label>&nbsp;&nbsp;
+					<label for="lucy"><input type="checkbox" id="lucy" value="Lucy" v-model="checkedsName" />Lucy</label>&nbsp;&nbsp;
+					<label for="david"><input type="checkbox" id="david" value="David" v-model="checkedsName" />David</label>&nbsp;&nbsp;
+					<br />
+					<span>checked names: {{ checkedsName }}</span>
+				</p>
+			</div>
+			
+			<!--下拉选择-->
+			<div>
+				<!--单选时-->
+				<p>
+					<select v-model="selected">
+						<option disabled value="">请选择</option>
+						<option>A</option>
+						<option>B</option>
+						<option>C</option>
+					</select>
+					<span>selected: {{ selected }}</span>
+				</p>
+				<!--多选时，绑定到一个数组，select标签要加上multiple属性, 按住Ctrl键单击鼠标可多选-->
+				<select multiple v-model="selecteds" style="width:100px;">
+					<option>One</option>
+					<option>Two</option>
+					<option>Three</option>
+					<option>Four</option>
+					<option>Five</option>
+				</select>
+				<span>selecteds: {{ selecteds }}</span>
+			</div>
+			
+			<!--修饰符 .lazy, .number, .trim-->
+		</form>
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				msg: '',
+				radioSelected: '',
+				singleChecked: false,
+				checkedsName: ['Lily', 'Lucy'],
+				selected: '',
+				selecteds: ['Two', 'Three']
+			}
+		});
+	</script>
+	</body>
+</html>
