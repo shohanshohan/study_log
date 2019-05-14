@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue动态组件</title>
+		<style>
+			[v-cloak] {display: none;}
+			.com-tab {
+				border:1px solid black; 
+				width:800px;height:800px; 
+				margin:0 auto;padding: 15px;
+			}
+			.content {
+				clear:both;
+				border:1px solid black;
+				min-height: 600px;
+			}
+			.a-btn {
+				border: 1px solid darkgrey;
+				background-color: #ccc;
+				padding: 3px;
+				float: left;
+				cursor: pointer;
+			}
+			.a-btn:hover {
+				background-color: #fff;
+			}
+			.active {background-color: #fff;}
+		</style>
+	</head>
+	<body>
+	<div id="app" v-cloak>
+		<div class="com-tab">
+			<a-btn tab-name="com-a" @change="changeTab" :current-com="currentCom"></a-btn>
+			<a-btn tab-name="com-b" @change="changeTab" :current-com="currentCom"></a-btn>
+			<!--多标签界面中使用is特性切换不同的组件-->
+			<div class="content">
+				<component :is="currentCom" :menus="menus" :key="currentCom">
+					<template v-slot:menu>
+						<menu-ul :menus="menus">
+							<li v-for="item in menus" style="list-style-type:none;">
+							<!--复用组件-->
+							<a-btn :tab-name="item.title" @change="changeTabB" :current-com="currentComB"></a-btn>
+							</li>
+						</menu-ul>
+					</template>
+					{{ currentComB }} Content {{ currentComB }}
+				</component>
+			</div>
+		</div>
+		
+	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		Vue.component('a-btn', {
+			props: ['tabName', 'currentCom'],
+			computed: {
+				isActive: function(){
+					return this.currentCom === this.tabName;
+				}
+			},
+			template: '<a class="a-btn" :class="[isActive ? \'active\' : \'\']" @click="$emit(\'change\', tabName)">{{ tabName }}</a>'
+		});
+		
+		Vue.component('com-a', {
+			template: '<div style="padding:10px;">component A</div>'
+		});
+		
+		Vue.component('menu-ul', {
+			props: ['menus'],
+			template: '\
+			<ul style="height:auto;float:left;padding:5px;">\
+				<slot>\
+					<li v-for="item in menus" style="list-style-type:none;">\
+						<a href="#" class="a-btn" url="item.url">\
+							{{ item.title }}\
+						</a>\
+					</li>\
+				</slot>\
+			</ul>',
+		});
+		
+		Vue.component('com-b', {
+			props: ['menus'],
+			template: '\
+			<div>\
+				<slot name="menu">\
+				  none menus item\
+				</slot>\
+				<div v-if="menus.length>0" style="width:1px; height:600px; float:left; background:#000;"></div>\
+				<div style="padding:15px;"><slot>这是默认内容</slot></div>\
+			</div>'
+		});
+		
+		//在动态组件上使用keep-alive, 具有缓存作用
+		Vue.component();
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				currentCom: 'com-b',
+				menus: [
+					{title:'com-b-1', url:'b-1'},
+					{title:'com-b-2', url:'b-2'},
+					{title:'com-b-3', url:'b-3'},
+				],
+				currentComB: 'com-b-1'
+			},
+			methods: {
+				changeTab: function(tab){
+					this.currentCom = tab;
+				},
+				changeTabB: function(tab){
+					this.currentComB = tab;
+				}
+			}
+		});
+	</script>
+	</body>
+</html>
