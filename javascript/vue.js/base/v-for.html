@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-for列表渲染</title>
+	</head>
+	<body>
+	<div id="app">
+		<ul>
+			<li v-for="(item, index) in items">{{index}} |--- {{ item.name }}</li>
+		</ul>
+		<ul>
+			<li v-for="(value, key, index) in objectItem">{{ index }} -- {{ key }} : {{ value }}</li>
+		</ul>
+		<!--建议尽可能在使用 v-for 时提供 key，
+		除非遍历输出的 DOM 内容非常简单，或者是刻意依赖默认行为以获取性能上的提升。
+    因为它是 Vue 识别节点的一个通用机制-->
+		<div>
+			<p v-for="item in items" :key="item.id">{{ item.name }}</p>
+		</div>
+		<!--利用带有v-for 的<template>渲染多个元素-->
+		<div>
+			<template v-for="(item, index) in items" :key="item.id">
+			<h3>( {{ index }} ):</h3>
+			<p> <span>{{ item.id }}</span> {{ item.name }}</p>
+			</template>
+		</div>
+		
+		<!--一个组件的v-for-->
+		<input v-model="newTodoText" type="text" /><button @click="addNewTodo">Add</button>
+		<ul>
+			<li 
+			  is="todo-item"
+				v-for="(todo, index) in todos"
+				v-bind:key="todo.id"
+				v-bind:title="todo.title"
+				v-on:remove="todos.splice(index, 1)">
+		</ul>
+	</div>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		Vue.component('todo-item', {
+			template: '<li> {{ title }} <button @click="$emit(\'remove\')"> Remove </button></li>',
+			props: ['title']
+		});
+		var app = new Vue({
+			el: '#app',
+			data: {
+				items: [
+					{id: 1, name: 'item 1'},
+					{id: 2, name: 'item 2'},
+					{id: 3, name: 'item 3'}
+				],
+				objectItem: {name: 'piter', gender: 'boy', age: 28},
+				todos: [
+					{id:1, title: 'title 1'},
+					{id:2, title: 'title 2'},
+					{id:3, title: 'title 3'},
+				],
+				nextTodoId: 4,
+				newTodoText: ''
+			},
+			methods: {
+				addNewTodo: function(){
+					this.todos.push({id: this.nextTodoId++, title: this.newTodoText});
+					this.newTodoText = '';
+				}
+			}
+		});
+		
+		//动态改变数组 push(), pop(), shift(), unshift(), splice(), sort(), reverse() 这些方法都可以触发视图更新
+		app.items.push({id:4, name:'item4'});
+		//由于javascript的限制,Vue不能检测利用索引设置值和修改数组长度
+		//如: app.items[4] = 'item5'; app.items.length = 5;
+		//可以使用 app.$set 方法, 该方法是全局方法 Vue.set 的一个别名
+		app.$set(app.items, 4, {id:5, name:'newItem5'});
+		//对于对象属性是一样的原理,不能直接修改 app.b = 'IT';
+		app.b = 'bbb';
+		app.$set(app.objectItem, 'job', 'IT');
+		
+	</script>
+	</body>
+</html>
