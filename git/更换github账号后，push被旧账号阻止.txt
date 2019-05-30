@@ -1,0 +1,21 @@
+git push origin
+切换了GitHub账号后，发现代码push不上去了，报403错误：
+
+remote: Permission to newUser/webpack4.0-course.git denied to oldUser.
+fatal: unable to access 'https://github.com/newUser/project_address/': The requested URL returned error: 403
+
+后来重重新生成配置ssh 密钥
+ssh-keygen -t rsa -C 'email@.com' -f 'save_path'
+也在github账号上重新替换了id_rsa.pub的配置内容
+
+git config user.name 'newName'
+git config user.emial 'newEmail'
+
+这些全都做了，不管怎么折腾就是报错不能提交，一直提示老账号没有权限！！！
+
+原来在 windows 的控制面板下有一个 凭据管理器
+里面保存了我们的旧账号凭据信息 git:https://github.com
+这个鬼东西不变，你永远也不能正常提交新账号的
+直接删除这个凭据
+两次提交 git push origin
+发现这样可以提交上去了，而且又会在凭据管理器中生成新的 git:https://github.com 凭据
