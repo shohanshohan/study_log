@@ -17,5 +17,6 @@ git config user.emial 'newEmail'
 里面保存了我们的旧账号凭据信息 git:https://github.com
 这个鬼东西不变，你永远也不能正常提交新账号的
 直接删除这个凭据
-两次提交 git push origin
+再次提交 git push origin
+初次提交会弹一个框要求输入账号和密码验证
 发现这样可以提交上去了，而且又会在凭据管理器中生成新的 git:https://github.com 凭据
