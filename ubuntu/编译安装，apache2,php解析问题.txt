@@ -6,6 +6,30 @@
     下加入下面两行
     AddType application/x-httpd-php .php
     AddType application/x-httpd-php-source .php5
+    
+    
+如果能正常打开.php文件了，但是经过入口文件时会直接下载页面没有渲染出页面，说明缺少mod_rewrite.so模块
+
+如果是系统安装的apache2 则执行一下命令：sudo a2enmod rewrite
+如果是编译安装的apache2 则：在配置文件httpd.conf中加入这一句：LoadModule rewrite_module  modules/mod_rewrite.so
+
+在配置rewrite的时候，发现apache没有mod_rewrite，可能是当初编译apache的时候没有带上 --enable-rewrite选项。
+重新编译mod_rewrite.so：
+在apache的源码安装目录中寻找mod_rewrite.c文件 
+find / -name mod_rewrite.c
+/home/springshine/LAMP/httpd-2.2.3/modules/mappers/mod_rewrite.c
+编译：
+cd /home/springshine/LAMP/httpd-2.2.3/modules/mappers/
+/usr/local/apache2/bin/apxs -c mod_rewrite.c
+/usr/local/apache2/bin/apxs -i -a -n mod_rewrite mod_rewrite.la 
+如果没出错，在/usr/local/apache2/modules/ 中就会有mod_rewrite.so了
+这时再进入配置文件httpd.conf 查找到LoadMudle 的地方加上这一句：
+LoadModule rewrite_module  modules/mod_rewrite.so
+
+最后记得重启apache2
+
+    
+    
  
 打开：Include conf/extra/httpd-vhosts.conf （把前面的#去掉）这个用来配置自定义的访问路径和端口号
 配置文本比如：(那些带注释的文本不需要可以删除它)
