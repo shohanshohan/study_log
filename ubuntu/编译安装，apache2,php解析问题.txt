@@ -28,6 +28,10 @@ LoadModule rewrite_module  modules/mod_rewrite.so
 
 最后记得重启apache2
 
+如果重启时报错： Syntax error on line 56 of /usr/local/apache2/conf/httpd.conf: module rewrite_module is built-in and can't be loaded
+说明这是内置模块，查看apache2的内置模块有哪些：  /usr/local/apache2/bin/httpd -l
+发现有一个 mod_rewrite.c  表示已经支持了
+这个时候回到httpd.conf配置文件，#注释掉 LoadModule rewrite_module  modules/mod_rewrite.so
     
     
  
