@@ -35,3 +35,7 @@ git config user.email 'your email'
 ssh -T git@project1.com
 出现： Hi ... You've successfully authenticated, but GitHub does not provide shell access.
 说明连接成功！
+
+然后就可以愉快地 git 了
+一般来说，当你第一次 git push 时会弹出一个账号密码登录框让你确认账号和密码
+
