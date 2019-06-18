@@ -1,0 +1,37 @@
+有时候我们会有多个不同的github项目存储在不同的github账号上，
+我们想通过配置来改变连接的仓库，而不是删除重新生成id_rsa来连接
+
+具体思路就是：用 
+ssh-keygen -t rsa -C "你的github注册邮箱" 
+生成多个密钥文件，记得上处命令在第一个回车后，更改一下你要存放的路径，如果不更改则会覆盖掉之前的文件！
+我们最好在 .ssh/目录下（这个目录就是用户的home目录下，如windows在 C:\Users\shohan\.ssh\）新建项目文件来存放
+
+生成不同的项目密钥文件后（一般有id_rsa 和 id_rsa.pub）
+我们打开id_rsa.pub 把里面的内容复制粘贴到我们的github项目下的 settings=>Deploy keys=>Add deploy key
+
+
+接下来我们添加一个 config 配置文件，放在 .ssh目录下
+进入 .ssh/ 
+touch config 
+vi config 
+添加自定义的配置信息：有多少个就添加多少个
+Host project1.com //这个是连接的别名，可自定义
+  HostName github.com //这个是固定的值
+  User user1 //这个是你的config user.name
+  IdentityFile C:/Users/shohan/.ssh/project1/id_rsa //这个是你相关项目的配置私钥
+  
+Host project2.com
+  HostName github.com
+  User user2
+  IdentityFile C:/Users/shohan/.ssh/project2/id_rsa
+
+
+配置好这些后
+我们更改我们的登录账号和邮箱
+git config user.name 'your name'
+git config user.email 'your email'
+
+测试一下连接：
+ssh -T git@project1.com
+出现： Hi ... You've successfully authenticated, but GitHub does not provide shell access.
+说明连接成功！
