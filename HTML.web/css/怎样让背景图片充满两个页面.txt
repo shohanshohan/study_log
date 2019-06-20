@@ -1,0 +1,16 @@
+有时候我们想要让背景图片覆盖整个页面，而且这个背景图片不是在 body标签下的，我们给了这个盒子 高度 100%
+但问题是它只自适应它的子元素的高度，并没有达到页面高度
+这里有一个很好的解决办法，如下：
+/*这个登录盒子用了绝对定位, 因为我们要让背景图片刚好充满整个页面背景*/
+	/*, 如果不这样用,它就会自适应高度, form表单的高度是不能覆盖整个页面的*/
+	.login-container { 
+		position: absolute;
+		top: 0;
+		left: 0;
+		min-width: 100%;
+		min-height: 100%;
+		overflow: hidden;
+		background: url(login-bg.jpg);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+	}
