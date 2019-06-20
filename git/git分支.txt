@@ -20,10 +20,11 @@
 强制删除：git branch -D branch_name
 
 6）合并分支：git merge another_branch
-
-
-
-
+这个合并分支是这样的，比如你在 dev 分支做了些修改并觉得没问题了，你把项目在 dev 提交了 commit
+这时候你想要通过 master 分支来提交代码到线上去
+首先去到 master 分支： git checkout master
+合并分支：git merge dev
+提交代码：git push origin
 
 
 创建分支 git branch branch_name
