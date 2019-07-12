@@ -1,0 +1,98 @@
+我们在 apache 配置访问路径时，如果没有具体的域名，我们要开通配置不同的端口号来访问不同的项目路径
+但使用 nginx 的反向代理，可以不用开通外网端口的情况下访问多个不同路径
+以下是一个模板配置：
+
+nginx 配置:
+server {
+        listen  80; #这里监听了80端口，那在apache配置中则要关闭监听这个端口号
+        server_name  127.0.0.1;
+        client_max_body_size 10M; #这是一个允许最大上传文件的配置
+        #location / {
+         # root /mydata/www/dsmall/;
+          #index index.html index.htm index.php;
+        #}        
+
+        location / {
+          proxy_redirect off;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_pass http://127.0.0.1:60080; # 跳转到 内部 60080端口访问，在apache中要开启监听这个umkk
+        }
+
+        location /admin/ {
+           proxy_pass http://127.0.0.1:60081;
+           proxy_redirect off;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        location /imgs/ {
+           proxy_pass http://127.0.0.1:60081/;
+           proxy_redirect off;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        location ~ \.php$ {
+            proxy_pass   http://127.0.0.1:80;
+        }
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+           # root           /mydata/www/dsmall/dsmall_admin/public;
+         #   fastcgi_pass   127.0.0.1:9000;
+          #  fastcgi_index  index.php;
+           # fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+            #include        fastcgi_params;
+        #}
+
+        location ~/\.ht {
+            deny  all;
+        }
+    }
+    
+    
+    apache 配置：
+    
+#dsmall_admin
+Listen 60080
+<VirtualHost *:60080>
+    DocumentRoot /mydata/www/dsmall/dsmall_api/public
+
+     <Directory "/mydata/www/dsmall/dsmall_api/public">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+     </Directory>
+</VirtualHost>
+
+#dsmall_admin
+Listen 60081
+<VirtualHost *:60081>
+    DocumentRoot /mydata/www/dsmall/dsmall_admin/public
+
+     <Directory "/mydata/www/dsmall/dsmall_admin/public">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+     </Directory>
+</VirtualHost>
+
+
+配置完成后，记得重启加载配置
+/usr/local/nginx/sbin/nginx -s reload
+/usr/local/apache2/bin/apachectl restart
