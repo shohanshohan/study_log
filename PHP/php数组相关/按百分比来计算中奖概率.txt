@@ -1,0 +1,22 @@
+function discountResult($rate)
+{
+    if($rate >= 1) { //概率大于 100%
+      return false;
+    }
+
+    $rateArr = [0=>(1-$rate) * 100, 1=>$rate * 100];
+
+    $res = 0;
+    $percent = 100;
+    foreach ($rateArr as $key => $value) {
+      $random = mt_rand(1, $percent); //总共就是 100%
+      if($random <= $value) {
+        $res = $key;
+        break;
+      } else {
+        $percent -= $value;
+      }
+    }
+    return $res === 1 ? true : false;
+
+}
