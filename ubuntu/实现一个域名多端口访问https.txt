@@ -1,0 +1,81 @@
+1 apache 配置
+Listen 9005
+<VirtualHost *:9005>
+    DocumentRoot /mydata/www/dsmall/dsmall_admin/public
+    ServerName  dzgame.fish1.46you.cn
+
+     SSLEngine on
+
+SSLProtocol all -SSLv2
+SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+
+SSLCertificateFile "/usr/local/apache2/conf/sslkey/2_dzgame.fish1.46you.cn.crt"
+
+SSLCertificateKeyFile "/usr/local/apache2/conf/sslkey/3_dzgame.fish1.46you.cn.key"
+
+SSLCertificateChainFile "/usr/local/apache2/conf/sslkey/1_root_bundle.crt"
+
+     <Directory "/mydata/www/dsmall/dsmall_admin/public">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+     </Directory>
+</VirtualHost>
+
+访问： https://dzgame.fish1.46you.cn:9005
+
+
+
+2 nginx 配置
+server {
+      #outgame接口服务器  SSL 服务器
+      listen              6677 ssl;
+      server_name         l.wanwan89.cn;
+      #证书文件
+      ssl_certificate     ./key/1_l.wanwan89.cn_bundle.crt;
+      #私钥文件
+      ssl_certificate_key ./key/2_l.wanwan89.cn.key;
+      ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+      ssl_ciphers         HIGH:!aNULL:!MD5;
+
+      ssl_session_cache shared:SSL:100m;
+      ssl_session_timeout 1h;#超时时间
+
+      root /data/outgame/;
+      index index.php index.html index.htm;
+      location / {
+      }
+      error_page   500 502 503 504  /50x.html;
+      location = /50x.html {
+          root   html;
+      }
+      location ~ \.php$ {
+          fastcgi_pass   127.0.0.1:9000;
+          fastcgi_index  index.php;
+          fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+          include        fastcgi_params;
+      }
+  }
+  
+  server {
+    listen       6688;
+    server_name  t.wanwan89.cn ;
+    root   /data/51cz_admin/public/;
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        index index.php  index.html index.htm;
+
+    }
+    location ~ \.php(.*)$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_param   PATH_INFO   $fastcgi_path_info;
+        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
+
+  
+  
