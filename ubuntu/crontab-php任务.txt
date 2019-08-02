@@ -87,6 +87,8 @@ Available commands:
   crontab -e
   1 0 * * * /usr/local/php5/bin/php /var/www/wwwroot/smallgame/admintask/think Index > /dev/null &
   
+ 注意：如果用到数据库查询，则还要配置一下数据库连接，在 thinkphp/convention.php 配置文件
+  
   
   （2）Yii 的crontab 任务配置
   1 0 * * * /usr/bin/php5.6 /mydata/www/btadmin/src/console/yii stat/players >/dev/null &
