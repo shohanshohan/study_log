@@ -42,7 +42,6 @@ class Qrcode extends Controller
     $base64_img = "data:image/jpeg;base64,".base64_encode( $result );
     $imgPath = 'uploads/' . uniqid() . '.jpg';
     $res = $this->file_put($base64_img, $imgPath); //保存图片至指定路径
-    return api(0, 'test', ['res'=>$res,'img'=>$base64_img]);
     if($base64_img) {
       if($res) {
         return api(0, 'success', ['imgpath'=>'/' . $imgPath]);
