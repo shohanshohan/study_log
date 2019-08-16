@@ -49,7 +49,7 @@ class Qrcode extends Controller
     }else {
       Log::write('获取微信小程序码失败 ', '10038-wxResult-error');
     }
-    return api(120, '获取失败！', $result);
+    return api(120, '获取失败！');
   }
 
   /**
