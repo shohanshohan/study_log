@@ -40,8 +40,9 @@ class Qrcode extends Controller
     $result = $this->httpsRequest($this->wxcodeUrl, json_encode(["scene"=>"pid=$user_id", "width"=>150]));
     //解析图片
     $base64_img = "data:image/jpeg;base64,".base64_encode( $result );
-    $imgPath = 'uploads/' . uniqid() . '.jpg';
+    $imgPath = 'uploads/' . uniqid($user_id) . '.jpg';
     $res = $this->file_put($base64_img, $imgPath); //保存图片至指定路径
+    return api(0, 'test', ['res'=>$res,'img'=>$base64_img]);
     if($base64_img) {
       if($res) {
         return api(0, 'success', ['imgpath'=>'/' . $imgPath]);
@@ -49,7 +50,7 @@ class Qrcode extends Controller
     }else {
       Log::write('获取微信小程序码失败 ', '10038-wxResult-error');
     }
-    return api(120, '获取失败！');
+    return api(120, '获取失败！', $result);
   }
 
   /**
@@ -80,14 +81,14 @@ class Qrcode extends Controller
   //保存图片
   protected function file_put($base64_image_content,$new_file)
   {
-      header('Content-type:text/html;charset=utf-8');
-      if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
-          if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
-             return true;
-          }else{
-              return false;
-          }
+    header('Content-type:text/html;charset=utf-8');
+    if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+      if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
+        return true;
+      }else{
+        return false;
       }
+    }
   }
 
   //远程请求
@@ -102,11 +103,11 @@ class Qrcode extends Controller
     curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
     if($method=='POST')
     {
-        curl_setopt($curl, CURLOPT_POST, 1);
-        if ($data != '')
-        {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
+      curl_setopt($curl, CURLOPT_POST, 1);
+      if ($data != '')
+      {
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      }
     }
  
     curl_setopt($curl, CURLOPT_TIMEOUT, 30);
