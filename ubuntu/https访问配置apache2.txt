@@ -78,3 +78,59 @@ BrowserMatch "MSIE [2-5]" \
 CustomLog "/usr/local/apache2/logs/ssl_request_log2" \
           "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 </VirtualHost>
+
+
+
+
+#配置 https 多个端口访问
+#dsmall_api_pro
+Listen 9005
+<VirtualHost *:9005>
+    DocumentRoot /mydata/www/dsmall/dsmall_api/public
+    ServerName  dzgame.fish1.46you.cn
+
+     SSLEngine on
+
+SSLProtocol all -SSLv2
+SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+
+SSLCertificateFile "/usr/local/apache2/conf/sslkey/2_dzgame.fish1.46you.cn.crt"
+
+SSLCertificateKeyFile "/usr/local/apache2/conf/sslkey/3_dzgame.fish1.46you.cn.key"
+
+SSLCertificateChainFile "/usr/local/apache2/conf/sslkey/1_root_bundle.crt"
+
+     <Directory "/mydata/www/dsmall/dsmall_api/public">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+     </Directory>
+</VirtualHost>
+
+
+
+#dsmall_api_test
+Listen 9006
+<VirtualHost *:9006>
+    DocumentRoot /mydata/www/dsmall_test/dsmall_api/public
+    ServerName  dzgame.fish1.46you.cn
+
+     SSLEngine on
+
+SSLProtocol all -SSLv2
+SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+
+SSLCertificateFile "/usr/local/apache2/conf/sslkey/2_dzgame.fish1.46you.cn.crt"
+
+SSLCertificateKeyFile "/usr/local/apache2/conf/sslkey/3_dzgame.fish1.46you.cn.key"
+
+SSLCertificateChainFile "/usr/local/apache2/conf/sslkey/1_root_bundle.crt"
+
+     <Directory "/mydata/www/dsmall_test/dsmall_api/public">
+      Options FollowSymLinks ExecCGI
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+     </Directory>
+</VirtualHost>
