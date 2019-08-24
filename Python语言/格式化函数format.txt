@@ -1,0 +1,67 @@
+format() 用来格式化返回和输出字符串非常有用
+format 函数可以接受不限个参数，位置可以不按顺序。
+基本语法是通过 {} 占位，所有的定义都是在format()函数中
+
+（1）按顺序匹配
+>>>"{} {}".format("hello", "world")    # 不设置指定位置，按默认顺序
+'hello world'
+
+（2）设置指定位置
+>>> "{1} {0} {1}".format("hello", "world")  # 设置指定位置
+'world hello world'
+
+（3）设置参数
+print("网站名：{name}, 地址 {url}".format(name="菜鸟教程", url="www.runoob.com"))
+# 通过字典设置参数
+site = {"name": "菜鸟教程", "url": "www.runoob.com"}
+print("网站名：{name}, 地址 {url}".format(**site))
+# 通过列表索引设置参数
+my_list = ['菜鸟教程', 'www.runoob.com']
+print("网站名：{0[0]}, 地址 {0[1]}".format(my_list))  # "0" 是必须的
+# 通过元组索引设置参数
+my_tupl = ('菜鸟教程', 'www.runoob.com')
+print("网站名：{0[0]}, 地址 {0[1]}".format(my_tupl))  # "0" 是必须的
+
+(4) 数字格式化
+#保留小数点后两位
+print('{:.2f}'.format(3.1456)) # 3.15
+#带符号保留小数点后两位
+print('{:+.2f}'.format(3.141592653)) # +3.14
+#不带小数
+print('{:.0f}'.format(3.1415)) # 3
+#以逗号分隔千位符数字
+print('{:,}'.format(123456789)) # 123,456,789
+#百分比格式
+print('{:.0%}'.format(0.25)) # 25%
+print('{:.1%}'.format(0.356)) # 35.6%
+#指数记法
+print('{:.0e}'.format(100000000)) # 1e+08
+#进制
+print('{:b}'.format(11)) # 二进制 1011
+print('{:d}'.format(11)) # 十进制 11
+print('{:o}'.format(11)) # 八进制 13
+print('{:x}'.format(11)) # 十六进制 b
+print('{:X}'.format(11)) # 十六进制大写 B
+
+（5）对齐方式和填充
+#数字补零
+print('{:0>5}'.format(20)) # 00020 左边填充0，宽度为5
+print('{:0<3}'.format(18)) # 180 右边填充0，宽度为3
+#字符串填充, 只能填充单个字符
+print('{:x<8}'.format('num')) # numxxxxx 右边填充x，宽度为8
+print('{:x^5}'.format('ab')) # xabxx 居中填充，宽度为5
+print('{:a>5}'.format('gf')) # aaagf 左边填充a，宽度为5
+print('{:^10}'.format('center')) #   center   居中对齐，宽度为10，不指定填充字符其实就是填充空格
+
+
+
+下面对一些格式符号做一些说明：
+^, <, > 分别是居中、左对齐、右对齐，后面带宽度， : 号后面带填充的字符，只能是一个字符，不指定则默认是用空格填充。
+
++ 表示在正数前显示 +，负数前显示 -；  （空格）表示在正数前加空格
+
+b、d、o、x 分别是二进制、十进制、八进制、十六进制。
+
+
+（6）还可以用 {} 来转义 {}
+print('{} 对应的位置是 {{0}}'.format('s')) # s 对应的位置是 {0}
