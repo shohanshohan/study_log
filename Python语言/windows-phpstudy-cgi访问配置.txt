@@ -1,0 +1,45 @@
+我们可以像访问php程序一样访问python脚本，只要加上一些配置就好了
+右键点击 phpstudy 图标，打开配置文件 httpd.conf
+
+确保  LoadModule cgi_module modules/mod_cgi.so #注释要打开
+
+找到 ScriptAlias 打开注释并配置自己的访问目录，如：
+ScriptAlias /cgi-bin/ "D:/phpstudy/WWW/cgi/www"  #D:/phpstudy/WWW 目录是 localhost 访问目录
+
+#找到如下配置并更改
+# "c:/Apache4/cgi-bin" should be changed to whatever your ScriptAliased
+# CGI directory exists, if you have that configured.
+#
+<Directory "D:/phpstudy/WWW/cgi/www"> #这里的访问目录
+    AllowOverride All
+    Options FollowSymLinks ExecCGI
+    Options Indexes ExecCGI
+    Require all granted
+    AddHandler cgi-script .cgi .pl .py # 添加访问python文件的后缀
+</Directory>
+
+#找到 AddHandler 打开注释并加上 .pl .py
+AddHandler cgi-script .cgi .pl .py
+
+
+重启phpstudy
+我们在 目录D:/phpstudy/WWW/cgi/www 新建 test.py
+注意，#!D:\python.exe 开头这一行一定要注明 python.exe 的程序地址，不同的安装目录有所不同
+输入如下内容：
+#!D:\python.exe
+#coding=utf-8
+print("Content-type:text/html")
+print('')
+print('<html>')
+print('<head>')
+print('<title>Hello</title>')
+print('</head>')
+print('<body>')
+print('<h2>Hello Word! This is my first CGI program</h2>')
+print('</body>')
+print('</html>')
+
+
+打开浏览器，访问地址：http://localhost/cgi/www/test.py
+可以看到打印出我们想要的信息：Hello Word! This is my first CGI program
+
