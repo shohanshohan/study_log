@@ -1,0 +1,42 @@
+1）len() 返回列表元素个数。
+list1 = [1,2,3,4,5,6]
+print(len(list1)) #6
+list2 = list(range(6))
+print(list2) #[0,1,2,3,4,5]
+print(len(list2)) #6
+
+
+
+
+2）max() 返回列表元素中的最大值。
+list1 = [1,2,3,4,5,6]
+list2 = ['a','bb','ghak','yabc','u','y']
+print(max(list1)) #6
+print(max(list2)) #yabc
+
+
+
+3）min() 返回列表元素中的最小值。成max()相反
+
+
+
+
+4）list(seq) 将元组或字符串转换为列表
+aTuple = (123, 'Google', 'Runoob', 'Taobao')
+list1 = list(aTuple)
+print ("列表元素 : ", list1)
+
+str="Hello World"
+list2=list(str)
+print ("列表元素 : ", list2)
+以上实例输出结果如下：
+列表元素 :  [123, 'Google', 'Runoob', 'Taobao']
+列表元素 :  ['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd']
+
+
+
+
+
+
+
+
