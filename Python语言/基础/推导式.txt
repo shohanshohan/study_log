@@ -1,0 +1,39 @@
+
+'''
+推导式是可以从一个数据序列构建另一个新的数据序列的结构体。 共有三种推导，在Python2和3中都有支持：
+列表(list)推导式
+字典(dict)推导式
+集合(set)推导式
+'''
+1, 列表推导式（又称列表解析式）提供了一种简明扼要的方法来创建列表。
+它的结构是在一个中括号里包含一个表达式，然后是一个for语句，然后是0个或多个for或者if语句。
+那个表达式可以是任意的，意思是你可以在列表中放入任意类型的对象。
+返回结果将是一个新的列表，在这个以if和for语句为上下文的表达式运行完成之后产生。
+规范
+variable = [out_exp for out_exp in input_list if out_exp == 2]
+这里是另外一个简明例子:
+multiples = [i for i in range(30) if i % 3 is 0]
+print(multiples)
+# Output: [0, 3, 6, 9, 12, 15, 18, 21, 24, 27]
+这将对快速生成列表非常有用。
+有些人甚至更喜欢使用它而不是filter函数。
+
+
+
+2, 字典推导和列表推导的使用方法是类似的
+这里有一个复杂的例子：
+m = {'a':10, 'b':5, 'A':6, 'B':25}
+mcase = {k.lower(): m.get(k.lower(), 0) + m.get(k.upper(), 0) for k in m.keys()}
+print(mcase)
+# Output: {'a': 16, 'b': 30}
+还可以互换键值：
+m = {'a':10, 'b':5, 'A':6, 'B':25}
+print({v: k for k, v in m.items()})
+# Output: {10: 'a', 5: 'b', 6: 'A', 25: 'B'}
+
+
+3， 它们跟列表推导式也是类似的。 唯一的区别在于它们使用大括号{}。 
+举个例子：
+squared = {x**2 for x in [1, 1, 2]}
+print(squared)
+# Output: {1, 4}
