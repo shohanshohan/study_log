@@ -1,0 +1,83 @@
+Python类包含三种方法：实例方法、静态方法和类方法。
+要想调用实例方法，必须要实例化类，然后才可以调用。也就是说，调用实例化方法需要类的实例(对象)。
+而静态方法在调用时根本不需要类的实例(静态方法不需要self参数)，这一点和其他编程语言完全一样。
+类方法的调用方式与静态方法完全一样，所不同的是，类方法与实例方法的定义方式相同，都需要一个self参数，只不过这个self参数的含义不同。
+对于实例方法来说，这个self参数就代表当前类的实例，可以通过self访问对象中的方法和属性。
+而类方法的self参数表示类的元数据，也就是类本身，不能通过self参数访问对象中的方法和属性，只能通过这个self参数访问类的静态方法和静态属性
+为了表示区别，一般类方法的类参数用 cls 来表示
+
+
+定义静态方法需要使用@staticmethod装饰器(decorator)，定义类方法需要使用@classmethod装饰器。
+
+class Myclass:
+    # 实例方法
+    def instancemethod(self):
+        pass
+    # 静态方法
+    @staticmethod
+    def staticmethod():
+        pass
+    # 类方法
+    @classmethod
+    def classmethod(cls):
+        pass
+
+
+#==================
+# 本例演示了如何定义实例方法，静态方法和类方法，
+# 并演示了如何调用这些方法
+#==================
+
+class Myclass:
+	# 定义一个静态变量，可以被静态方法和类方法访问
+	name = 'Bill'
+	
+	def __init__(self, value='none'):
+		print('Myclass的构造方法被调用')
+		# 定义实例变量，静态方法和类方法不能访问该变量
+		self.value = value
+	
+	# 定义静态方法
+	@staticmethod
+	def run():
+		# 访问Myclass类中的静态变量name
+		print('* {} *'.format(Myclass.name))
+		print('Myclass的静态方法run被调用')
+	
+	# 定义类方法, 这里 cls 是类的元数据，不是类的实例
+	@classmethod
+	def do1(cls):
+		print(cls)
+		# 访问Myclass类中的静态变量name
+		print('[{}]'.format(Myclass.name))
+		print('类方法调用静态方法run')
+		cls.run()
+		print('类方法do1被调用')
+	
+	# 定义实例方法
+	def do2(self):
+		#能否访问静态方法和类方法, 也是可以的
+		self.run()
+		self.do1()
+		print(self.value)
+		print(self.name)
+		print(self)
+		
+# 调用静态方法 run
+Myclass.run()
+
+# 创建Mycalss类的实例对象
+c = Myclass()
+# 通过类的实例也可以调用类方法
+c.do1()
+
+# 访问类的静态变量
+print('Myclass.name={}'.format(Myclass.name))
+
+# 通过类调用类方法
+Myclass.do1()
+
+# 通过类的实例访问实例方法
+c.do2()
+	
+		
