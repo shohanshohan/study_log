@@ -14,7 +14,7 @@ class Triangle():
 		self._b = b 
 		self._c = c 
 	
-	# 用静态方法先判断三边长度是否可以构成三角形
+	# 用静态方法先判断三边长度是否可以构成三角形，注意，静态方法不需要self参数
 	@staticmethod
 	def is_valid(a, b, c):
 		return a + b > c and b + c > a and a + c > b
