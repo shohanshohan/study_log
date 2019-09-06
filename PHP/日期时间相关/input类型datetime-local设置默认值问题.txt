@@ -1,0 +1,9 @@
+H5的一个新特性 input 的 type 类型可以写成 datetime-local 这样就有一个简单的时间选择器控件可以用了
+但是要给一个默认值的话要注意格式，要不然不显示
+
+如：$datetime = date('Y-m-d H:i:s', time());
+'<input type="datetime-local" name="start_time" value="{$datetime}">'
+这样发现前端并不能设置成默认值，而value是有值的
+稍修改一下：
+$datetime = date('Y-m-d', time()) . "T" . date('H:i:s', time());
+这样放入input框的这个变量才能正常显示时间
