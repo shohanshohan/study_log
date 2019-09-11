@@ -1,0 +1,5 @@
+(1)对html 和 xml 文档进行便利的操作，免去写复杂正则的烦恼
+文档地址（有中文 ）：https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/
+
+(2) 一款模拟浏览器自动搜索和采集利器
+文档地址：https://selenium-python.readthedocs.io/
