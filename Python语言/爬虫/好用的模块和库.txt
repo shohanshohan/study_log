@@ -6,5 +6,7 @@
 生成 excel 数据的好用工具, 用法很简单
 https://pypi.org/project/xlwt/
 
-(3)一款模拟浏览器自动搜索和采集利器
+(3)from selenium import webdriver
+一款模拟浏览器自动搜索和采集利器
 文档地址：https://selenium-python.readthedocs.io/
+应用讲解：https://mp.weixin.qq.com/s/pNs5VBLadYQbe8RjsR4x1g
