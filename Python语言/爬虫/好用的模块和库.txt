@@ -12,3 +12,18 @@ https://pypi.org/project/xlwt/
 一款模拟浏览器自动搜索和采集利器
 文档地址：https://seleniumhq.github.io/selenium/docs/api/py/
 应用讲解：https://mp.weixin.qq.com/s/pNs5VBLadYQbe8RjsR4x1g
+注意，安装浏览器驱动时要匹配你的浏览器版本，最好先升级一下浏览器
+查看 chrome 浏览器版本方法，输入地址：chrome://version/   就能看到当前使用的版本了
+然后下载对应的版本驱动（要看清楚是32位还是64位的）有windows , mac, linux 系统可供选择
+下载完之后
+要配置一下环境变量，如我的 F:\python\chromedriver
+配置环境变量可能要重启电脑才能使用，我们也可以不配置环境变量，直接点击解压下来的 chromedriver.exe 文件启动程序
+然后现运行我们的脚本，如 py test.py
+基本使用：
+from selenium import webdriver
+driver = webdriver.Chrome()
+driver.get("https://www.baidu.com")
+input = driver.find_element_by_css_selector('#kw')
+input.send_keys("Python")
+button = driver.find_element_by_css_selector('#su')
+button.click()
