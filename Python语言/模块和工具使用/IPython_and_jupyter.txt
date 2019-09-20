@@ -1,0 +1,91 @@
+ipython 是一个升级版的交互式python命令行工具
+ipython安装
+pip install ipython
+
+在命令提示符下输入ipython就可以启动ipython了
+
+其与原版python命令行工具不同在于ipython的提示符变成了in和out.
+
+in为输入命令的地方,out为命令执行完成后输出的地方
+
+使用ipyton 相比较 原生的python 有哪些特点：
+支持一些系统命令
+如 pwd    ls   不用退出再操作，尤其是在linux环境下系统命令更丰富一些
+
+run 命令执行脚本：run test.py
+就是说不用退出ipython可以直接执行脚本，会得到输出结果
+
+还有一些 ipython 的魔术命令
+ipython常用的魔术命令
+%quickref                   显示ipython的快速参考
+%magic                      显示所有的魔术命令的详细文档
+%debug                      从最新的异常跟踪的底部进入交互式调试器
+%hist                       打印命令的输入(可选输出)历史
+%pdb                        在异常发生后自动进入调试器
+%paste                      执行剪贴板中的python代码
+%cpaste                     打开一个特殊提示符以便手工粘贴待执行的python代码
+%reset                      删除interactive命名空间中的全部变量/名称
+%page OBJECT                通过分页器打印输出object
+%run script.py              在ipython中执行一个python脚本文件
+%prun statement             通过cprofile执行statement,并打印分析器的输出结果
+%time statement             报告statement的执行时间
+%timeit statement           多次执行statement以计算系统平均执行时间.对那么执行时间非常小的代码很有用
+%who,%who_id,%whos          显示interactive命名空间中定义的变量,信息级别/冗余度可变
+%xdel variable              删除variable,并尝试清除其在ipython中的对象上的一切引用
+
+python调试器命令
+h(help)                 显示命令列表
+help command            显示command的文档
+c(continue)             恢复程序的执行
+q(quit)                 退出调试器,不再执行任何代码
+b(break) n              在当前文件的第n行设置一个断点
+b path/to/file.py:n     在指定文件的第n行设置一个断点
+s(step)                 单步进入函数调用
+n(next)                 执行当前行,并前进到当前级别的下一行
+u(up)/d(down)           在函数调用栈中向上或向下移动
+a(args)                 显示当前函数的参数
+debug statement         在新的递归调试器中调用语句statement
+l(list) statement       显示当前行,以及当前栈级别上的上下文参考代码
+w(where)                打印当前位置的完整栈跟踪(包括上下文参考代码)
+
+
+ipython快捷键
+Ctrl+p或者向上键头            向后搜索命令历史中以当前输入的文本开头的命令
+Ctrl+n或者向上键头            向前搜索命令历史中以当前输入的文本开头的命令
+Ctrl+r                      按行读取的反向历史搜索(部分匹配)
+Ctrl+Shift+variable         从剪贴板粘贴文本
+Ctrl+c                      中止当前正在执行的代码
+Ctrl+a                      把光标移动到行首
+Ctrl+e                      把光标移动到行尾
+Ctrl+k                      删除从光标开始到行尾的文本
+Ctrl+u                      清除当前行的所有内容
+Ctrl+f                      将光标向前移动一个字符
+Ctrl+b                      将光标向后移动一个字符
+Ctrl+l                      清屏
+
+
+
+
+
+jupyter 基于浏览器的工具，用于交互式创作文档，其中包含解释性文本，数学，计算及其富媒体输出。
+安装jupyter
+pip install jupyter
+这个安装会要一些时间，文件比较多
+启动：jupyter notebook
+启动后会自动打开浏览器并访问：http://localhost:8888
+但发现要密码登录！！！
+
+windows下，打开命令行，重新生成一个jupyter配置文件：
+jupyter notebook --generate-config
+修个配置文件，找到这个新生成的文件：Windows: C:\Users\USERNAME\.jupyter\jupyter_notebook_config.py
+找到 c.NotebookApp.allow_password_change = True 并打开注释
+
+回到windows命令行，运行jupyter notebook password
+C:\Windows\System32>jupyter notebook password
+Enter password:             #键入密码，不显示的
+Verify password:            #再次重复键入密码
+[NotebookPasswordApp] Wrote hashed password to C:\Users\用户\.jupyter\jupyter_notebook_config.json
+这时候再次重新启动：jupyter notebook
+浏览器进入：http://localhost:8888
+输入你刚才设置的密码就可以登录啦
+这个笔记本可以在浏览器上查看文件和写脚本
