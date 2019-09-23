@@ -1,0 +1,5 @@
+当使用 
+$(\'select[name="type"]\').change(function(){
+          #goodsType = Number($(\'select[name="type"]\').val()); //这种方法不能获取到最新的 selected 值
+          newgoodsType = Number($(this).children("option:selected").val()); //这是正确的获取方式
+})
