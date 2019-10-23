@@ -1,0 +1,92 @@
+ubuntu所有php扩展php-7.0扩展列表
+sudo apt-get install php7.0-bcmath 
+
+sudo apt-get install php7.0-bz2 
+
+sudo apt-get install php7.0-calendar 
+
+sudo apt-get install php7.0-ctype 
+
+sudo apt-get install php7.0-curl 
+
+sudo apt-get install php7.0-dom 
+
+sudo apt-get install php7.0-enchant 
+
+sudo apt-get install php7.0-exif 
+
+sudo apt-get install php7.0-fileinfo 
+
+sudo apt-get install php7.0-ftp 
+
+sudo apt-get install php7.0-gd 
+
+sudo apt-get install php7.0-gettext 
+
+sudo apt-get install php7.0-gmp 
+
+sudo apt-get install php7.0-iconv 
+
+sudo apt-get install php7.0-intl 
+
+sudo apt-get install php7.0-json 
+
+sudo apt-get install php7.0-ldap 
+
+sudo apt-get install php7.0-mbstring 
+
+sudo apt-get install php7.0-mysqli 
+
+sudo apt-get install php7.0-mysqlnd 
+
+sudo apt-get install php7.0-opcache 
+
+sudo apt-get install php7.0-pdo 
+
+sudo apt-get install php7.0-phar 
+
+sudo apt-get install php7.0-posix 
+
+sudo apt-get install php7.0-pspell 
+
+sudo apt-get install php7.0-readline 
+
+sudo apt-get install php7.0-shmop 
+
+sudo apt-get install php7.0-simplexml 
+
+sudo apt-get install php7.0-snmp 
+
+sudo apt-get install php7.0-soap 
+
+sudo apt-get install php7.0-sockets 
+
+sudo apt-get install php7.0-sqlite3 
+
+sudo apt-get install php7.0-sysvmsg 
+
+sudo apt-get install php7.0-sysvsem 
+
+sudo apt-get install php7.0-sysvshm 
+
+sudo apt-get install php7.0-wddx 
+
+sudo apt-get install php7.0-xml 
+
+sudo apt-get install php7.0-xsl
+
+sudo apt-get install php7.0-recode 
+
+sudo apt-get install php7.0-dba 
+
+sudo apt-get install php7.0-imap 
+
+sudo apt-get install php7.0-interbase 
+
+sudo apt-get install php7.0-odbc 
+
+sudo apt-get install php7.0-pgsql 
+
+sudo apt-get install php7.0-tidy 
+
+sudo apt-get install php7.0-zip
