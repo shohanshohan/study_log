@@ -1,0 +1,32 @@
+mysql -u user -p****
+进入数据库
+
+use mysql;
+select host,user from user;(查看现有用户)
+CREATE USER 'king'@'%' IDENTIFIED BY '123456';（新建用户）；#注：% 为允许所有
+select host,user from user；（再次查看用户） #已经添加了新用户了
+
+赋权限
+GRANT ALL PRIVILEGES ON *.* TO 'king'@'%' IDENTIFIED BY '123456';
+flush privileges;
+
+修改配置文件
+sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+注：有的可能在 /etc/mysql/my.cnf这里面因为看好多都说在这里面，但是看配置文件就知道了，里面没东西，又引入的其他的文件；
+
+找到bind-address = 127.0.0.1
+
+bind-address = 127.0.0.1 修改为（注释掉）
+#bind-address = 127.0.0.1
+
+5、重启mysql
+service mysql restart
+
+有的需要配置端口
+打开3306端口
+
+sudo ufw allow 3306 
+
+
+这样就可以了，用本地电脑 Navicat 打开
+新建mysql连接，输入主机IP，端口，用户名，密码  就可以连接成功了
