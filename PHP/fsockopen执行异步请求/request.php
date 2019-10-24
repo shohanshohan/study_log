@@ -32,7 +32,7 @@ sleep(1);
 
 ignore_user_abort(true); // 忽略客户端断开 
 set_time_limit(0);    // 设置执行不超时
-
+//注：host 参数传值可以是域名和ip地址，但请不要带 http:// 或 https:// , 否则会报错：Unable to find the socket transport "http"/"https"
 doRequest($path, 'localhost', $param);
 
 echo 'spend ' . (time() - $time) . ' seconds <br />';
