@@ -22,13 +22,15 @@ class Alipay extends Controller
     '22' => 108,
     '23' => 328
   ];
-
+  
+  //这个是充值页面，选购商品
   public function index()
   {
     $this->assign('wappayUrl', $this->request->root(true) . '/paycheck');
     return $this->fetch('wappage');
   }
-
+  
+  //验证参数并返回支付页面url
   public function check()
   {
     $ext = (int)$this->request->post('ext', 0);
@@ -37,6 +39,7 @@ class Alipay extends Controller
     $checkResult = $this->checkParam($ext, $amount, $account);
     Log::write('checkResult: '.json_encode($checkResult), 'pay-check');
     if($checkResult === true) {
+      //缓存字段并返回支付页面url，60秒内请求支付页面有效
       Cache::set('aliwappay_' . $account, 1, 60); //有效期60s
       $url = $this->request->root(true) . "/aliwappage?ext=$ext&amount=$amount&account=$account";
       echo json_encode(['errcode'=>0, 'msg'=>'success', 'data'=>['url'=>$url]]);
@@ -46,7 +49,7 @@ class Alipay extends Controller
     exit();
   }
 
-
+  //检查接收的参数
   private function checkParam($ext, $amount, $account)
   {
     if(!$ext || !$amount || !$account) {
@@ -64,13 +67,13 @@ class Alipay extends Controller
     return true;
   }
 
-
+  //调起支付页面
   public function wappage()
   {
     $ext = $this->request->get('ext', 0);
     $amount = $this->request->get('amount', 0);
     $account = $this->request->get('account', 0);
-    if(!Cache::get('aliwappay_' . $account)) {
+    if(!Cache::get('aliwappay_' . $account)) {  //如果是先获取连接再调起支付页面，则验证一下这个缓存字段，防止恶意访问页面
       $this->redirect($this->request->root(true) . '/alipay'); exit();
     }
     $checkResult = $this->checkParam($ext, $amount, $account);
