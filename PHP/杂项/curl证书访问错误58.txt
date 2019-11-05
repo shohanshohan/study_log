@@ -1,0 +1,72 @@
+有时候我们下载好自己的证书，并且证书路径也没有问题，但curl远程请求时总是报 错误码58
+/**
+ *  作用：以post方式提交xml到对应的接口url
+ */
+function postXmlCurl($xml,$url,$second=30,$useCert=true)
+{
+    //初始化curl
+    $ch = curl_init();
+    //设置超时
+    curl_setopt($ch,CURLOPT_URL, $url);
+    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+    curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, FALSE);
+    //设置header
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    curl_setopt( $ch, CURLOPT_AUTOREFERER, TRUE );
+
+    //要求结果为字符串且输出到屏幕上
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+    $certPath = '/usr/local/etc/openssl/'; //注意使用绝对路径
+    if($useCert == true){ 
+      curl_setopt($ch, CURLOPT_VERBOSE, true);
+      //使用证书：cert 与 key 分别属于两个.pem文件
+      curl_setopt($ch,CURLOPT_SSLCERTTYPE,'PEM');
+      curl_setopt($ch,CURLOPT_SSLCERT, $certPath . 'apiclient_cert.pem');
+      curl_setopt($ch,CURLOPT_SSLKEYTYPE,'PEM');
+      curl_setopt($ch,CURLOPT_SSLKEY, $certPath . 'apiclient_key.pem');
+    }
+    //post提交方式
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+    //运行curl
+    $data = curl_exec($ch);
+    //返回结果
+    if($data)
+    {
+      curl_close($ch);
+      return self::xmlToArray($data);
+    }
+    else
+    {
+      $curlInfo = curl_getinfo($ch);
+      $curlInfo = json_encode($curlInfo);
+      $error = curl_error($ch);
+      $curl_errno = curl_errno($ch);
+      curl_close($ch);
+      return "curl出错，info: $curlInfo ; 错误码:$curl_errno; error: $error ; data: " . $data . '; certPath: ' . $certPath;
+    }
+}
+ 
+ SSL operation failed with code 1.
+OpenSSL Error messages: error:14090086:SSL routines:ssl3_get_server_certificate:certificate verify failed
+
+错误原因 ：未正确配置CA证书
+遇到这种错误说明 证书访问路径不对或证书访问出错
+下载curl CA根证书 http://curl.haxx.se/ca/cacert.pem ，下载后重命名为 cert.pem
+将证书放在合适的目录下，并在 php.ini 中配置它的路径
+openssl.cafile=/usr/local/etc/openssl/cert.pem
+配置好后，重启 php-fpm
+sudo /usr/local/php5/sbin/php-fpm  
+如果重启时报错：ERROR: failed to load configuration file '/usr/local/php5/etc/php-fpm.conf'
+说明配置文件没有，则建立一个配置文件，一般会有一个 php-fpm.conf.default 文件，我们只要复制它并重命名为 php-fpm.conf
+sudo cp /usr/local/php5/etcphp-fpm.conf.default  /usr/local/php5/etcphp-fpm.conf
+再次重启，这样就不会报错了
+
+再次调用 curl 访问远程接口，问题解决了
+
+
+
+
