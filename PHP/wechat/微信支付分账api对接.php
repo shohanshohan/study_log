@@ -75,10 +75,11 @@ class Ordersep
    */
   protected static function getSign($data=[])
   {
+      $mch_key = Config::get('mch_key'); //注意，这里是你配置的商户密钥
       //签名步骤一：按字典序排序参数
       $String = self::formatParaMap($data);
       //签名步骤二：在string后加入KEY
-      $String .= "&key=". Config::get('mch_key');
+      $String .= "&key=". $mch_key;
       //签名步骤三：MD5加密
       $String = md5($String);
       //签名步骤四：所有字符转为大写
