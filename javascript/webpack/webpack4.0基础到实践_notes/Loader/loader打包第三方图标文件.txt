@@ -1,0 +1,58 @@
+引入第三方字体图标
+打开 www.iconfont.cn  (阿里的一个图标库)
+选中其中几个图标，添加到项目文件webpack点击确定，然后下载至本地 一个 download.zip 文件
+解压文件，
+我们保留一些字体文件和一个样式文件（.eot, .ttf, .woff, .woff2, .svg, iconfont.css），其余的删除
+新建 src/font目录，把这些文件放到这里
+
+新建 style/font.css 文件，把 iconfont.css 的内容复制下来
+@font-face {font-family: "iconfont";
+  src: url('../font/iconfont.eot?t=1574338282610'); /* IE9 */
+  src: url('../font/iconfont.eot?t=1574338282610#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAPUAAsAAAAAB+gAAAOIAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCfgqDWIM0ATYCJAMMCwgABCAFhG0HOBv0BhEVnEPIfhS47cNWlp5Yp0+Y18prdC3lHAQPfJ35/p/Z7CwAFb6JOklMUuPcntQAAQRwt6ZrC9uoCNUlOU89U//Itzu9NEy5nEYphERI/udyelP8rvpAucwx+agXYBxQGo01KUq0QBL0HmMD7X4OQwDmeBOJKCyubERDxRglADFi6OA+tJQRtaZSoCHQlSxUEcswQZPz5V1gqf998ZN4oYHERMGYWDuoaAC5X6y+WCvT/k/zOl0E0Xh2gFsGChAJqCCaS521KGEyEgVzJakSCOvqJeCL9f//fLFyhav9wwOBBKHDKLcEIBRTEr5Y2UpOTYQpJHDuy0AHmAOrASMhHd+pQ7V1trKytHS0tbQaq9c3yadPGy0NhmbFaGzps1xw8+xB5HZ9kdXCOxeOCGX64fO3exfq9dOePjVvcKnR2LTg5sFph25ZnHjis+XxIFbvWrhHiOm7F+zss1i7x9eZm4f2abtGjtm/af2mvSfNrRec3r/F4zjutKtPfRtX7bKwWbjH+bDD0F3Pn1Y8IC/0T9PrLZpsYDD8GNYmx40V7Yi2cePahMHieTuKNkT7uLFtUp9j8G5eP8gb74aG9xE6sPug9c3asOiqyOja9ugarCkVPT2iRJQyW5dmeVlcTr1k4XXxjqXVnZTc4ZZ2HnZWw60hUOb682IC+7khF8sbxeQB9vV2dYXrD/c5H3dWh9cXAi/DK9igUUzPeTxsL/tpWx8VYnPcJiQqkP1M5v5LMnLmTOnE+s2c1V+YPLdj2U/2nzmzf+YqutMLwP8Lo4vyt5++PTqv5P7O33AiorjeY5P5S7NQAXj+Z+sP9P+/MKadG7Qbdgn4eaKWdaoqMUyKKgttoR5SaOUn2SUgn7fyn3jtedNf7dQ6DgItJeJAYooXKGh4gahKRoIJC4mgo8kBcxGy5RYcsBGxhQfh3gCCrQ9I1i6AwtYXVckfmHD2Bx3bRmCuOYcNLQRXLgsYlaAFfYPSUOcsiyyDyg3mp0ZxUuJTB+ShjEASxtlMhh3yGFOGc56KOHBMLazhOGwagp6pQiNhIdKvosiVvSg01HpLBRhSBLKAdgNKBuk4t7lY5j6/gXInDYVrGBXuA8QGZfsgEYpboJmya8W4lmcGZ7mUEA5wGGmBNdhRYyYJ6Mv7VZAhQkWPeG8lIo1cW2U4v7p9vi2AOWNXpcAf+WPP9Kq8F4rGY8mi5wE=') format('woff2'),
+  url('../font/iconfont.woff?t=1574338282610') format('woff'),
+  url('../font/iconfont.ttf?t=1574338282610') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('../font/iconfont.svg?t=1574338282610#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-paizhao:before {
+  content: "\e60d";
+}
+
+.icon-wode:before {
+  content: "\e60e";
+}
+
+上面这个样式文件说明 要显示这些图标，必须要定义类名：.iconfont
+然后根据需要再定义指定的图标类名，如：.icon-paizhao
+注意：url('../font/iconfont.eot?=...')  这里引入的字体文件要和具体的目录挂钩
+
+在 index.js 引入样式文件
+import './style/font.css'
+const app = document.getElementById('app')
+app.innerHTML = '<i class="iconfont icon-paizhao"></i><i class="iconfont icon-wode"></i>';
+
+
+打包字体文件需要 file-loader 帮助加载
+在配置文件webpack.config.js中配置：
+rules: [
+	{
+		test: /\.(eot|ttf|woff|woff2|svg)$/,
+		use: 'file-loader'
+	},
+	{
+		test: /\.css$/,
+		use: ['style-loader', 'css-loader']
+	}
+]
+
+
+这个时候再执行打包 npm run start
+打开 index.html 就能看到指定的两个图标了
