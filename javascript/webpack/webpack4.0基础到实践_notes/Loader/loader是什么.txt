@@ -1,0 +1,24 @@
+webpack 不能识别非 .js 文件，这时就要利用外部插件帮助打包，这就是loader的作用。
+不同的 loader 针对不同的打包功能
+如图片资源文件 可以用 url-loader或file-loader
+样式文件可以用 css-loader, style-loader, postcss-loader
+ES6语法转译 babel-loader
+
+loader 的配置，在webpack.config.js 的module项配置
+
+module.exports = {
+	mode: 'development',
+	entry: './src/index.js',
+	module: {
+		rules: [ //规则
+			{
+				test: /\.jpg$/,  //匹配名称，一般用正则
+				use: ['file-loader'] //使用到的 loader  在使用前要安装  npm install file-loader -D
+			}
+			
+		]
+	}
+}
+
+
+
