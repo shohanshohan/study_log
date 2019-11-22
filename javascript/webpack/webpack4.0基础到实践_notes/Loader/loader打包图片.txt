@@ -1,0 +1,90 @@
+常见的图片文件有 .png, .jpg, .jpeg, .gif 类型
+我们用到一个 file-loader 来帮助打包这些文件
+先安装： npm install file-loader -D
+
+在 webpack.config.js 中配置模块打包规则
+module.exports = {
+	mode: 'development',
+	entry: './src/index.js',
+	module: {
+		rules: [
+			{
+				test: /\.(jpg|png|gif|jpeg)$/, //记住正则没有 ‘’号
+				use: 'file-loader'
+			}
+		]
+	}
+}
+
+
+在 src/index.js 中引入图片
+import bg from './bg.jpg';
+const app = document.getElementById('app');
+const Img = new Image();
+Img.src = bg;
+Img.width = 150;
+Img.height = 150;
+app.append(Img)
+
+
+在 dist（与src同级） 目录下新建 index.html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Webpack</title>
+	</head>
+	<body>
+		<div id="app"></div>
+		
+		<script src="./main.js"></script>
+	</body>
+</html>
+
+
+我们在 package.json 中配置了
+"scripts": {
+    "start": "webpack"
+  },
+	
+运行 npm run start  打包
+
+
+浏览器打开 index.html 查看
+
+如果要给文件命名,更多选项用 options
+rules: [
+			{
+				test: /\.(jpg|png|gif|jpeg)$/, //记住正则没有 ‘’号
+				use: {
+					loader: 'file-loader',
+					options: {
+						name: '[name].[ext]', //注意这里要用到 '' [name]文件原有的名称, [ext]文件后缀，[hash]hash命名
+						outputPath: 'images/'  //输出目录,注意结尾的'/',这会在dist目录下生成 images目录用来存放
+					}
+				}
+			}
+		]
+
+
+
+
+还有一个很有用的静态资源打包 loader, url-loader
+它不需要生成一个静态图片重新保存，它可以转换生成base64的字符串，对于图片资源不大的情况下，这种方式的加载速度明显更好
+但带来的问题是，如果图片很大，则会增加 js 文件的大小，导致js加载变慢，所以要看情况使用
+我们可以给一个 limit 限制条件来使用它
+rules: [
+			{
+				test: /\.(jpg|png|gif|jpeg)$/,
+				use: {
+					loader: 'url-loader',
+					options: {
+						name: '[name].[ext]',
+						outputPath: 'imgages/',
+						limit: 2048  //如果文件小于2048字节（2kb）则用url-loader, 大于则file-loader一样的规则
+					}
+				}
+			}
+		]
+
+url-loader 的配置项和 file-loader相似，但多了一个 limit
