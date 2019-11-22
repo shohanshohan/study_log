@@ -1,0 +1,130 @@
+当我们打包样式文件的时候，我们要用到两个loader, style-loader 和 css-loader
+css-loader 识别 .css 文件， style-loader 把样式挂载到<head>标签
+先安装一下：npm install style-loader css-loader -D
+
+在 webpack.config.js 配置文件配置
+rules: [
+	{
+		test: /\.css$/,
+		use: ['style-loader', 'css-loader'] //注意这里用数组，执行顺序是从后往前
+	}
+]
+
+
+新建 src/style/app.css 文件
+div {
+	text-align: center;
+}
+
+在 src/index.js 中引入这个样式文件
+import './style/app.css';
+
+再次打包：npm run start
+
+查看页面 dist/index.html 页面效果
+
+
+
+当打包 scss 样式文件时，还要多使用一个 scss-loader
+要使用 scss打包，要安装：npm install sass-loader node-sass -D
+ rules: [
+ 	{
+ 		test: /\.scss$/,
+ 		use: ['style-loader', 'css-loader', 'scss-loader'] 就可以打包 scss 样式文件了
+ 	}
+ ]
+
+新建 src/style/test.scss 文件
+body {
+	#app {
+		margin-top: 100px;
+	}
+}
+
+在 index.js 中引入
+import './style/test.scss'
+
+再执行打包：npm run start
+
+但有时我们写的样式要识别浏览器厂商，需要带一个厂商前缀，像是：-webkit-
+如： transform: translate(100px, 100px)
+自己去写这些前缀很繁琐，我们可以用 postcss-loader 来帮我们打包自动生前前缀
+先安装：npm install postcss-loader -D
+postcss-loader 会有一个单独的配置文件：postcss.config.js
+在项目根目录下新建 postcss.config.js (和webpack.config.js同级目录)
+module.exports = {
+	plugins: [
+		require('autoprefixer') //使用这个插件要先安装：npm install autoprefixer -D
+	] 
+}
+
+在配置项中加多一项loader:  
+use: ['style-loader', 'css-loader', 'scss-loader', 'postcss-loader']
+
+再次打包：npm run start
+打开页面，按F12可以看到样式中多了一个 webkit-transform： translate(100px, 100px); 
+这就是 postcss 帮我们自动添加的厂商前缀了
+
+
+
+我们在 index.js文件中引入了样式文件，但这些样式是全局的，
+有时候我们只想要某些模块用到它，而不影响其它的页面样式
+这就要用到 样式模块化了， 在配置中添加配置项 modules: true
+{
+	test: /\.scss$/,
+	use: [
+		'style-loader', 
+		{
+			loader: 'css-loader',
+			options: {
+				modules: true  //这里配置样式模块化
+			}
+		},
+		'sass-loader', 
+		'postcss-loader',
+	]
+}
+
+创建新的样式文件 style/img.scss
+.img {
+	width: 50px;
+	height: 50px;
+}
+
+新建一个 img.js 文件
+import testImg from './test.jpg';
+export default function() {
+	const app = document.getElementById('app')
+	const img = new Image();
+	img.src = testImg;
+	img.classList.add('img');
+	app.append(img)
+}
+
+
+在 index.js 中引入这两个脚本
+import testImg from './test.jpg';
+import imgStyle from './style/img.scss'; //注意这里的变化
+import Img from './img.js';
+
+const app = document.getElementById('app');
+const h2 = document.createElement('h2');
+h2.innerText = 'This is webpack study'
+app.append(h2)
+
+const img = new Image()
+img.src = testImg
+img.classList.add(imgStyle.img) //注意这里使用的是模块化样式，只作用这里
+app.append(img)
+
+new Img()
+
+再次打包，会看到两个图片的样式是不一样的
+
+
+
+
+
+
+
+
