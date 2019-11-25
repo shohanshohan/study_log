@@ -4,6 +4,7 @@
 安装：npm install html-webpack-plugin -D
 
 安装好后在 webpack.config.js 配置文件中配置插件
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 plugins: [
 	new HtmlWebpackPlugin()
 ]
