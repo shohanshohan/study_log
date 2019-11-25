@@ -1,0 +1,16 @@
+如果我们多次打包，每次打包都把文件放入 dist 目录下
+一些无用的打包文件也一直在 dist 目录下，这样显得很乱而且不好管理
+这时候利用 clean-webpack-plugin 插件就可以帮我们在每次打包之前 清理 dist 目录下的文件
+安装： npm install clean-webpack-plugin -D
+在 webpack.config.js 配置文件中使用这个插件
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+.....
+plugins: [
+	new HtmlWebpackPlugin({
+		template: 'public/index.html'
+	}),
+	new CleanWebpackPlugin()
+]
+
+再次打包: npm run demoooooo
+可以看到dist目录下的打包文件已做过清理了
