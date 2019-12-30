@@ -1,0 +1,15 @@
+如果要实现多线程的方法，就要使用pthreads 扩展
+在使用这个扩展之前要先安装
+PHP 在windows 下的所有安装扩展和一些环境配置文件下载地址：https://windows.php.net/downloads
+在 windows 下的安装：
+下载地址：http://windows.php.net/downloads/pecl/releases/pthreads ，根据自己的环境选择对应版本
+选择好你要的版本和电脑位数 86 或 64
+还要注意查看你的 PHP 版本是 ts 还是 nts
+如果你发现phpstudy下面没有可选的 ts 版本，可自行下载各个版本：https://windows.php.net/downloads/releases/archives/
+开始安装，将 pthreadVC2.dll 文件拷贝到php运行目录（即与php.exe同目录）
+将 php_pthreads.dll文件拷贝到php ext目录
+最后在php.ini中加上    extension=php_pthreads.dll，重启apache
+
+
+
+   
