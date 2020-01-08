@@ -7,20 +7,23 @@ server {
 
         location / {
              try_files $uri $uri/ /index.php?$args;
+             #如果要通过目录直接访问入口文件，去除index.php入口文件必须加上这个配置
+             if (!-e $request_filename) {
+                 rewrite ^/index.php(.*)$ /index.php?s=$1 last;
+                 rewrite ^(.*)$ /index.php?s=$1 last;
+                 break;  
+              } 
         }
 
         location ~ .*\.php {
                 fastcgi_pass 127.0.0.1:9000;
                 fastcgi_index index.php;
                 include fastcgi_params;
+                fastcgi_split_path_info ^(.+\.php)(.*)$;
+                fastcgi_param PATH_INFO $fastcgi_path_info;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         }
-        #如果要通过目录直接访问入口文件，去除index.php入口文件必须加上这个配置
-        if (!-e $request_filename) {
-                rewrite ^/index.php(.*)$ /index.php?s=$1 last;
-                rewrite ^(.*)$ /index.php?s=$1 last;
-                break;  
-       } 
+        
 }
 
 
