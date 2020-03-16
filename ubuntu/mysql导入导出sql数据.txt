@@ -34,3 +34,6 @@ mysql>use abc;
 mysql>set names utf8;
 导入数据（注意sql文件的路径） 
 mysql>source /home/abc/abc.sql;
+
+创建数据库
+mysql>CREATE DATABASE IF NOT EXISTS my_db default charset utf8 COLLATE utf8_general_ci; 
