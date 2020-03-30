@@ -1,0 +1,45 @@
+使用 Thinkphp 的版本< 5.0.24 时，会存在说ThinkPHP 5.x 远程命令执行漏洞
+
+漏洞描述
+由于ThinkPHP5框架对Request类的method处理存在缺陷，导致黑客构造特定的请求，可直接GetWebShell。
+
+漏洞评级
+严重
+
+影响版本
+
+ThinkPHP 5.0系列 < 5.0.24
+ThinkPHP 5.1多个版本
+
+安全版本
+ThinkPHP 5.0系列 5.0.24
+
+安全建议
+升级ThinkPHP至安全版本
+
+可以手动升级，方便安全
+找到  /thinkphp/library/think/Request.php 文件，把 public function method($method = false)  方法内容替换成下面内容：
+public function method($method = false)
+{
+    if (true === $method) {
+        // 获取原始请求类型
+        return $this->server('REQUEST_METHOD') ?: 'GET';
+    } elseif (!$this->method) {
+        if (isset($_POST[Config::get('var_method')])) {
+            $method = strtoupper($_POST[Config::get('var_method')]);
+            if (in_array($method, ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'])) {
+                $this->method = $method;
+                $this->{$this->method}($_POST);
+            } else {
+                $this->method = 'POST';
+            }
+            unset($_POST[Config::get('var_method')]);
+        } elseif (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+            $this->method = strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
+        } else {
+            $this->method = $this->server('REQUEST_METHOD') ?: 'GET';
+        }
+    }
+    return $this->method;
+}
+
