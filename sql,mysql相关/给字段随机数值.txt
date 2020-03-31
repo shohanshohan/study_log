@@ -1,5 +1,5 @@
 如：更新字段 avatar 的值为 1-8 的随机数
 mysql 执行语句为：
-UPDATE `user` set avatar = FLOOR(1+(rand()*8)) where user_type = 3;
+UPDATE `user` set avatar = FLOOR(1+(rand()*7)) where user_type = 3;
 
 
