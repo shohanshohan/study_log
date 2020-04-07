@@ -30,7 +30,7 @@
 				xmlhttp.open('POST','ajax.php',true);
 				//post请求一定要添加请求头才行不然会报错,而且要放在open()之后
 				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-				xmlhttp.send('mid='+mid);
+				xmlhttp.send('mid='+mid); //如果是多个参数 xmlhttp.send('mid='+mid + '&&oterparam='+othervalue + ...)
 				xmlhttp.onreadystatechange = callBack;
 			}
 			
