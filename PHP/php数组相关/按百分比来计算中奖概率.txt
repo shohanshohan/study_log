@@ -20,3 +20,19 @@ function discountResult($rate)
     return $res === 1 ? true : false;
 
 }
+
+//根据百分比取得字段
+  function getRandKey($randData)
+  {
+     // 概率数组的总概率精度
+    $max = array_sum($rateData);
+    foreach ($rateData as $key => $val) {
+      $rand_number = mt_rand(1, $max);//从1到max中随机一个值
+
+      if ($rand_number <= $val) {//如果这个值小于等于当前中奖项的概率，我们就认为已经中奖
+          return $key;
+      } else {
+          $max -= $val;//否则max减去当前中奖项的概率，然后继续参与运算
+      }
+    }
+  }
