@@ -8,13 +8,13 @@ class Dateclass
    * [getdateData 分页获取日期数组（按查询日期区间和分页）]
    * @param  [type]  $startDate [开始日期]
    * @param  [type]  $endDate   [结束日期]
-   * @param  [type]  $interval  [日期间隔/天]
-   * @param  string  $orderBy   [排序,升序asc,默认为倒序desc]
    * @param  integer $offset    [分页起始点]
    * @param  integer $limit     [查询条数]
+   * @param  string  $orderBy   [排序,升序asc,默认为倒序desc]
+   * @param  [type]  $interval  [日期间隔/天,默认1天]
    * @return [type]             [Array]
    */
-  public static function getDates($startDate, $endDate, $interval, $offset=0, $limit=15, $orderBy='desc')
+  public static function getDates($startDate, $endDate, $offset=0, $limit=15, $orderBy='desc', $interval=1)
   {
     date_default_timezone_set('Asia/Shanghai');
     if($orderBy === 'desc') { 
