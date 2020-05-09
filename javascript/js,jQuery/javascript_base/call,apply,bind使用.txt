@@ -1,5 +1,6 @@
 JavaScript 中 call()、apply()、bind() 的用法
 这些都是预定义的 javascript 方法，目的是用来编写能够在不同对象上使用的方法
+这些方法的第一个参数都是重定义 this 对象，也就是传入的对象就是this本身了
 见如下示例：
 var person = {
   fullName: function() {
