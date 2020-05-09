@@ -1,0 +1,43 @@
+JavaScript 中 call()、apply()、bind() 的用法
+这些都是预定义的 javascript 方法，目的是用来编写能够在不同对象上使用的方法
+见如下示例：
+var person = {
+  fullName: function() {
+    return this.firstName + ' ' + this.lastName;
+  }
+}
+var person1 = {
+  firstName: 'Bill',
+  lastName: 'Gates'
+}
+var person2 = {
+  firstName: 'Steve',
+  lastName: 'Jobs'
+}
+var person3 = function() {
+  return {firstName:'piter', lastName:'han'};
+}
+console.log(person.fullName.call(person1)); //Bill Gates
+console.log(person.fullName.apply(person1)); //Bill Gates
+console.log(person.fullName.call(person2)); //Steve Jobs
+console.log(person.fullName.apply(person2)); //Steve Jobs
+console.log(person.fullName.bind(person2)()); //Steve Jobs
+console.log(person.fullName.call(person3())); //piter han  (也可以是函数参数，其实最终是对象{})
+
+var hello = {
+  sayHello: function(question) { //这个加了自定义额外参数
+    return 'Hello, ' + this.firstName + ' ' + this.lastName + '. ' + question;
+  }
+}
+
+//Hello, Bill Gates. What your job?
+console.log(hello.sayHello.call(person1, 'What your job?'));
+console.log(hello.sayHello.apply(person1, ['What your job?']));
+console.log(hello.sayHello.bind(person1, 'What your job?')());
+
+通过以上的示例，可以很清楚的知道它们的作用
+区别就是：
+bind() 方法返回的是一个新的对象（函数），所以后面跟 '()' 才能运行
+apply() 方法自定义参数是一个数组的形式传入
+其实效果都一样
+
