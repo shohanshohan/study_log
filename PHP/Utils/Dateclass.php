@@ -42,3 +42,9 @@ class Dateclass
   }
   
 }
+/*
+// 应用场景：获取日期区间的总条数和所有日期，每次查询条数10条并降序排列
+$diffTime = strtotime($endTime)-strtotime($startTime); //算出日期区间的时间截差
+$total = ceil($diffTime/86400)+1; //总条数
+$dates = Dateclass::getDates($startTime, $endTime, $offset, $limit); //按分页查询的日期数组
+*/
