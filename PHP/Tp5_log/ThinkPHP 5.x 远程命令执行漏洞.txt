@@ -43,3 +43,14 @@ public function method($method = false)
     return $this->method;
 }
 
+
+
+找到  /thinkphp/library/think/App.php 文件，把 public static function module($result, $config, $convert = null)
+// 获取控制器名
+$controller = strip_tags($result[1] ?: $config['default_controller']);
+$controller = $convert ? strtolower($controller) : $controller;
+/*-----------------在这里加上这段代码！！------------------*/
+if (!preg_match('/^[A-Za-z](\w|\.)*$/', $controller)) {
+    throw new HttpException(404, 'controller not exists:' . $controller);
+}
+ ......
