@@ -27,9 +27,9 @@ foreach ($result as $v) {
 }
 
 $result2 = createYieldRange(10);
-foreach ($result as $v) {
+foreach ($result2 as $v2) {
   sleep(1);
-  echo $v.'<br />';  //这里打印出来的时间截间隔一秒，因为 $result2 的结果是分次生成的
+  echo $v2.'<br />';  //这里打印出来的时间截间隔一秒，因为 $result2 的结果是分次生成的
 }
 
 
