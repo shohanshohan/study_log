@@ -63,6 +63,11 @@ httpd   16557 daemon    3u  IPv4 1772998      0t0  TCP *:http (LISTEN)
 再次重启apache2就可以了，sudo /etc/init.d/apache2 restart
 在浏览器上输入服务器地址，如192.168.36.59看能不能访问页面
 
+Linux 下安装 Apache 后启动提示 (98)Address already in use: make_sock: could not bind to address [::]:80
+看到这个提示了，就应该想到是端口占用
+我们先 netstat -lnp|grep 80  看看有没有占用端口的程序
+在配置文件中的 Listen ***  应该要换一个端口号或是确定没其它进程用的端口号结束进程
+
 
 2）安装mysql
 sudo apt-get install mysql-server mysql-client 回车，会要求设置root用户的密码
