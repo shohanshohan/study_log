@@ -1,0 +1,1 @@
+update recharge_cashout_log a inner join t_withdraw_order b on a.oid=b.my_order set a.tax=b.tax*100;
