@@ -92,3 +92,9 @@ function (data, textStatus) {
   xhr.responseType = 'json'; //设置返回数据格式为json,则会自动转换为json对象，而不是字符串形式
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); //记得一定要设置这个，才能以表单形式发送数据
   xhr.send('name=test-name&age=20'); //发送的数据用字符串形式，多个数据用 & 连接
+  //如果不想设置Content-Type 并以&拼接参数，则可发送 FormData 对象来实现
+  var formData = new FormData();
+  formData.append('name', 'test-name');
+  formData.append('age', 20);
+  xhr.send(formData);
+  
