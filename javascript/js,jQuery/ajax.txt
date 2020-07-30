@@ -66,3 +66,29 @@ function (data, textStatus) {
                 });
             });
         });
+        
+        
+        
+ //使用原生代码实现 ajax 请求, 参照：https://wangdoc.com/javascript/bom/xmlhttprequest.html
+ var xhr = new XMLHttpRequest();
+  function handleStateChange() {
+    if(xhr.readyState === 4) { //通信成功时
+      if(xhr.status === 200) {
+        console.log(xhr.response);
+      } else {
+        console.log(xhr.statusText);
+      }
+    }
+  }
+  xhr.onreadystatechange = handleStateChange;
+  xhr.onerror = function(e) {
+    console.log(xhr.statusText);
+  }
+  //GET请求
+  xhr.open('GET', 'test.php', true);
+  xhr.send(null); //实际发出请求, send()的参数为null，表示发送请求的时候，不带有数据体。如果发送的是 POST 请求，这里就需要指定数据体。
+  //上面是GET方式请求，如果是POST请求则要如下：
+  xhr.open('POST', 'test.php', true);
+  xhr.responseType = 'json'; //设置返回数据格式为json,则会自动转换为json对象，而不是字符串形式
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); //记得一定要设置这个，才能以表单形式发送数据
+  xhr.send('name=test-name&age=20'); //发送的数据用字符串形式，多个数据用 & 连接
