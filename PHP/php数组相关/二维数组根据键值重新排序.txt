@@ -1,36 +1,36 @@
-¶þÎ¬Êý×é¸ù¾Ý¼üÖµÖØÐÂÅÅÐò
+äºŒç»´æ•°ç»„æ ¹æ®é”®å€¼é‡æ–°æŽ’åº
 $arr=[
     array(
-        'name'=>'Ð¡»µÁú',
+        'name'=>'å°åé¾™',
         'age'=>28
     ),
     array(
-        'name'=>'Ð¡»µÁú2',
+        'name'=>'å°åé¾™2',
         'age'=>14
     ),
     array(
-        'name'=>'Ð¡»µÁú3',
+        'name'=>'å°åé¾™3',
         'age'=>59
     ),
     array(
-        'name'=>'Ð¡»µÁú4',
+        'name'=>'å°åé¾™4',
         'age'=>23
     ),
     array(
-        'name'=>'Ð¡»µÁú5',
+        'name'=>'å°åé¾™5',
         'age'=>23
     ),
     array(
-        'name'=>'Ð¡»µÁú6',
+        'name'=>'å°åé¾™6',
         'age'=>21
     ),
 ];
 array_multisort(array_column($arr,'age'),SORT_DESC,$arr);
 print_r($arr);
-×¢£º£º£º
-array_column($arr,'age','column'); ·µ»ØÊäÈëÊý×éÖÐÄ³¸öµ¥Ò»ÁÐµÄÖµ¡£
+æ³¨ï¼šï¼šï¼š
+array_column($arr,'age','column'); è¿”å›žè¾“å…¥æ•°ç»„ä¸­æŸä¸ªå•ä¸€åˆ—çš„å€¼ã€‚
 print_r(array_column($arr,'age'));
-´òÓ¡³öµ¥ÁÐ½á¹û£º
+æ‰“å°å‡ºå•åˆ—ç»“æžœï¼š
 Array
 (
     [0] => 28
@@ -40,29 +40,57 @@ Array
     [4] => 23
     [5] => 21
 )
-print_r(array_column($arr,'age','name'));ÒÔÁíÍâÒ»¸öÁÐÖµ×÷Îª¼üÃû
-´òÓ¡³öµ¥ÁÐ½á¹û£º
+print_r(array_column($arr,'age','name'));ä»¥å¦å¤–ä¸€ä¸ªåˆ—å€¼ä½œä¸ºé”®å
+æ‰“å°å‡ºå•åˆ—ç»“æžœï¼š
 Array
 (
-    [Ð¡»µÁú] => 28
-    [Ð¡»µÁú2] => 14
-    [Ð¡»µÁú3] => 59
-    [Ð¡»µÁú4] => 23
-    [Ð¡»µÁú5] => 23
-    [Ð¡»µÁú6] => 21
+    [å°åé¾™] => 28
+    [å°åé¾™2] => 14
+    [å°åé¾™3] => 59
+    [å°åé¾™4] => 23
+    [å°åé¾™5] => 23
+    [å°åé¾™6] => 21
 )
-array_multisort() º¯Êý·µ»ØÅÅÐòÊý×é¡£º¯ÊýÏÈ¶ÔµÚÒ»¸öÊý×é½øÐÐÅÅÐò£¬½Ó×ÅÊÇÆäËûÊý×é£¬Èç¹ûÁ½¸ö»ò¶à¸öÖµÏàÍ¬£¬Ëü½«¶ÔÏÂÒ»¸öÊý×é½øÐÐÅÅÐò¡£
-×¢ÊÍ£º×Ö·û´®¼üÃû½«±»±£Áô£¬µ«ÊÇÊý×Ö¼üÃû½«±»ÖØÐÂË÷Òý£¬´Ó 0 ¿ªÊ¼£¬²¢ÒÔ 1 µÝÔö¡£
-//¶à¸öÊý×éÅÅÐò
+array_multisort() å‡½æ•°è¿”å›žæŽ’åºæ•°ç»„ã€‚å‡½æ•°å…ˆå¯¹ç¬¬ä¸€ä¸ªæ•°ç»„è¿›è¡ŒæŽ’åºï¼ŒæŽ¥ç€æ˜¯å…¶ä»–æ•°ç»„ï¼Œå¦‚æžœä¸¤ä¸ªæˆ–å¤šä¸ªå€¼ç›¸åŒï¼Œå®ƒå°†å¯¹ä¸‹ä¸€ä¸ªæ•°ç»„è¿›è¡ŒæŽ’åºã€‚
+æ³¨é‡Šï¼šå­—ç¬¦ä¸²é”®åå°†è¢«ä¿ç•™ï¼Œä½†æ˜¯æ•°å­—é”®åå°†è¢«é‡æ–°ç´¢å¼•ï¼Œä»Ž 0 å¼€å§‹ï¼Œå¹¶ä»¥ 1 é€’å¢žã€‚
+//å¤šä¸ªæ•°ç»„æŽ’åº
 $a1=array("Dog","Dog","Cat");
 $a2=array("Pluto","Fido","Missy");
 array_multisort($a1,SORT_ASC,$a2,SORT_DESC);
 print_r($a1);
 print_r($a2);  
 
-//ºÏ²¢Á½¸öÊý×é£¬²¢°´Êý×Ö½µÐòÅÅÁÐ
+//åˆå¹¶ä¸¤ä¸ªæ•°ç»„ï¼Œå¹¶æŒ‰æ•°å­—é™åºæŽ’åˆ—
 $a1=array(1,30,15,7,25);
 $a2=array(4,30,20,41,66);
 $num=array_merge($a1,$a2);
 array_multisort($num,SORT_DESC,SORT_NUMERIC);
 print_r($num);
+
+//æŒ‰å¤šä¸ªå­—æ®µæŽ’åº
+function sortArrByManyField(){
+   $args = func_get_args(); // èŽ·å–å‡½æ•°çš„å‚æ•°çš„æ•°ç»„
+   if(empty($args)){
+     return null;
+   }
+   $arr = array_shift($args);
+   if(!is_array($arr)){
+     throw new Exception("ç¬¬ä¸€ä¸ªå‚æ•°ä¸ä¸ºæ•°ç»„");
+   }
+   foreach($args as $key => $field){
+     if(is_string($field)){
+       $temp = array();
+       foreach($arr as $index=> $val){
+         $temp[$index] = $val[$field];
+       }
+       $args[$key] = $temp;
+     }
+   }
+   $args[] = &$arr;//å¼•ç”¨å€¼
+   call_user_func_array('array_multisort',$args);
+   return array_pop($args);
+ }
+ $arr = sortArrByManyField($array1,'id',SORT_ASC,'name',SORT_ASC,'age',SORT_DESC);
+ print_r($arr);
+ 
+ 
