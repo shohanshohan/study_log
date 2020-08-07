@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>API请求模拟器</title>
+</head>
+<body>
+<div class="container">
+	<form accept-charset="utf-8">
+		<input type="file" name="portrait" />
+		<button type="button" id="btn">提交</button>
+	</form>
+	<br>
+</div>
+</body>
+</html>
+
+<script>
+  var btn = document.getElementById('btn');
+  btn.addEventListener('click', function(event){
+  	let input = document.getElementsByName('portrait');
+  	let imgF = input[0].files[0];
+  	let reader = new FileReader();
+  	reader.readAsDataURL(imgF);
+  	reader.onload = function() {
+  		let result = this.result;
+
+  		var xhr = new XMLHttpRequest();
+      function handleStateChange() {
+      if(xhr.readyState === 4) { //通信成功时
+        if(xhr.status === 200) {
+          console.log(xhr.response, 'res');
+        } else {
+          console.log(xhr.statusText, 'text');
+        }
+      }
+      }
+      xhr.onreadystatechange = handleStateChange;
+      xhr.onerror = function(e) {
+        console.log(xhr.statusText, 'error');
+      }
+      xhr.open('POST','test.php', true);
+      let blob = new Blob([result], {type:'text/plain'});
+      xhr.send(blob);
+  	}
+ 
+  });
+	
+</script>
+
+/*
+<?php
+function file_put($base64_image_content,$new_file)
+{
+	header('Content-type:text/html;charset=utf-8');
+	if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+	  if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
+	    return true;
+	  }
+	}
+	return false;
+}
+
+header('Content-type:text/html;charset=utf-8');
+$base64_image_content = file_get_contents('php://input');
+$new_file = 'D:/phpstudy/WWW/test//img/testimg.jpg';
+if(file_put($base64_image_content,$new_file)) {
+	echo 'ok';exit();
+}
+echo 'fail';
+*/
+
