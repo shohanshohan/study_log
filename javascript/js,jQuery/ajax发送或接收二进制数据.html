@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>API请求模拟器</title>
+</head>
+<body>
+<div class="container">
+	<form accept-charset="utf-8">
+		<input type="file" name="portrait" />
+		<button type="button" id="btn">提交</button>
+	</form>
+	<br>
+</div>
+</body>
+</html>
+
+<script>
+  //传送图片文件到服务器
+  var btn = document.getElementById('btn');
+  btn.addEventListener('click', function(event){
+  	let input = document.getElementsByName('portrait');
+  	let imgF = input[0].files[0];
+  	let reader = new FileReader();
+  	reader.readAsDataURL(imgF);
+  	reader.onload = function() {
+  	      let result = this.result;
+
+  	      var xhr = new XMLHttpRequest();
+	      function handleStateChange() {
+	      if(xhr.readyState === 4) { //通信成功时
+		if(xhr.status === 200) {
+		  	console.log(xhr.response, 'res');
+		  	let blob = xhr.response;
+			//将二进制转化为图片输出
+			let img = document.createElement('img');
+			let reader = new FileReader();
+			reader.readAsText(blob,'utf-8');
+			reader.onload = function(e) {
+				img.src = reader.result;
+			}
+			document.body.appendChild(img);
+		} else {
+		  	console.log(xhr.statusText, 'text');
+		}
+	      }
+	      }
+	      xhr.onreadystatechange = handleStateChange;
+	      xhr.onerror = function(e) {
+		console.log(xhr.statusText, 'error');
+	      }
+	      xhr.open('POST','test.php', true);
+	      let blob = new Blob([result], {type:'text/plain'});
+	      xhr.send(blob);
+        }
+ 
+  });
+	
+</script>
+
+/*
+<?php
+function file_put($base64_image_content,$new_file)
+{
+	header('Content-type:text/html;charset=utf-8');
+	if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+	  if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
+	    return true;
+	  }
+	}
+	return false;
+}
+
+header('Content-type:text/html;charset=utf-8');
+$base64_image_content = file_get_contents('php://input');
+$new_file = 'D:/phpstudy/WWW/test//img/testimg.jpg';
+if(file_put($base64_image_content,$new_file)) {
+	echo $base64_image_content;
+	exit();
+}
+echo 'fail';
+*/
+
+
+/*
+接收二进制数据
+var oReq = new XMLHttpRequest();
+oReq.open("GET", "/myfile.png", true);
+oReq.responseType = "arraybuffer";
+oReq.onload = function (oEvent) {
+	var arrayBuffer = oReq.response; // Note: not oReq.responseText
+	if (arrayBuffer) {
+		var byteArray = new Uint8Array(arrayBuffer);
+		for (var i = 0; i < byteArray.byteLength; i++) {
+			//......
+		}
+	}
+};
+oReq.send(null);
+
+//当然，如上设置只能是文本类型，如果是Blob类型，那么如下即可
+var oReq = new XMLHttpRequest();
+oReq.open("GET", "/myfile.png", true);
+oReq.responseType = "arraybuffer";
+oReq.onload = function(oEvent) {
+	var blob = new Blob([oReq.response], {type: "image/png"});
+	// ...
+};
+oReq.send();
+
+//或者
+var oReq = new XMLHttpRequest();
+oReq.open("GET", "/myfile.png", true);
+oReq.responseType = "blob";
+oReq.onload = function(oEvent) {
+	var blob = oReq.response;
+	// ...
+};
+oReq.send();
+*/
