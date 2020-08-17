@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>API请求模拟器</title>
+</head>
+<body>
+<div class="container">
+	<form accept-charset="utf-8">
+		<input type="file" name="portrait" />
+		<button type="button" id="btn">提交</button>
+	</form>
+	<br>
+</div>
+</body>
+</html>
+
+<script>
+  var btn = document.getElementById('btn');
+  btn.addEventListener('click', function(event){
+  	let input = document.getElementsByName('portrait');
+  	let imgF = input[0].files[0];
+  	let reader = new FileReader();
+  	reader.readAsDataURL(imgF);
+  	reader.onload = function() {
+  		let result = this.result;
+
+  		var xhr = new XMLHttpRequest();
+		function handleStateChange() {
+		if(xhr.readyState === 4) { //通信成功时
+		  if(xhr.status === 200) {
+		    console.log(xhr.response, 'res');
+		    // let blob = xhr.response;
+		    // //将二进制转化为图片输出
+		    // let img = document.createElement('img');
+		    // let reader = new FileReader();
+		    // reader.readAsText(blob,'utf-8');
+		    // reader.onload = function(e) {
+		    // 	img.src = reader.result;
+		    // }
+		    // document.body.appendChild(img);
+		  } else {
+		    console.log(xhr.statusText, 'text');
+		  }
+		}
+		}
+		xhr.onreadystatechange = handleStateChange;
+		xhr.onerror = function(e) {
+			console.log(xhr.statusText, 'error');
+		}
+		xhr.open('POST','localhost/test.php', true);
+		//xhr.responseType = 'blob'; //接收二进制数据
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		let blob = new Blob([result], {type:'text/plain'});
+		//console.log(blob);
+		xhr.send('portrait=' + result.replace(/\+/g,"%2B")); //可以当作post参数上传
+		//xhr.send(blob); //也可以做为blob对象上传
+  	}
+ 
+  });
+	
+</script>
+
