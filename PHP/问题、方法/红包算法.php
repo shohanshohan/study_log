@@ -1,4 +1,4 @@
-#红包算法 (可设置最大金额和最小金额)
+#红包算法 (可设置最大金额和最小金额) 金额单位：分
 function getRedPackage($money, $num, $min, $max)
 {
     $data = [];
