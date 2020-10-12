@@ -8,3 +8,16 @@ function randInt(min, max) {
 function rangeInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+
+//随机字符生成函数，可选择字符长度
+function randomStr(length) {
+	let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	alphabet += 'abcdefghijklmnopqrstuvwxyz';
+	alphabet += '0123456789';
+	let str = '';
+	for (let i=0; i<length; i++) {
+		str += alphabet.substr(Math.floor(Math.random() * alphabet.length), 1);
+	}
+	return str;
+}
