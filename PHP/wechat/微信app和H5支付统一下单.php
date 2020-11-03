@@ -103,9 +103,9 @@ class Wxwebpay extends Controller
     //转换为simplexml对象
     $xmlResult = simplexml_load_string($fileContent, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-    $data = $this->xmlToArray($fileContent);
-    Log::write(date('Y-m-d H:i:s') . '--微信支付回调信息:' . json_encode($data), 'fish7wxwebpay-notify-info');
-    if(isset($data['return_code']) && $data['return_code']=='SUCCESS'){
+    $result = $this->xmlToArray($fileContent);
+    Log::write(date('Y-m-d H:i:s') . '--微信支付回调信息:' . json_encode($result), 'fish7wxwebpay-notify-info');
+    if(isset($result['return_code']) && $result['return_code']=='SUCCESS'){
       $appid = $result['appid'];
       $mch_id = $result['mch_id'];
       $total_fee = $result['total_fee'];
