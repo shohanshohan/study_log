@@ -77,7 +77,16 @@ class Wxwebpay extends Controller
       if (isset($data2['return_code']) && $data2['return_code'] == 'SUCCESS') {
         if (isset($data2['result_code']) && $data2['result_code']=='SUCCESS') {
             Log::write(date('Y-m-d H:i:s') . '--微信支付Data:' . serialize($data), 'fish7wxwebpayRequest-return-info');
-            return $this->apiInfo(200, '请求成功', ['prepay_id' => $data2['prepay_id']]);
+            $signData = [
+            'appid' => $config['appId'],
+            'partnerid' => $config['mchId'],
+            'prepayid' => $data2['prepay_id'],
+            'package' => 'Sign=WXPay',
+            'noncestr' => $this->getNonceStr(),
+            'timestamp' => (string)time()
+          ];
+          $signData['sign'] = $this->getSign($signData);
+          return $this->apiInfo(0, '请求成功', $signData);
         } else {
             Log::write(date('Y-m-d H:i:s') . '--微信支付error:' . serialize($data2['err_code_des']), 'fish7wxwebpayRequest-error');
             return $this->apiInfo(400, $data2['err_code_des']);
