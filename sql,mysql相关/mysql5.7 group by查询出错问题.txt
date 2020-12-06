@@ -1,0 +1,30 @@
+部署项目时，项目启动完毕。点击有group by 查询语句时出现错误，界面中没有该有的数据。查询log日志发现错误
+ Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'database_tl.emp.id' which is not functionally dependent on columns in GROUP BY clause;
+ this is incompatible with sql_mode=only_full_group_by 
+ 
+ 原因：
+
+mysql 5.7 新特性：点击打开链接 默认是不支持GroupBy 语句的。
+
+可以进入mysql 命令行中使用
+
+mysql> SELECT @@GLOBAL.sql_mode;
+进行查询
+
+结果为：
++-------------------------------------------------------------------------------------------------------------------------------------------+
+| @@GLOBAL.sql_mode                                                                                                                         |
++-------------------------------------------------------------------------------------------------------------------------------------------+
+| ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
++-------------------------------------------------------------------------------------------------------------------------------------------+
+
+所以我们需要做的就是将上面画红的属性注掉。
+这里为了之后全局，重启之后也能生效，使用修改配置文件进行修改属性
+
+（1）将这个 @@GLOBAL.sql_mode 设置为空
+
+mysql> set @@GLOBAL.sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+
+这样就可以用了
