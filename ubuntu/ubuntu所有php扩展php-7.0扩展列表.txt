@@ -1,3 +1,4 @@
+查看所有php扩展 php7.0 -m
 ubuntu所有php扩展php-7.0扩展列表
 sudo apt-get install php7.0-bcmath 
 
