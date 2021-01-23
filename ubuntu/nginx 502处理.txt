@@ -1,0 +1,21 @@
+先查nginx 日志  sudo vi /usr/local/nginx/logs/error.log  
+如果是出现这种问题： [error] 23684#0: *19 connect() failed (111: Connection refused) while connecting to upstream, client: 219.137.248.19, 
+server: localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000"
+
+说明 9000 端口没有启用
+执行如下命令查看是否启动了php-fpm，如果没有则启动你的php-fpm即可
+netstat -ant | grep 9000
+
+如果没有任何内容说明没有启动端口
+这时查看 fpm 配置文件
+sudo vi /etc/php/7.0/fpm/pool.d/www.conf
+发现 listen = /run/php/php7.0-fpm.sock
+我们把它改成 listen = 9000
+然后重启 fpm
+sudo systemctl restart php7.0-fpm.service
+
+再次查看 netstat -ant | grep 9000
+tcp6       0      0 :::9000                 :::*                    LISTEN     
+tcp6       0      0 127.0.0.1:9000          127.0.0.1:40004         TIME_WAIT 
+
+说明已在运行了，这时重新访问就好了
