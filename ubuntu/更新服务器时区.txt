@@ -1,0 +1,11 @@
+查看时区
+date -R
+
+查看和选择时区（选择时区对应的数字）
+sudo tzselect
+
+创建软链接
+sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime //中国上海时区
+（sudo ln -sf /usr/share/zoneinfo/Africa/Lagos /etc/localtime） //拉各斯（尼日利亚的首都）
+
+再次查看：date -R
