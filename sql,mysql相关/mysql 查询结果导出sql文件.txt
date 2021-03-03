@@ -1,0 +1,1 @@
+mysqldump -u root -p --no-create-db=TRUE --no-create-info=TRUE --add-drop-table=FALSE --where="id<10" DB_name table_name > /your_dir/sql_name.sql;
