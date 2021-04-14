@@ -1,2 +1,8 @@
 //查看数据库容量大小
-SELECT round((sum(DATA_LENGTH)+sum(INDEX_LENGTH))/1024/1024,1) as size FROM information_schema.TABLES where TABLE_SCHEMA='duobao_test';
+//先登录数据库 mysql -u root -p123456
+
+use information_schema;
+mysql> select concat(round(sum(DATA_LENGTH/1024/1024),2),'MB') as data from TABLES where table_schema='test';  //查看test数据库的大小，单位MB
+
+//查看test数据库的大小，单位MB
+SELECT round((sum(DATA_LENGTH)+sum(INDEX_LENGTH))/1024/1024,1) as size FROM information_schema.TABLES where TABLE_SCHEMA='test';
