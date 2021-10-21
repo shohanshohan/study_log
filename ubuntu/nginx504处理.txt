@@ -1,0 +1,28 @@
+Nginx报504 gateway timeout错误引起，一个是文件配置问题
+从错误代码基本可以确定跟nginx本身无关，主要是提交给php-fpm的请求未能正确反馈而导致，
+一般情况下，提交动态请求的时候，nginx会直接把 请求转交给php-fpm，而php-fpm再分配php-cgi进程来处理相关的请求，之后再依次返回，最后由nginx把结果反馈给客户端浏览器，
+但 我这个vps目前跑的是个纯php应用内容，实际上用户所有的请求都是php请求，有的耗费时间比较久，php-cgi进程就一直都被用满，而php- fpm本身的配置文件只打开了10组php-cgi进程，
+这样的话在线用户稍微多的话就会导致请求无法被正常处理而出错。
+大概分析出了原 因，下面做就比较容易了，首先是更改php-fpm的几处配置：
+  
+把max_children由之前的10改为现在的30，这样就可以保证 有充足的php-cgi进程可以被使用；
+把request_terminate_timeout由之前的0s改为60s，这样php-cgi进程 处理脚本的超时时间就是60秒，可以防止进程都被挂起，提高利用效率。
+
+sudo vi /usr/local/php5/etc/php-fpm.conf  (max_children: 30;   request_terminate_timeout: 60;)
+sudo /usr/local/php5/sbin/php-fpm restart
+
+
+
+
+
+接着再更改nginx的几个配置项，减少FastCGI的请求次 数，尽量维持buffers不变：
+fastcgi_connect_timeout 300s;
+fastcgi_send_timeout 300s;
+fastcgi_read_timeout 300s;
+fastcgi_buffer_size 128k;
+fastcgi_buffers 8 128k;#8 128
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+
+sudo vi /etc/nginx/nginx.conf
+sudo nginx -s reload
