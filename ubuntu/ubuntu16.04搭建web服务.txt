@@ -1,0 +1,102 @@
+
+搭建 Web 环境 (系统 ubuntu16.04)
+
+/***********************************************/
+1# 安装 nginx
+sudo apt-get install nginx
+
+启动 ./nginx nginx/sbin/nginx start
+
+nginx 路由配置文件：./nginx/nginx.conf
+server配置样本：
+#########
+server {
+        listen 80; #端口号
+        server_name localhost;
+        root  /your/project/ #项目入口地址;
+        index index.php;
+
+        location / {
+             try_files $uri $uri/ /index.php?$args;
+             if (!-e $request_filename)
+             {
+                rewrite  ^(.*)$  /index.php?s=/$1  last;
+             }
+        }
+
+        location ~ .*\.php {
+                fastcgi_pass 127.0.0.1:9000;
+                fastcgi_index index.php;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+}
+#########
+更新配置并启动nginx ./nginx/sbin/nginx -s reload
+
+/#----------------------------------------------#/
+
+2# 安装 php7.0
+sudo apt-get install php7.0
+查看已安装php扩展：php -m
+php-7.0扩展列表
+apt-get install php7.0-bcmath
+apt-get install php7.0-calendar
+apt-get install php7.0-Core
+apt-get install php7.0-ctype
+apt-get install php7.0-curl
+apt-get install php7.0-date
+apt-get install php7.0-dom
+apt-get install php7.0-exif
+apt-get install php7.0-fileinfo
+apt-get install php7.0-filter
+apt-get install php7.0-ftp
+apt-get install php7.0-gd
+apt-get install php7.0-gettext
+apt-get install php7.0-hash
+apt-get install php7.0-iconv
+apt-get install php7.0-igbinary
+apt-get install php7.0-json
+apt-get install php7.0-libxml
+apt-get install php7.0-mbstring
+apt-get install php7.0-mysqli
+apt-get install php7.0-mysqlnd
+apt-get install php7.0-openssl
+apt-get install php7.0-pcntl
+apt-get install php7.0-pcre
+apt-get install php7.0-PDO
+apt-get install php7.0-pdo_mysql
+apt-get install php7.0-Phar
+apt-get install php7.0-posix
+apt-get install php7.0-readline
+apt-get install php7.0-redis
+apt-get install php7.0-Reflection
+apt-get install php7.0-session
+apt-get install php7.0-shmop
+apt-get install php7.0-SimpleXML
+apt-get install php7.0-sockets
+apt-get install php7.0-SPL
+apt-get install php7.0-standard
+apt-get install php7.0-sysvmsg
+apt-get install php7.0-sysvsem
+apt-get install php7.0-sysvshm
+apt-get install php7.0-tokenizer
+apt-get install php7.0-wddx
+apt-get install php7.0-xml
+apt-get install php7.0-xmlreader
+apt-get install php7.0-xmlwriter
+apt-get install php7.0-xsl
+apt-get install php7.0-opcache
+apt-get install php7.0-zip
+apt-get install php7.0-zlib
+/#----------------------------------------------#/
+
+3# 安装 mysql
+sudo apt-get install mysql-server mysql-client 回车，会要求设置root用户的密码
+/#----------------------------------------------#/
+
+4# 安装 redis
+sudo apt-get install redis
+查看redis是否安装成功：sudo redis-server
+
+/***********************************************/
